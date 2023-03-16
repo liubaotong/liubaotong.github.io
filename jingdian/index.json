@@ -1,0 +1,9 @@
+{
+    "articles": [
+        ["道德经", "jingdian/dao/daodejing.txt"],
+        ["阴符经", "jingdian/yinfujing.txt"],
+        ["共产党宣言（中英）", "jingdian/manifesto/communist-party-sy.txt"],
+        ["独立宣言（中英）", "jingdian/manifesto/independence-sy.txt"],
+        ["人权宣言", "jingdian/manifesto/rights-of-man-and-citizen.txt"]
+    ]
+}

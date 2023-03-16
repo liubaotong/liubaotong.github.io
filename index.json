@@ -2,6 +2,7 @@
     "articles": [
         ["道德经", "dao/daodejing.txt"],
         ["阴符经", "yinfujing.txt"],
-        ["共产党宣言（中英双语）", "manifesto/communist-party-sy.txt"]
+        ["共产党宣言（中英）", "manifesto/communist-party-sy.txt"],
+        ["独立宣言（中英）", "manifesto/independence-sy.txt"]
     ]
 }

@@ -2,7 +2,8 @@
     "articles": {
         "道家": [
             ["道德经", "dao/daodejing.txt"],
-            ["阴符经", "dao/yinfujing.txt"]
+            ["阴符经", "dao/yinfujing.txt"],
+            ["阴符经 - 姜太公", "dao/yinfujing-tg.txt"]
         ],
         "宣言": [
             ["共产党宣言（中英）", "manifesto/communist-party-sy.txt"],

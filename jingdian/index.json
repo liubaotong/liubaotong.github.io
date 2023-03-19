@@ -1,6 +1,7 @@
 {
     "articles": {
         "儒家": [
+            ["易经", "ru/yijing.txt"],
             ["论语", "ru/lunyu.txt"],
             ["大学", "ru/daxue.txt"],
             ["中庸", "ru/zhongyong.txt"]

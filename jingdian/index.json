@@ -20,8 +20,8 @@
             ["孙子兵法", "bing/sunzibingfa.txt"]
         ],
         "宣言": [
-            ["共产党宣言（中英）", "manifesto/communist-party-sy.txt"],
-            ["独立宣言（中英）", "manifesto/independence-sy.txt"],
+            ["共产党宣言", "manifesto/communist-party-sy.txt"],
+            ["独立宣言", "manifesto/independence-sy.txt"],
             ["人权宣言", "manifesto/rights-of-man-and-citizen.txt"]
         ]
     }

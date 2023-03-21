@@ -1,6 +1,6 @@
 共产党宣言
 
-Manifesto of the Communist Party
+[T]Manifesto of the Communist Party
 
 A spectre is haunting Europe – the spectre of communism. All the powers of old Europe have entered into a holy alliance to exorcise this spectre： Pope and Tsar， Metternich and Guizot，French Radicals and German police-spies.
 
@@ -440,7 +440,7 @@ The Communists disdain to conceal their views and aims. They openly declare that
 
 Working Men of All Countries, Unite! 全世界的工人们，联合起来！
 
-附补充：
+[T]附补充：
 
 社会主义从空想到科学的发展
 

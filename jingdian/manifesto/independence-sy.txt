@@ -1,5 +1,5 @@
 独立宣言
-THE DECLARATION OF INDEPENDENCE
+[T]THE DECLARATION OF INDEPENDENCE
 In Congress, July 4, 1776,
 大陆会议（一七七六年七月四日）
 THE UNANIMOUS DECLARATION OF THE THIRTEEN UNITED STATES OF AMERICA
@@ -105,7 +105,7 @@ South Carolina: EDWARD RUTLEDGE, THOMAS HEYWARD, JR., THOMAS LYNCH, JR., ARTHUR 
 New Jersey: RICHARD STOCKTON, JOHN WITHERSPOON, FRANCIS HOPKINSON, JOHN HART, ABRAHAM CLARK
 新泽西州：理查德·斯托克顿、约翰·威瑟斯庞、弗朗西斯·霍普金森、约翰·哈特、亚伯拉罕·克拉克
 
-~~注解~~
+[T]注解
 
 独立宣言之本文可分为五个章节：序文、前言、控诉英王乔治三世、谴责英人和总结。
 1、序文

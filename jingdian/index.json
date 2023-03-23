@@ -19,6 +19,11 @@
         "兵家": [
             ["孙子兵法", "bing/sunzibingfa.txt"]
         ],
+        "岐黄": [
+            ["灵枢", "qihuang/lingshu/index.json"],
+            ["素问", "qihuang/suwen/index.json"],
+            ["难经", "qihuang/nanjing/index.json"]
+        ],
         "宣言": [
             ["共产党宣言", "manifesto/communist-party-sy.txt"],
             ["独立宣言", "manifesto/independence-sy.txt"],

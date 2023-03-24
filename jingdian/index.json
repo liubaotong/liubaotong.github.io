@@ -9,7 +9,8 @@
         "道家": [
             ["道德经", "dao/daodejing.txt"],
             ["阴符经", "dao/yinfujing.txt"],
-            ["太公阴符", "dao/yinfujing-tg.txt"]
+            ["太公阴符", "dao/yinfujing-tg.txt"],
+            ["淮南子", "dao/honglie/index.json"]
         ],
         "佛家": [
             ["金刚经", "fo/jinggangjing.txt"],

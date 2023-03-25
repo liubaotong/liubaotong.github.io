@@ -19,7 +19,7 @@
         ],
         "兵家": [
             ["孙子兵法", "bing/sunzibingfa.txt"],
-            ["三十六计", "bing/sanshiliuji.txt"]
+            ["三十六计", "bing/sanshiliuji/index.json"]
         ],
         "岐黄": [
             ["灵枢", "qihuang/lingshu/index.json"],

@@ -1,24 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>网址仓库</title>
+    <style>
+        body {
+            margin: 20px auto;
+        }
+
+        .main {
+            position: absolute;
+            left: 50%;
+            width: 400px;
+            height: 428px;
+            margin-left: -200px;
+            top: 50%;
+            margin-top: -209px;
+            border: 5px solid #ABABAB;
+            border-radius: 20px;
+        }
+        .links {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            margin: 1em 2em;
+        }
+        .links dl {
+            float: left;
+            line-height: 1.5em;
+            margin-left: 4em;
+        }
+        .links dl dt {
+            float: left;
+            margin-left: -4em;
+        }
+        .links dl dd {
+            margin-left: 0;
+        }
+        a {
+            text-decoration: none;
+        }
+    </style>
 </head>
+
 <body>
-    <ul>
-        <li><a target="_blank" href="http://www.linuxassembly.org">Linux汇编</a></li>
-        <li><a target="_blank" href="https://www.freecodecamp.org">编码课</a></li>
-        <li><a target="_blank" href="https://blog.haoji.me">好记网</a></li>
-        <li><a target="_blank" href="https://tingclass.net">听力网</a></li>
-        <li><a target="_blank" href="https://kekenet.com">可可英语</a></li>
-        <li><a target="_blank" href="https://hujiang.com">沪江英语</a></li>
-        <li><a target="_blank" href="https://quword.com">趣词网</a></li>
-        <li><a target="_blank" href="http://www.chinadaily.com.cn">中国日报</a></li>
-        <li><a target="_blank" href="https://cnkgraph.com">知识图谱</a></li>
-        <li><a target="_blank" href="https://translate.oschina.net">开源中国翻译</a></li>
-        <li><a target="_blank" href="https://www.bilibili.com/read/cv14056870">Rust语言24个绝佳框架、项目及资料库</a></li>
-    </ul>
+    <div class="main">
+        <nav></nav>
+        <div class="links">
+            <dl>
+                <dt>计算机</dt>
+                <dd><a target="_blank" href="http://www.linuxassembly.org">Linux汇编</a></dd>
+                <dd><a target="_blank" href="https://www.bilibili.com/read/cv14056870">Rust框架</a></dd>
+                <dd><a target="_blank" href="https://www.freecodecamp.org">编码课</a></dd>
+                <dd><a target="_blank" href="https://blog.haoji.me">好记网</a></dd>
+                <dd><a target="_blank" href="https://translate.oschina.net">开源中国翻译</a></dd>
+                <dt>英语</dt>
+                <dd><a target="_blank" href="https://tingclass.net">听力网</a></dd>
+                <dd><a target="_blank" href="https://kekenet.com">可可英语</a></dd>
+                <dd><a target="_blank" href="https://hujiang.com">沪江英语</a></dd>
+                <dd><a target="_blank" href="https://quword.com">趣词网</a></dd>
+                <dd><a target="_blank" href="http://www.chinadaily.com.cn">中国日报</a></dd>
+                <dt>文化</dt>
+                <dd><a target="_blank" href="https://cnkgraph.com">知识图谱</a></dd>
+            </dl>
+        </div>
+    </div>
 </body>
+
 </html>

@@ -29,17 +29,43 @@
         }
 
         body {
-            margin: 20px auto;
+            background-color: #EFEFEF;
         }
 
         .main {
             position: absolute;
             top: 50%;
             left: 50%;
-            height: 428px;
-            margin-top: -209px;
+            height: 400px;
+            margin-top: -200px;
             border: 5px solid #ABABAB;
             border-radius: 20px;
+            background-color: #FFFFFF;
+        }
+
+        nav {
+            width: 100%;
+            padding: 2em;
+            box-sizing: border-box;
+        }
+
+        nav ul {
+            list-style: none;
+        }
+
+        nav li {
+            float: left;
+        }
+
+        nav .arrow::after {
+            display: inline-block;
+            content: " ";
+            width: 10px;
+            height: 10px;
+            border-top: 1px solid #ABABAB;
+            border-right: 1px solid #ABABAB;
+            transform: rotate(45deg);
+            margin: 0 1em 0 .5em;
         }
 
         .links {
@@ -73,7 +99,13 @@
 
 <body>
     <div class="main">
-        <nav></nav>
+        <nav>
+            <ul>
+                <li class="arrow"><a href="index.html">首页</a></li>
+                <li class="arrow"><a href="index.html">首页</a></li>
+                <li><a href="index.html">首页</a></li>
+            </ul>
+        </nav>
         <div class="links">
             <dl>
                 <dt>计算机</dt>

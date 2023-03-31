@@ -7,39 +7,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>网址仓库</title>
     <style>
+        @media only screen and (min-width: 320px) and (max-width: 385px) {
+            .main {
+                width: 300px;
+                margin-left: -150px;
+            }
+        }
+
+        @media only screen and (min-width: 385px) and (max-width: 450px) {
+            .main {
+                width: 360px;
+                margin-left: -180px;
+            }
+        }
+
+        @media only screen and (min-width: 450px) {
+            .main {
+                width: 400px;
+                margin-left: -200px;
+            }
+        }
+
         body {
             margin: 20px auto;
         }
 
         .main {
             position: absolute;
-            left: 50%;
-            width: 400px;
-            height: 428px;
-            margin-left: -200px;
             top: 50%;
+            left: 50%;
+            height: 428px;
             margin-top: -209px;
             border: 5px solid #ABABAB;
             border-radius: 20px;
         }
+
         .links {
             position: absolute;
             right: 0;
             bottom: 0;
-            margin: 1em 2em;
+            margin: 1em;
         }
+
         .links dl {
             float: left;
             line-height: 1.5em;
+            margin: auto;
             margin-left: 4em;
         }
+
         .links dl dt {
             float: left;
             margin-left: -4em;
         }
+
         .links dl dd {
             margin-left: 0;
         }
+
         a {
             text-decoration: none;
         }

@@ -1,12 +1,12 @@
 {
     "index": [
         ["前言", "ru/yizhuan/xu.txt"],
-        ["彖传·上", "ru/yizhuan/1.txt"],
-        ["彖传·下", "ru/yizhuan/2.txt"],
-        ["象·上", "ru/yizhuan/3.txt"],
-        ["象·下", "ru/yizhuan/4.txt"],
-        ["系辞·上", "ru/yizhuan/5.txt"],
-        ["系辞·下", "ru/yizhuan/6.txt"],
+        ["彖传 上", "ru/yizhuan/1.txt"],
+        ["彖传 下", "ru/yizhuan/2.txt"],
+        ["象 上", "ru/yizhuan/3.txt"],
+        ["象 下", "ru/yizhuan/4.txt"],
+        ["系辞 上", "ru/yizhuan/5.txt"],
+        ["系辞 下", "ru/yizhuan/6.txt"],
         ["文言传", "ru/yizhuan/7.txt"],
         ["序卦传", "ru/yizhuan/8.txt"],
         ["说卦传", "ru/yizhuan/9.txt"],

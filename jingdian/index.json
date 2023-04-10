@@ -33,7 +33,12 @@
             ["人权宣言", "manifesto/rights-of-man-and-citizen.txt"]
         ],
         "风水": [
-            ["雪心赋", "fengshui/xuexinfu/index.json"]
+            ["葬书", "fengshui/zangshu.txt"],
+            ["雪心赋", "fengshui/xuexinfu/index.json"],
+            ["紫微准绳注解", "fengshui/ziweizszj.txt"],
+            ["紫微星垣论注解", "fengshui/xingyuanlun.txt"],
+            ["增补太微赋注解", "fengshui/taiweifu.txt"],
+            ["发微论", "fengshui/faweilun.txt"]
         ]
     }
 }

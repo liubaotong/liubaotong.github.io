@@ -35,9 +35,9 @@
         "风水": [
             ["葬书", "fengshui/zangshu.txt"],
             ["雪心赋", "fengshui/xuexinfu/index.json"],
-            ["紫微准绳注解", "fengshui/ziweizszj.txt"],
-            ["紫微星垣论注解", "fengshui/xingyuanlun.txt"],
-            ["增补太微赋注解", "fengshui/taiweifu.txt"],
+            ["紫微准绳", "fengshui/zwzhunsheng.txt"],
+            ["紫微星垣论", "fengshui/xingyuanlun.txt"],
+            ["太微赋", "fengshui/taiweifu.txt"],
             ["发微论", "fengshui/faweilun.txt"]
         ]
     }

@@ -31,6 +31,10 @@
             ["共产党宣言", "manifesto/communist-party-sy.txt"],
             ["独立宣言", "manifesto/independence-sy.txt"],
             ["人权宣言", "manifesto/rights-of-man-and-citizen.txt"]
+        ],
+        "风水": [
+            ["雪心赋", "manifesto/xuexinfu.txt"],
+            ["雪心赋二", "manifesto/xuexinfu2.txt"]
         ]
     }
 }

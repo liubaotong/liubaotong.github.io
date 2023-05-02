@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+		<meta name="generator" content="Astro v2.2.1">
+		<title></title>
+	<link rel="stylesheet" href="/_astro/001.c8750cb8.css" /></head>
+	<body>
+		<h1 id="rtmp协议如何使用用go代码演示">RTMP协议如何使用，用go代码演示</h1>
+<h2 id="user">user:</h2>
+<p>RTMP协议如何使用，用go代码演示</p>
+<h2 id="assistant">assistant:</h2>
+<p>RTMP（Real Time Messaging Protocol）是Adobe公司开发的一种用于实时数据传输的协议。它通常用于流媒体传输、游戏直播等领域。</p>
+<p>要使用RTMP协议，我们需要先建立连接。连接建立后，可以进行握手、发送元数据、发送音视频数据等操作。</p>
+<p>以下是一个使用go语言实现的简单的演示代码：</p>
+<p>首先，我们需要导入net和bufio两个包：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> (</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">net</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">bufio</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">)</span></span></code></pre>
+<p>然后，我们可以使用net包中的Dial函数来建立连接：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">conn, err </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> net.</span><span style="color: #79C0FF">Dial</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"tcp"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"localhost:1935"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> err </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">nil</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">panic</span><span style="color: #C9D1D9">(err)</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>这里我们建立的是本地的一个RTMP服务的连接，端口号为1935。</p>
+<p>接下来，我们需要使用bufio包中的Writer和Reader来分别发送和接收数据：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">writer </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> bufio.</span><span style="color: #79C0FF">NewWriter</span><span style="color: #C9D1D9">(conn)</span></span>
+<span class="line"><span style="color: #C9D1D9">reader </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> bufio.</span><span style="color: #79C0FF">NewReader</span><span style="color: #C9D1D9">(conn)</span></span></code></pre>
+<p>接着，我们需要进行握手操作。RTMP协议中的握手操作有两种：简单握手和复杂握手。这里我们使用简单握手：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #8B949E">// 发送简单握手 C0+C1</span></span>
+<span class="line"><span style="color: #C9D1D9">c0c1 </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> []</span><span style="color: #FF7B72">byte</span><span style="color: #C9D1D9">{</span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">03</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">01</span><span style="color: #C9D1D9">}</span></span>
+<span class="line"><span style="color: #C9D1D9">writer.</span><span style="color: #79C0FF">Write</span><span style="color: #C9D1D9">(c0c1)</span></span>
+<span class="line"><span style="color: #C9D1D9">writer.</span><span style="color: #79C0FF">Flush</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8B949E">// 接收简单握手 S0+S1+S2</span></span>
+<span class="line"><span style="color: #C9D1D9">s0s1s2 </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">make</span><span style="color: #C9D1D9">([]</span><span style="color: #FF7B72">byte</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">1537</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">reader.</span><span style="color: #79C0FF">Read</span><span style="color: #C9D1D9">(s0s1s2)</span></span></code></pre>
+<p>在握手完成后，我们就可以发送元数据和音视频数据了。具体的数据格式和内容可以参考RTMP协议的文档。</p>
+<p>完整的代码如下：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">package</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">main</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> (</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">bufio</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">net</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">func</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">main</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 建立连接</span></span>
+<span class="line"><span style="color: #C9D1D9">    conn, err </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> net.</span><span style="color: #79C0FF">Dial</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"tcp"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"localhost:1935"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> err </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">nil</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #79C0FF">panic</span><span style="color: #C9D1D9">(err)</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">defer</span><span style="color: #C9D1D9"> conn.</span><span style="color: #79C0FF">Close</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 初始化Writer和Reader</span></span>
+<span class="line"><span style="color: #C9D1D9">    writer </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> bufio.</span><span style="color: #79C0FF">NewWriter</span><span style="color: #C9D1D9">(conn)</span></span>
+<span class="line"><span style="color: #C9D1D9">    reader </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> bufio.</span><span style="color: #79C0FF">NewReader</span><span style="color: #C9D1D9">(conn)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 发送简单握手 C0+C1</span></span>
+<span class="line"><span style="color: #C9D1D9">    c0c1 </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> []</span><span style="color: #FF7B72">byte</span><span style="color: #C9D1D9">{</span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">03</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">00</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">0x</span><span style="color: #79C0FF">01</span><span style="color: #C9D1D9">}</span></span>
+<span class="line"><span style="color: #C9D1D9">    writer.</span><span style="color: #79C0FF">Write</span><span style="color: #C9D1D9">(c0c1)</span></span>
+<span class="line"><span style="color: #C9D1D9">    writer.</span><span style="color: #79C0FF">Flush</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 接收简单握手 S0+S1+S2</span></span>
+<span class="line"><span style="color: #C9D1D9">    s0s1s2 </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">make</span><span style="color: #C9D1D9">([]</span><span style="color: #FF7B72">byte</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">1537</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    reader.</span><span style="color: #79C0FF">Read</span><span style="color: #C9D1D9">(s0s1s2)</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<h2 id="user-1">user:</h2>
+<p>blob开头的视频地址</p>
+<h2 id="assistant-1">assistant:</h2>
+<p>Blob开头的视频地址通常是使用Object Storage Service（OSS）存储的视频地址。OSS是一种存储海量非结构化数据的分布式存储服务，云计算服务提供商阿里云提供的对象存储，可以存储和访问各种类型的数据。常见的视频网站如优酷、爱奇艺等就是使用OSS存储视频资源的。</p>
+<p>Blob开头的视频地址一般格式为：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">https://&#x3C;bucket>.&#x3C;endpoint>/path/to/video.mp4</span></span></code></pre>
+<p>其中，<code>&#x3C;bucket></code> 是存储视频的存储桶（Bucket）， <code>&#x3C;endpoint></code> 是阿里云 OSS 的访问域名， <code>path/to/video.mp4</code> 是视频文件相对路径。</p>
+<p>需要注意的是，访问Blob类型的视频资源时，需要保证该地址所属的Bucket的访问权限是公共读或者添加了针对该视频的授权，否则可能会出现访问拒绝错误。</p>
+<h2 id="user-2">user:</h2>
+<p>js的blob如何使用</p>
+<h2 id="assistant-2">assistant:</h2>
+<p>Blob（Binary Large Object）是一种二进制大对象，一般用来存储二进制数据（如音频、视频等）。JavaScript中的Blob对象可以用于创建、处理和读取二进制数据。</p>
+<p>要使用Blob，可以使用以下代码创建一个Blob对象：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">byteCharacters</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">atob</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"base64-encoded-string"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">byteArrays</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> [];</span></span>
+<span class="line"><span style="color: #FF7B72">for</span><span style="color: #C9D1D9"> (</span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> offset </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">; offset </span><span style="color: #FF7B72">&#x3C;</span><span style="color: #C9D1D9"> byteCharacters.</span><span style="color: #79C0FF">length</span><span style="color: #C9D1D9">; offset </span><span style="color: #FF7B72">+=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">512</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">slice</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> byteCharacters.</span><span style="color: #D2A8FF">slice</span><span style="color: #C9D1D9">(offset, offset </span><span style="color: #FF7B72">+</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">512</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">byteNumbers</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">new</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">Array</span><span style="color: #C9D1D9">(slice.</span><span style="color: #79C0FF">length</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">for</span><span style="color: #C9D1D9"> (</span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> i </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">; i </span><span style="color: #FF7B72">&#x3C;</span><span style="color: #C9D1D9"> slice.</span><span style="color: #79C0FF">length</span><span style="color: #C9D1D9">; i</span><span style="color: #FF7B72">++</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    byteNumbers[i] </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> slice.</span><span style="color: #D2A8FF">charCodeAt</span><span style="color: #C9D1D9">(i);</span></span>
+<span class="line"><span style="color: #C9D1D9">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">byteArray</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">new</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">Uint8Array</span><span style="color: #C9D1D9">(byteNumbers);</span></span>
+<span class="line"><span style="color: #C9D1D9">  byteArrays.</span><span style="color: #D2A8FF">push</span><span style="color: #C9D1D9">(byteArray);</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">blob</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">new</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">Blob</span><span style="color: #C9D1D9">(byteArrays, { type: </span><span style="color: #A5D6FF">'video/mp4'</span><span style="color: #C9D1D9"> });</span></span></code></pre>
+<p>在上述代码中，我们首先将base64编码的字符串转换为二进制字符串（通过atob方法），然后将二进制字符串分片成512个字节的一块块，并将每个块转换为Uint8Array类型的字节数组。最后，我们使用Blob构造函数来创建一个Blob对象。</p>
+<p>当我们创建完Blob对象后，可以将其作为参数传递给一些API，如XMLHttpRequest、Fetch、Worker等。</p>
+<p>例如，我们可以通过如下代码将Blob作为请求体数据，向服务器发送请求：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">xhr</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">new</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">XMLHttpRequest</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">xhr.</span><span style="color: #D2A8FF">open</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'POST'</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">'http://example.com/upload'</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">true</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">xhr.</span><span style="color: #D2A8FF">onreadystatechange</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">function</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (xhr.readyState </span><span style="color: #FF7B72">===</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">4</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&#x26;&#x26;</span><span style="color: #C9D1D9"> xhr.status </span><span style="color: #FF7B72">===</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">200</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(xhr.responseText);</span></span>
+<span class="line"><span style="color: #C9D1D9">  }</span></span>
+<span class="line"><span style="color: #C9D1D9">};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">xhr.</span><span style="color: #D2A8FF">send</span><span style="color: #C9D1D9">(blob);</span></span></code></pre>
+<p>在上述代码中，我们创建了一个XMLHttpRequest对象，设置了请求方法和请求地址，并将Blob作为请求体数据发送给服务器。在服务器端，我们可以根据实际情况读取Blob数据并做相应处理。</p>
+<p>除此之外，我们还可以通过Blob URL的方式在浏览器中显示视频、音频等资源。例如，我们可以通过如下代码创建一个Blob URL，并将其设置为视频标签的src属性：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">video</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> document.</span><span style="color: #D2A8FF">createElement</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'video'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">video.src </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">URL</span><span style="color: #C9D1D9">.</span><span style="color: #D2A8FF">createObjectURL</span><span style="color: #C9D1D9">(blob);</span></span>
+<span class="line"><span style="color: #C9D1D9">document.body.</span><span style="color: #D2A8FF">appendChild</span><span style="color: #C9D1D9">(video);</span></span></code></pre>
+<p>在上述代码中，我们创建了一个video元素，并使用createObjectURL方法创建一个Blob URL，并将其设置为video元素的src属性。这样，浏览器就会使用该Blob URL加载对应的视频资源。</p>
+<p>需要注意的是，使用完Blob URL后，我们需要及时调用revokeObjectURL方法释放资源，否则可能会出现内存泄漏等问题。例如：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #79C0FF">URL</span><span style="color: #C9D1D9">.</span><span style="color: #D2A8FF">revokeObjectURL</span><span style="color: #C9D1D9">(video.src);</span></span></code></pre>
+<h2 id="user-3">user:</h2>
+<p>服务器推送如何使用</p>
+<h2 id="assistant-3">assistant:</h2>
+<p>服务器推送（Server Push）指的是服务器向客户端推送数据或资源，而不是等待客户端请求才返回数据或资源。在Web开发中，服务器推送通常用于优化网站性能和用户体验，尤其对于较慢或高延迟网络的情况下，可以显著提升网站的加载速度和响应速度。</p>
+<p>在HTTP/2协议中，服务器推送是一项重要的技术，服务器可以在客户端请求HTML文件时，一并向客户端推送HTML所需要的CSS、JavaScript、图片等资源，以避免客户端发起多个请求并等待多个响应的问题。</p>
+<p>下面是HTTP/2服务器推送的一些使用示例：</p>
+<ol>
+<li>发送服务器推送头信息（示例中使用Node.js实现）</li>
+</ol>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">http2</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">require</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'http2'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">fs</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">require</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'fs'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">server</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> http2.</span><span style="color: #D2A8FF">createSecureServer</span><span style="color: #C9D1D9">({</span></span>
+<span class="line"><span style="color: #C9D1D9">  key: fs.</span><span style="color: #D2A8FF">readFileSync</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'server.key'</span><span style="color: #C9D1D9">),</span></span>
+<span class="line"><span style="color: #C9D1D9">  cert: fs.</span><span style="color: #D2A8FF">readFileSync</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'server.crt'</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">server.</span><span style="color: #D2A8FF">on</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'stream'</span><span style="color: #C9D1D9">, (</span><span style="color: #FFA657">stream</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">headers</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">=></span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #8B949E">// 判断请求是否为HTML文件</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (headers[</span><span style="color: #A5D6FF">':path'</span><span style="color: #C9D1D9">].</span><span style="color: #D2A8FF">endsWith</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'.html'</span><span style="color: #C9D1D9">)) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 向客户端推送CSS文件</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">cssFile</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> fs.</span><span style="color: #D2A8FF">readFileSync</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'style.css'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    stream.</span><span style="color: #D2A8FF">pushStream</span><span style="color: #C9D1D9">({ </span><span style="color: #A5D6FF">':path'</span><span style="color: #C9D1D9">: </span><span style="color: #A5D6FF">'/style.css'</span><span style="color: #C9D1D9"> }, (</span><span style="color: #FFA657">err</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">pushStream</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">headers</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">=></span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (err) </span><span style="color: #FF7B72">throw</span><span style="color: #C9D1D9"> err;</span></span>
+<span class="line"><span style="color: #C9D1D9">      pushStream.</span><span style="color: #D2A8FF">end</span><span style="color: #C9D1D9">(cssFile);</span></span>
+<span class="line"><span style="color: #C9D1D9">    });</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 向客户端推送JavaScript文件</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">jsFile</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> fs.</span><span style="color: #D2A8FF">readFileSync</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'app.js'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    stream.</span><span style="color: #D2A8FF">pushStream</span><span style="color: #C9D1D9">({ </span><span style="color: #A5D6FF">':path'</span><span style="color: #C9D1D9">: </span><span style="color: #A5D6FF">'/app.js'</span><span style="color: #C9D1D9"> }, (</span><span style="color: #FFA657">err</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">pushStream</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">headers</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">=></span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (err) </span><span style="color: #FF7B72">throw</span><span style="color: #C9D1D9"> err;</span></span>
+<span class="line"><span style="color: #C9D1D9">      pushStream.</span><span style="color: #D2A8FF">end</span><span style="color: #C9D1D9">(jsFile);</span></span>
+<span class="line"><span style="color: #C9D1D9">    });</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 发送HTML文件给客户端</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">htmlFile</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> fs.</span><span style="color: #D2A8FF">readFileSync</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'index.html'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    stream.</span><span style="color: #D2A8FF">end</span><span style="color: #C9D1D9">(htmlFile);</span></span>
+<span class="line"><span style="color: #C9D1D9">  } </span><span style="color: #FF7B72">else</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 处理其他类型的请求</span></span>
+<span class="line"><span style="color: #C9D1D9">  }</span></span>
+<span class="line"><span style="color: #C9D1D9">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">server.</span><span style="color: #D2A8FF">listen</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">3000</span><span style="color: #C9D1D9">);</span></span></code></pre>
+<p>在上述代码中，我们首先创建了一个HTTP/2服务器，并监听了客户端的请求。当客户端请求HTML文件时，我们可以向客户端推送CSS和JavaScript两个文件，并最终发送HTML文件。</p>
+<p>在推送CSS和JavaScript文件时，我们使用了stream.pushStream方法，该方法接收两个参数：HTTP头部信息和回调函数。在回调函数中，我们可以向客户端推送文件内容，并使用pushStream.end方法结束流。</p>
+<ol start="2">
+<li>客户端请求接收服务器推送资源</li>
+</ol>
+<p>客户端接收HTTP/2服务器推送资源时，可以通过on(‘push’, callback)方法来实现：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">http2</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">require</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'http2'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">fs</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">require</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'fs'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">client</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> http2.</span><span style="color: #D2A8FF">connect</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'https://localhost:3000'</span><span style="color: #C9D1D9">, {</span></span>
+<span class="line"><span style="color: #C9D1D9">  ca: fs.</span><span style="color: #D2A8FF">readFileSync</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'server.crt'</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">client.</span><span style="color: #D2A8FF">on</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'error'</span><span style="color: #C9D1D9">, (</span><span style="color: #FFA657">err</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">=></span><span style="color: #C9D1D9"> console.</span><span style="color: #D2A8FF">error</span><span style="color: #C9D1D9">(err));</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">req</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> client.</span><span style="color: #D2A8FF">request</span><span style="color: #C9D1D9">({ </span><span style="color: #A5D6FF">':path'</span><span style="color: #C9D1D9">: </span><span style="color: #A5D6FF">'/'</span><span style="color: #C9D1D9"> });</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">req.</span><span style="color: #D2A8FF">on</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'push'</span><span style="color: #C9D1D9">, (</span><span style="color: #FFA657">headers</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">flags</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">=></span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (headers[</span><span style="color: #A5D6FF">':path'</span><span style="color: #C9D1D9">].</span><span style="color: #D2A8FF">endsWith</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'.css'</span><span style="color: #C9D1D9">)) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'Received pushed CSS file.'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">  }</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (headers[</span><span style="color: #A5D6FF">':path'</span><span style="color: #C9D1D9">].</span><span style="color: #D2A8FF">endsWith</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'.js'</span><span style="color: #C9D1D9">)) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'Received pushed JavaScript file.'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">  }</span></span>
+<span class="line"><span style="color: #C9D1D9">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">req.</span><span style="color: #D2A8FF">on</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'response'</span><span style="color: #C9D1D9">, (</span><span style="color: #FFA657">headers</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">flags</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">=></span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">chunks</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> [];</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">  req.</span><span style="color: #D2A8FF">on</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'data'</span><span style="color: #C9D1D9">, (</span><span style="color: #FFA657">chunk</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">=></span><span style="color: #C9D1D9"> chunks.</span><span style="color: #D2A8FF">push</span><span style="color: #C9D1D9">(chunk));</span></span>
+<span class="line"><span style="color: #C9D1D9">  req.</span><span style="color: #D2A8FF">on</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'end'</span><span style="color: #C9D1D9">, () </span><span style="color: #FF7B72">=></span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">data</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> Buffer.</span><span style="color: #D2A8FF">concat</span><span style="color: #C9D1D9">(chunks);</span></span>
+<span class="line"><span style="color: #C9D1D9">    console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'Received response:'</span><span style="color: #C9D1D9">, data.</span><span style="color: #D2A8FF">toString</span><span style="color: #C9D1D9">());</span></span>
+<span class="line"><span style="color: #C9D1D9">  });</span></span>
+<span class="line"><span style="color: #C9D1D9">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">req.</span><span style="color: #D2A8FF">end</span><span style="color: #C9D1D9">();</span></span></code></pre>
+<p>在上述代码中，我们首先创建了一个HTTP/2客户端，并向HTTP/2服务器发起请求。在请求中，我们可以监听服务器推送的资源，并在相应的回调函数中处理收到的资源。</p>
+<p>在本例中，我们使用了req.on(‘push’, callback)方法，该方法是当HTTP头部信息中包含’:method’: ‘PUSH’时触发的。在回调函数中，我们可以根据’:path’头部信息判断当前推送的资源类型，如处理CSS文件或JavaScript文件等。</p>
+<p>在处理完推送资源后，我们使用req.on(‘response’, callback)方法来处理请求返回的HTML文件。在回调函数中，我们可以收集所有的数据块，并使用Buffer.concat方法将其合并成完整的返回数据。</p>
+<h2 id="user-4">user:</h2>
+<p>golang代码实现</p>
+<h2 id="assistant-4">assistant:</h2>
+<p>以下是使用Golang实现HTTP/2服务器推送的示例代码。</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">package</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">main</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> (</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">crypto/tls</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">fmt</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">io/ioutil</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">net/http</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">sync</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">func</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">main</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 读取证书和私钥文件</span></span>
+<span class="line"><span style="color: #C9D1D9">    cert, _ </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> tls.</span><span style="color: #79C0FF">LoadX509KeyPair</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"server.crt"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"server.key"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 创建HTTPS服务器</span></span>
+<span class="line"><span style="color: #C9D1D9">    config </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">tls.Config{Certificates: []tls.Certificate{cert}}</span></span>
+<span class="line"><span style="color: #C9D1D9">    server </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">http.Server{</span></span>
+<span class="line"><span style="color: #C9D1D9">        Addr:      </span><span style="color: #A5D6FF">":3000"</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">        TLSConfig: config,</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 处理HTTP/2请求</span></span>
+<span class="line"><span style="color: #C9D1D9">    http.</span><span style="color: #79C0FF">HandleFunc</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"/"</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">func</span><span style="color: #C9D1D9">(w http.ResponseWriter, r </span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9">http.Request) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #8B949E">// 判断请求是否为HTML文件</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> r.URL.Path </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"/"</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&#x26;&#x26;</span><span style="color: #C9D1D9"> r.Header.</span><span style="color: #79C0FF">Get</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"accept"</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"text/html"</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #8B949E">// 创建用来同步服务器推送和响应的信道</span></span>
+<span class="line"><span style="color: #C9D1D9">            pushCompleteChan </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">make</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">chan</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">bool</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #8B949E">// 服务器推送CSS文件</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #79C0FF">pushCSS</span><span style="color: #C9D1D9">(res, pushCompleteChan)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #8B949E">// 服务器推送JavaScript文件</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #79C0FF">pushJS</span><span style="color: #C9D1D9">(res, pushCompleteChan)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #8B949E">// 等待推送完成</span></span>
+<span class="line"><span style="color: #C9D1D9">            waitGroup </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> sync.WaitGroup{}</span></span>
+<span class="line"><span style="color: #C9D1D9">            waitGroup.</span><span style="color: #79C0FF">Add</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">go</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">func</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">                </span><span style="color: #FF7B72">&#x3C;-</span><span style="color: #C9D1D9">pushCompleteChan</span></span>
+<span class="line"><span style="color: #C9D1D9">                waitGroup.</span><span style="color: #79C0FF">Done</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">            }()</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">go</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">func</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">                </span><span style="color: #FF7B72">&#x3C;-</span><span style="color: #C9D1D9">pushCompleteChan</span></span>
+<span class="line"><span style="color: #C9D1D9">                waitGroup.</span><span style="color: #79C0FF">Done</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">            }()</span></span>
+<span class="line"><span style="color: #C9D1D9">            waitGroup.</span><span style="color: #79C0FF">Wait</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #8B949E">// 发送HTML文件</span></span>
+<span class="line"><span style="color: #C9D1D9">            htmlFile, _ </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> ioutil.</span><span style="color: #79C0FF">ReadFile</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"index.html"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">            res.</span><span style="color: #79C0FF">Write</span><span style="color: #C9D1D9">(htmlFile)</span></span>
+<span class="line"><span style="color: #C9D1D9">        } </span><span style="color: #FF7B72">else</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #8B949E">// 处理其他类型的请求</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"><span style="color: #C9D1D9">    })</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 启动服务器</span></span>
+<span class="line"><span style="color: #C9D1D9">    fmt.</span><span style="color: #79C0FF">Println</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Listening on port 3000..."</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    server.</span><span style="color: #79C0FF">ListenAndServeTLS</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">""</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">""</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8B949E">// 服务器推送CSS文件</span></span>
+<span class="line"><span style="color: #FF7B72">func</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">pushCSS</span><span style="color: #C9D1D9">(w http.ResponseWriter, pushCompleteChan </span><span style="color: #FF7B72">chan</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">bool</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    cssFile, _ </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> ioutil.</span><span style="color: #79C0FF">ReadFile</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"style.css"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    pusher, ok </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> w.(http.Pusher)</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">!</span><span style="color: #C9D1D9">ok {</span></span>
+<span class="line"><span style="color: #C9D1D9">        pushCompleteChan </span><span style="color: #FF7B72">&#x3C;-</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">true</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">return</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> err </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> pusher.</span><span style="color: #79C0FF">Push</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"/style.css"</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">nil</span><span style="color: #C9D1D9">); err </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">nil</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        pushCompleteChan </span><span style="color: #FF7B72">&#x3C;-</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">true</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">return</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    w.</span><span style="color: #79C0FF">Write</span><span style="color: #C9D1D9">(cssFile)</span></span>
+<span class="line"><span style="color: #C9D1D9">    pushCompleteChan </span><span style="color: #FF7B72">&#x3C;-</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">true</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8B949E">// 服务器推送JavaScript文件</span></span>
+<span class="line"><span style="color: #FF7B72">func</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">pushJS</span><span style="color: #C9D1D9">(w http.ResponseWriter, pushCompleteChan </span><span style="color: #FF7B72">chan</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">bool</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    jsFile, _ </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> ioutil.</span><span style="color: #79C0FF">ReadFile</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"app.js"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    pusher, ok </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> w.(http.Pusher)</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">!</span><span style="color: #C9D1D9">ok {</span></span>
+<span class="line"><span style="color: #C9D1D9">        pushCompleteChan </span><span style="color: #FF7B72">&#x3C;-</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">true</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">return</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> err </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> pusher.</span><span style="color: #79C0FF">Push</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"/app.js"</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">nil</span><span style="color: #C9D1D9">); err </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">nil</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        pushCompleteChan </span><span style="color: #FF7B72">&#x3C;-</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">true</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">return</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    w.</span><span style="color: #79C0FF">Write</span><span style="color: #C9D1D9">(jsFile)</span></span>
+<span class="line"><span style="color: #C9D1D9">    pushCompleteChan </span><span style="color: #FF7B72">&#x3C;-</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">true</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>在上述代码中，我们首先读取了服务器证书和私钥文件，并创建了一个HTTPS服务器。使用<code>http.HandleFunc</code>函数定义了服务器的路由，当客户端请求HTML文件时，服务器收到请求后会尝试推送CSS文件和JavaScript文件，并将HTML文件作为响应返回给客户端。</p>
+<p>在推送CSS和JavaScript文件时，我们使用<code>http.Pusher</code>接口的<code>Push</code>方法来推送文件，如果推送失败则会直接返回。为了避免推送和响应产生冲突，我们使用信道来同步推送和响应的顺序，并使用<code>sync.WaitGroup</code>来等待推送的文件都推送完毕。</p>
+<p>需要注意的是，为了使用HTTP/2服务器推送，客户端必须支持HTTP/2协议，并使用<code>http.Transport</code>结构体的<code>TLSClientConfig</code>字段来配置客户端的证书信息等。以下是客户端请求的示例代码：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">package</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">main</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> (</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">crypto/tls</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">fmt</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">io/ioutil</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">net/http</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">sync</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">func</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">main</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 读取证书文件</span></span>
+<span class="line"><span style="color: #C9D1D9">    caCertPEM, _ </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> ioutil.</span><span style="color: #79C0FF">ReadFile</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"server.crt"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    caCertPool </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> x509.</span><span style="color: #79C0FF">NewCertPool</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">    caCertPool.</span><span style="color: #79C0FF">AppendCertsFromPEM</span><span style="color: #C9D1D9">(caCertPEM)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 创建HTTP客户端</span></span>
+<span class="line"><span style="color: #C9D1D9">    tlsConfig </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">tls.Config{RootCAs: caCertPool}</span></span>
+<span class="line"><span style="color: #C9D1D9">    transport </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">http.Transport{TLSClientConfig: tlsConfig}</span></span>
+<span class="line"><span style="color: #C9D1D9">    client </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">http.Client{Transport: transport}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 发送请求</span></span>
+<span class="line"><span style="color: #C9D1D9">    resp, _ </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> client.</span><span style="color: #79C0FF">Get</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"https://localhost:3000"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">defer</span><span style="color: #C9D1D9"> resp.Body.</span><span style="color: #79C0FF">Close</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">    body, _ </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> ioutil.</span><span style="color: #79C0FF">ReadAll</span><span style="color: #C9D1D9">(resp.Body)</span></span>
+<span class="line"><span style="color: #C9D1D9">    fmt.</span><span style="color: #79C0FF">Println</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">string</span><span style="color: #C9D1D9">(body))</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>需要注意的是，以上示例仅实现了最基本的HTTP/2服务器推送功能，具体根据实际需求进行修改和扩展。</p>
+	</body></html>

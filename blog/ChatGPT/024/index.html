@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+		<meta name="generator" content="Astro v2.2.1">
+		<title></title>
+	<link rel="stylesheet" href="/_astro/001.c8750cb8.css" /></head>
+	<body>
+		<p>Zig中的<code>inline</code>关键字用于向编译器提示函数应该进行内联展开。内联展开可以显著提高函数的运行时性能，尤其是在频繁调用和小型函数中。</p>
+<p>使用<code>inline</code>关键字将会告知编译器，将调用该函数的地方替换为该函数的实际实现，从而避免了调用和返回的开销，提高了性能。与传统的函数调用不同，内联函数直接将函数代码插入到调用它的代码中，因此延续了调用者的上下文环境。</p>
+<p>以下是一个使用<code>inline</code>关键字的示例：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">// 声明内联函数</span></span>
+<span class="line"><span style="color: #c9d1d9">inline fn add(a: i32, b: i32) i32 {</span></span>
+<span class="line"><span style="color: #c9d1d9">    return a + b;</span></span>
+<span class="line"><span style="color: #c9d1d9">}</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">// 调用内联函数</span></span>
+<span class="line"><span style="color: #c9d1d9">fn main() anyerror!void {</span></span>
+<span class="line"><span style="color: #c9d1d9">    var result: i32 = add(3, 4);</span></span>
+<span class="line"><span style="color: #c9d1d9">    // ...</span></span>
+<span class="line"><span style="color: #c9d1d9">}</span></span></code></pre>
+<p>在这个例子中，我们定义了一个内联函数<code>add</code>，并在调用函数时传递参数<code>3</code>和<code>4</code>。当编译器遇到该函数调用时，它将直接插入函数实现的代码。</p>
+<p>需要注意的是，<code>inline</code>关键字只是向编译器发出一种建议，没有保证所有<code>inline</code>函数在编译时都会进行内联展开，这取决于编译器的具体实现。此外，内联函数通常比正常函数更大，因为相应的代码被复制至每处调用点中，而不是在程序的一个位置共享相同的代码逻辑，因此，过度使用内联函数可能会导致代码膨胀和可读性的下降。</p>
+<p>总的来说，<code>inline</code>关键字可用于向编译器提示函数应该进行内联展开，以提高函数的运行时性能，减小调用和返回的开销。但过度使用内联函数可能会导致代码膨胀和可读性的下降。</p>
+<p>在Zig中，<code>inline while</code>和<code>inline for</code>是编译期循环，而<code>comptime</code>是编译期计算时提供的一种机制，它们之间有着密切的联系。</p>
+<p><code>comptime</code>可以用于计算常量表达式，在编译期间处理这些表达式并将其结果直接嵌入到程序中。而<code>inline while</code>和<code>inline for</code>则是在编译器展开循环。它们只在Zig中用于编译期代码的处理，因此是“编译期循环”。这两种方法的主要目的都是在编译时优化代码，从而提高程序的执行效率。</p>
+<p>以下是一个使用<code>comptime</code>，<code>inline while</code>和<code>inline for</code>的示例：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">comptime {</span></span>
+<span class="line"><span style="color: #c9d1d9">    // 使用comptime计算变量</span></span>
+<span class="line"><span style="color: #c9d1d9">    const myVar = 5 * 6;  </span></span>
+<span class="line"><span style="color: #c9d1d9">}</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">// 使用inline while</span></span>
+<span class="line"><span style="color: #c9d1d9">inline while (myVar > 0) : (myVar = @IntCast(i32, myVar) - 1) {</span></span>
+<span class="line"><span style="color: #c9d1d9">    // 做一些操作</span></span>
+<span class="line"><span style="color: #c9d1d9">}</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">// 使用inline for</span></span>
+<span class="line"><span style="color: #c9d1d9">inline for (myVar ..= 10) : (myVar += 1) {</span></span>
+<span class="line"><span style="color: #c9d1d9">    // 做一些操作</span></span>
+<span class="line"><span style="color: #c9d1d9">}</span></span></code></pre>
+<p>在这个例子中，我们使用<code>comptime</code>计算变量<code>myVar</code>，它的结果是<code>30</code>。然后，使用<code>inline while</code>和<code>inline for</code>分别为变量<code>myVar</code>创建了循环。在这两个循环中，我们可以使用Zig的内置函数来操作变量。由于循环是在编译期间展开的，因此循环的次数和执行的指令数都是已知的。这有助于编译器优化编译后的代码。</p>
+<p>在编写编译期代码时，我们通常会使用这些循环结构和<code>comptime</code>来处理和操作常量和类型等编译期常量，以便在编译期间更好地优化代码。</p>
+<p>总的来说，<code>comptime</code>，<code>inline while</code>和<code>inline for</code>是Zig中用于编译期性能优化的工具，它们可以让我们在编译期间处理常量和类型，并在编译后的代码中生成高效的循环结构，从而提高程序的执行效率。</p>
+	</body></html>

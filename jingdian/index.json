@@ -1,0 +1,44 @@
+{
+    "articles": {
+        "儒家": [
+            ["易经", "ru/yijing.txt"],
+            ["易传", "ru/yizhuan/index.json"],
+            ["论语", "ru/lunyu.txt"],
+            ["大学", "ru/daxue.txt"],
+            ["中庸", "ru/zhongyong.txt"]
+        ],
+        "道家": [
+            ["道德经", "dao/daodejing.txt"],
+            ["阴符经", "dao/yinfujing.txt"],
+            ["太公阴符", "dao/yinfujing-tg.txt"],
+            ["淮南子", "dao/honglie/index.json"]
+        ],
+        "佛家": [
+            ["金刚经", "fo/jinggangjing.txt"],
+            ["心经", "fo/xinjing.txt"],
+            ["坛经", "fo/tanjing.txt"]
+        ],
+        "兵家": [
+            ["孙子兵法", "bing/sunzibingfa.txt"],
+            ["三十六计", "bing/sanshiliuji/index.json"]
+        ],
+        "岐黄": [
+            ["灵枢", "qihuang/lingshu/index.json"],
+            ["素问", "qihuang/suwen/index.json"],
+            ["难经", "qihuang/nanjing/index.json"]
+        ],
+        "宣言": [
+            ["共产党宣言", "manifesto/communist-party-sy.txt"],
+            ["独立宣言", "manifesto/independence-sy.txt"],
+            ["人权宣言", "manifesto/rights-of-man-and-citizen.txt"]
+        ],
+        "风水": [
+            ["葬书", "fengshui/zangshu.txt"],
+            ["雪心赋", "fengshui/xuexinfu/index.json"],
+            ["紫微准绳", "fengshui/zwzhunsheng.txt"],
+            ["紫微星垣论", "fengshui/xingyuanlun.txt"],
+            ["太微赋", "fengshui/taiweifu.txt"],
+            ["发微论", "fengshui/faweilun.txt"]
+        ]
+    }
+}

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+		<meta name="generator" content="Astro v2.2.1">
+		<title></title>
+	<link rel="stylesheet" href="/_astro/001.c8750cb8.css" /></head>
+	<body>
+		<h1 id="ffmpeg使用实例">FFmpeg使用实例</h1>
+<h2 id="user">user:</h2>
+<p>FFmpeg使用实例</p>
+<h2 id="assistant">assistant:</h2>
+<ol>
+<li>转换视频格式：</li>
+</ol>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">ffmpeg -i input.mp4 output.avi</span></span></code></pre>
+<ol start="2">
+<li>剪辑视频：</li>
+</ol>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">ffmpeg -ss 00:00:10 -i input.mp4 -c copy -t 00:00:20 output.mp4</span></span></code></pre>
+<p>这个命令会从输入文件中的第 10 秒开始剪辑 20 秒并将结果保存在输出文件 output.mp4 中。</p>
+<ol start="3">
+<li>提取音频：</li>
+</ol>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">ffmpeg -i input.mp4 -vn -acodec copy output.aac</span></span></code></pre>
+<p>这个命令提取输入文件中的音频并将其保存在输出文件 output.aac 中。</p>
+<ol start="4">
+<li>提取视频：</li>
+</ol>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">ffmpeg -i input.mp4 -an -vcodec copy output.mp4</span></span></code></pre>
+<p>这个命令提取输入文件中的视频并将其保存在输出文件 output.mp4 中。</p>
+<ol start="5">
+<li>调整视频大小：</li>
+</ol>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">ffmpeg -i input.mp4 -vf scale=640:360 output.mp4</span></span></code></pre>
+<p>这个命令会将输入文件的大小缩小到 640x360，并将结果保存在输出文件 output.mp4 中。</p>
+<ol start="6">
+<li>添加水印：</li>
+</ol>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">ffmpeg -i input.mp4 -i watermark.png -filter_complex overlay=10:10 output.mp4</span></span></code></pre>
+<p>这个命令会将输入文件叠加一个水印图片，并将结果保存在输出文件 output.mp4 中。</p>
+<ol start="7">
+<li>转换 GIF 动画：</li>
+</ol>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">ffmpeg -i input.mp4 -vf "scale=320:-1:flags=lanczos,palettegen" -y palette.png</span></span>
+<span class="line"><span style="color: #c9d1d9">ffmpeg -i input.mp4 -i palette.png -filter_complex "scale=320:-1:flags=lanczos[x];[x][1:v]paletteuse" -y output.gif</span></span></code></pre>
+<p>这个命令将输入文件转换为 GIF 动画并将结果保存在输出文件 output.gif 中。第一个命令生成调色板，第二个命令应用调色板。</p>
+<ol start="8">
+<li>提取帧：</li>
+</ol>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">ffmpeg -i input.mp4 -vf thumbnail=10 output-%02d.png</span></span></code></pre>
+<p>这个命令会从输入文件中提取每秒中的第 10 帧并将结果保存为输出文件 output-01.png、output-02.png 等。</p>
+<ol start="9">
+<li>提取音频波形：</li>
+</ol>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">ffmpeg -i input.mp3 -filter_complex showwavespic output.png</span></span></code></pre>
+<p>这个命令将输入文件的音频波形提取出来并保存为输出文件 output.png。</p>
+<ol start="10">
+<li>转换音频采样率：</li>
+</ol>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">ffmpeg -i input.mp3 -ac 2 -ar 44100 output.mp3</span></span></code></pre>
+<p>这个命令会将输入文件的音频采样率更改为 44100 Hz 并将结果保存为输出文件 output.mp3。</p>
+<h2 id="user-1">user:</h2>
+<p>免费的视频剪辑有哪些</p>
+<h2 id="assistant-1">assistant:</h2>
+<p>以下是一些免费的视频剪辑软件：</p>
+<ol>
+<li>
+<p>DaVinci Resolve：免费的高级视频编辑软件，可以进行剪辑、调色、特效和声音处理。</p>
+</li>
+<li>
+<p>OpenShot：适合新手操作的简单易用的视频编辑软件，也可进行剪辑、特效和音频处理。</p>
+</li>
+<li>
+<p>Shotcut：开源的视频编辑软件，支持多种格式的文件并可进行剪辑、特效和音频处理。</p>
+</li>
+<li>
+<p>VSDC Free Video Editor：功能强大的免费视频编辑软件，可进行剪辑、调色、特效和音频处理。</p>
+</li>
+<li>
+<p>Blender：多功能的免费开源视频编辑软件，主要用于制作 3D 动画和特效，但也可进行视频剪辑。</p>
+</li>
+</ol>
+<p>以上仅是其中的几个，还有很多其他的免费视频剪辑软件可供选择。</p>
+<h2 id="user-2">user:</h2>
+<p>C语言操作FFmpeg</p>
+<h2 id="assistant-2">assistant:</h2>
+<p>C 语言可以使用 FFmpeg 库来操作音视频，下面是一个简单的 C 语言程序，演示了如何使用 FFmpeg 库来读取一个视频文件的帧并将其保存为一系列图片：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;stdio.h></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;stdlib.h></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;string.h></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;math.h></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;unistd.h></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;libavutil/mathematics.h></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;libavformat/avformat.h></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;libavcodec/avcodec.h></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;libswscale/swscale.h></span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">#define</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">OUTPUT_FMT</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"jpg"</span></span>
+<span class="line"><span style="color: #FF7B72">#define</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">OUTPUT_DIR</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"./output"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">int</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">main</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">int</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">argc</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">char*</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">argv</span><span style="color: #FF7B72">[]</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    AVFormatContext</span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9"> pFormatCtx </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">NULL</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">int</span><span style="color: #C9D1D9"> i, videoStreamIdx </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">-</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    AVCodecParameters </span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9">pCodecParameters </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">NULL</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    AVCodec</span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9"> pCodec </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">NULL</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    AVFrame</span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9"> pFrame </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">NULL</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    AVPacket packet;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">int</span><span style="color: #C9D1D9"> frameFinished;</span></span>
+<span class="line"><span style="color: #C9D1D9">    AVDictionary</span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9"> optionsDict </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">NULL</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    AVFrame</span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9"> pFrameRGB </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">NULL</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">uint8_t*</span><span style="color: #C9D1D9"> buffer </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">NULL</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">int</span><span style="color: #C9D1D9"> numBytes;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">struct</span><span style="color: #C9D1D9"> SwsContext</span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9"> sws_ctx </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">NULL</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">char</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">filename</span><span style="color: #C9D1D9">[</span><span style="color: #79C0FF">1024</span><span style="color: #C9D1D9">];</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">int</span><span style="color: #C9D1D9"> frameCount </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (argc </span><span style="color: #FF7B72">&#x3C;</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">fprintf</span><span style="color: #C9D1D9">(stderr, </span><span style="color: #A5D6FF">"Usage: </span><span style="color: #79C0FF">%s</span><span style="color: #A5D6FF"> &#x3C;input file></span><span style="color: #79C0FF">\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">argv</span><span style="color: #C9D1D9">[</span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">]);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">exit</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">av_register_all</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (</span><span style="color: #D2A8FF">avformat_open_input</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">pFormatCtx, </span><span style="color: #FFA657">argv</span><span style="color: #C9D1D9">[</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">], </span><span style="color: #79C0FF">NULL</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">NULL</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">fprintf</span><span style="color: #C9D1D9">(stderr, </span><span style="color: #A5D6FF">"Could not open input file '</span><span style="color: #79C0FF">%s</span><span style="color: #A5D6FF">'</span><span style="color: #79C0FF">\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">argv</span><span style="color: #C9D1D9">[</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">]);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">exit</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (</span><span style="color: #D2A8FF">avformat_find_stream_info</span><span style="color: #C9D1D9">(pFormatCtx, </span><span style="color: #79C0FF">NULL</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">&#x3C;</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">fprintf</span><span style="color: #C9D1D9">(stderr, </span><span style="color: #A5D6FF">"Could not find stream information</span><span style="color: #79C0FF">\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">exit</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">av_dump_format</span><span style="color: #C9D1D9">(pFormatCtx, </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">argv</span><span style="color: #C9D1D9">[</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">], </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">for</span><span style="color: #C9D1D9"> (i </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">; i </span><span style="color: #FF7B72">&#x3C;</span><span style="color: #C9D1D9"> pFormatCtx->nb_streams; i</span><span style="color: #FF7B72">++</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (pFormatCtx->streams[i]->codecpar->codec_type </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> AVMEDIA_TYPE_VIDEO) {</span></span>
+<span class="line"><span style="color: #C9D1D9">            videoStreamIdx </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> i;</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">break</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (videoStreamIdx </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">-</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">fprintf</span><span style="color: #C9D1D9">(stderr, </span><span style="color: #A5D6FF">"Could not find video stream in the input file</span><span style="color: #79C0FF">\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">exit</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    pCodecParameters </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> pFormatCtx->streams[videoStreamIdx]->codecpar;</span></span>
+<span class="line"><span style="color: #C9D1D9">    pCodec </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">avcodec_find_decoder</span><span style="color: #C9D1D9">(pCodecParameters->codec_id);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (pCodec </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">NULL</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">fprintf</span><span style="color: #C9D1D9">(stderr, </span><span style="color: #A5D6FF">"Unsupported codec!</span><span style="color: #79C0FF">\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">exit</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (</span><span style="color: #D2A8FF">avcodec_open2</span><span style="color: #C9D1D9">(pCodecCtx, pCodec, </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">optionsDict) </span><span style="color: #FF7B72">&#x3C;</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">fprintf</span><span style="color: #C9D1D9">(stderr, </span><span style="color: #A5D6FF">"Could not open codec</span><span style="color: #79C0FF">\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">exit</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    pFrame </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">av_frame_alloc</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    pFrameRGB </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">av_frame_alloc</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (pFrameRGB </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">NULL</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">fprintf</span><span style="color: #C9D1D9">(stderr, </span><span style="color: #A5D6FF">"Could not allocate image data buffer</span><span style="color: #79C0FF">\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">exit</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    numBytes </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">av_image_get_buffer_size</span><span style="color: #C9D1D9">(AV_PIX_FMT_RGB24, pCodecParameters->width, pCodecParameters->height, </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    buffer </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> (</span><span style="color: #FF7B72">uint8_t*</span><span style="color: #C9D1D9">)</span><span style="color: #D2A8FF">av_malloc</span><span style="color: #C9D1D9">(numBytes </span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">sizeof</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">uint8_t</span><span style="color: #C9D1D9">));</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (buffer </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">NULL</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">fprintf</span><span style="color: #C9D1D9">(stderr, </span><span style="color: #A5D6FF">"Could not allocate image data buffer</span><span style="color: #79C0FF">\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">exit</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">av_image_fill_arrays</span><span style="color: #C9D1D9">(pFrameRGB->data, pFrameRGB->linesize, buffer, AV_PIX_FMT_RGB24, pCodecParameters->width, pCodecParameters->height, </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">snprintf</span><span style="color: #C9D1D9">(filename, </span><span style="color: #FF7B72">sizeof</span><span style="color: #C9D1D9">(filename), </span><span style="color: #A5D6FF">"</span><span style="color: #79C0FF">%s</span><span style="color: #A5D6FF">/output_</span><span style="color: #79C0FF">%%</span><span style="color: #A5D6FF">03d.</span><span style="color: #79C0FF">%s</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, OUTPUT_DIR, OUTPUT_FMT);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    sws_ctx </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">sws_getContext</span><span style="color: #C9D1D9">(pCodecParameters->width, pCodecParameters->height, pCodecParameters->format,</span></span>
+<span class="line"><span style="color: #C9D1D9">        pCodecParameters->width, pCodecParameters->height, AV_PIX_FMT_RGB24, SWS_BILINEAR, </span><span style="color: #79C0FF">NULL</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">NULL</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">NULL</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">while</span><span style="color: #C9D1D9"> (</span><span style="color: #D2A8FF">av_read_frame</span><span style="color: #C9D1D9">(pFormatCtx, </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">packet) </span><span style="color: #FF7B72">>=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (packet.stream_index </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> videoStreamIdx) {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #D2A8FF">avcodec_send_packet</span><span style="color: #C9D1D9">(pCodecCtx, </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">packet);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">while</span><span style="color: #C9D1D9"> (</span><span style="color: #D2A8FF">avcodec_receive_frame</span><span style="color: #C9D1D9">(pCodecCtx, pFrame) </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">                </span><span style="color: #D2A8FF">sws_scale</span><span style="color: #C9D1D9">(sws_ctx, (</span><span style="color: #FF7B72">uint8_t</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">const*</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">const*</span><span style="color: #C9D1D9">)pFrame->data, pFrame->linesize, </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">, pCodecParameters->height, pFrameRGB->data, pFrameRGB->linesize);</span></span>
+<span class="line"><span style="color: #C9D1D9">                </span><span style="color: #D2A8FF">snprintf</span><span style="color: #C9D1D9">(filename, </span><span style="color: #FF7B72">sizeof</span><span style="color: #C9D1D9">(filename), </span><span style="color: #A5D6FF">"</span><span style="color: #79C0FF">%s</span><span style="color: #A5D6FF">/output_</span><span style="color: #79C0FF">%03d</span><span style="color: #A5D6FF">.</span><span style="color: #79C0FF">%s</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, OUTPUT_DIR, frameCount</span><span style="color: #FF7B72">++</span><span style="color: #C9D1D9">, OUTPUT_FMT);</span></span>
+<span class="line"><span style="color: #C9D1D9">                FILE</span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9"> file </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">fopen</span><span style="color: #C9D1D9">(filename, </span><span style="color: #A5D6FF">"wb"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">                </span><span style="color: #D2A8FF">fwrite</span><span style="color: #C9D1D9">(buffer, </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">, numBytes, file);</span></span>
+<span class="line"><span style="color: #C9D1D9">                </span><span style="color: #D2A8FF">fclose</span><span style="color: #C9D1D9">(file);</span></span>
+<span class="line"><span style="color: #C9D1D9">            }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #D2A8FF">av_packet_unref</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">packet);</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">sws_freeContext</span><span style="color: #C9D1D9">(sws_ctx);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">avcodec_free_context</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">pCodecCtx);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">av_frame_free</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">pFrame);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">av_frame_free</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">pFrameRGB);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">avformat_close_input</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">pFormatCtx);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">av_dict_free</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">optionsDict);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>为了使用此程序，请确保已正确安装了 FFmpeg 库，并将此程序的代码保存为 <code>main.c</code>，然后使用以下命令编译并运行此程序：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">gcc -o video2image main.c -lavformat -lavcodec -lavutil -lswscale</span></span>
+<span class="line"><span style="color: #C9D1D9">./video2image input.mp4</span></span></code></pre>
+<p>这个程序会解析输入文件并将其所有可用的帧保存为一系列 JPEG 图像。这些图像将保存在 <code>./output</code> 目录中。您可以通过更改 <code>OUTPUT_FMT</code> 和 <code>OUTPUT_DIR</code> 变量来更改输出文件的格式和保存位置。</p>
+<h2 id="user-3">user:</h2>
+<p>python3</p>
+<h2 id="assistant-3">assistant:</h2>
+<p>Python 3 是一种高级编程语言，具有简单易学、可读性强、可扩展性好等特点，可用于开发各种桌面应用程序、Web 应用、机器学习和数据分析等各种应用。</p>
+<p>以下是一个简单的 Python 3 程序，演示了如何使用 OpenCV 库来读取一个视频文件并将其保存为一系列图片：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> cv2</span></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> os</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">input_file </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">'input.mp4'</span></span>
+<span class="line"><span style="color: #C9D1D9">output_dir </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">'output/'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">not</span><span style="color: #C9D1D9"> os.path.exists(output_dir):</span></span>
+<span class="line"><span style="color: #C9D1D9">    os.makedirs(output_dir)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">cap </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> cv2.VideoCapture(input_file)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">i </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span></span>
+<span class="line"><span style="color: #FF7B72">while</span><span style="color: #C9D1D9"> (cap.isOpened()):</span></span>
+<span class="line"><span style="color: #C9D1D9">    ret, frame </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> cap.read()</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> ret </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">False</span><span style="color: #C9D1D9">:</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">break</span></span>
+<span class="line"><span style="color: #C9D1D9">    filename </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">'output/output_</span><span style="color: #79C0FF">%03d</span><span style="color: #A5D6FF">.jpg'</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">%</span><span style="color: #C9D1D9"> i</span></span>
+<span class="line"><span style="color: #C9D1D9">    cv2.imwrite(filename, frame)</span></span>
+<span class="line"><span style="color: #C9D1D9">    i </span><span style="color: #FF7B72">+=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">cap.release()</span></span></code></pre>
+<p>为了使用此程序，请确保已正确安装了 OpenCV 库，并将此程序的代码保存为 <code>main.py</code>，然后使用以下命令运行此程序：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">python main.py</span></span></code></pre>
+<p>此程序将解析 <code>input.mp4</code> 并将其所有可用的帧保存为一系列 JPEG 图像。这些图像将保存在 <code>output</code> 目录中。您可以通过更改 <code>input_file</code> 和 <code>output_dir</code> 变量来更改输入文件的名称和输出文件的位置。</p>
+<h2 id="user-4">user:</h2>
+<p>go</p>
+<h2 id="assistant-4">assistant:</h2>
+<p>Go 是一种现代的、并发的、并带垃圾回收功能的编程语言，可用于开发各种应用程序，如后端服务和网络应用。</p>
+<p>以下是一个简单的 Go 程序，演示了如何使用 GoCV 库来读取一个视频文件并将其保存为一系列图片：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">package</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">main</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> (</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">fmt</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">github.com/hybridgroup/gocv</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">os</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">func</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">main</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">    input_file </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"input.mp4"</span></span>
+<span class="line"><span style="color: #C9D1D9">    output_dir </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"output/"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> _, err </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> os.</span><span style="color: #79C0FF">Stat</span><span style="color: #C9D1D9">(output_dir); os.</span><span style="color: #79C0FF">IsNotExist</span><span style="color: #C9D1D9">(err) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        os.</span><span style="color: #79C0FF">Mkdir</span><span style="color: #C9D1D9">(output_dir, </span><span style="color: #79C0FF">0755</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    cap, err </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> gocv.</span><span style="color: #79C0FF">VideoCaptureFile</span><span style="color: #C9D1D9">(input_file)</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> err </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">nil</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        fmt.</span><span style="color: #79C0FF">Printf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Error opening video capture: </span><span style="color: #79C0FF">%v\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, input_file)</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">return</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">defer</span><span style="color: #C9D1D9"> cap.</span><span style="color: #79C0FF">Close</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    frame </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> gocv.</span><span style="color: #79C0FF">NewMat</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">defer</span><span style="color: #C9D1D9"> frame.</span><span style="color: #79C0FF">Close</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    i </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">for</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> cap.</span><span style="color: #79C0FF">Read</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">frame) {</span></span>
+<span class="line"><span style="color: #C9D1D9">            filename </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> fmt.</span><span style="color: #79C0FF">Sprintf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"output/output_</span><span style="color: #79C0FF">%03d</span><span style="color: #A5D6FF">.jpg"</span><span style="color: #C9D1D9">, i)</span></span>
+<span class="line"><span style="color: #C9D1D9">            gocv.</span><span style="color: #79C0FF">IMWrite</span><span style="color: #C9D1D9">(filename, frame)</span></span>
+<span class="line"><span style="color: #C9D1D9">            i</span><span style="color: #FF7B72">++</span></span>
+<span class="line"><span style="color: #C9D1D9">        } </span><span style="color: #FF7B72">else</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">break</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>为了使用此程序，请确保已正确安装了 GoCV 库，并将此程序的代码保存为 <code>main.go</code>，然后使用以下命令编译并运行此程序：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">go build main.go</span></span>
+<span class="line"><span style="color: #C9D1D9">./main</span></span></code></pre>
+<p>此程序将解析 <code>input.mp4</code> 并将其所有可用的帧保存为一系列 JPEG 图像。这些图像将保存在 <code>output</code> 目录中。您可以通过更改 <code>input_file</code> 和 <code>output_dir</code> 变量来更改输入文件的名称和输出文件的位置。</p>
+<h2 id="user-5">user:</h2>
+<p>vue3实现一个头像上传功能</p>
+<h2 id="assistant-5">assistant:</h2>
+<p>Vue 3 中的头像上传功能可以实现基于 HTML5 标准的文件上传功能，具体实现如下：</p>
+<ol>
+<li>创建一个 <code>FileInput</code> 组件。</li>
+</ol>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #7EE787">template</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">    &#x3C;</span><span style="color: #7EE787">input</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">type</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"file"</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">@change</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"uploadFile"</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;/</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #7EE787">template</span><span style="color: #C9D1D9">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #FF7B72">export</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">default</span><span style="color: #FFA657"> {</span></span>
+<span class="line"><span style="color: #FFA657">  </span><span style="color: #C9D1D9">methods: {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">uploadFile</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">event</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">file</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> event.target.files[</span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">];</span></span>
+<span class="line"><span style="color: #C9D1D9">      console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(file);</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #8B949E">// 处理上传逻辑</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">  }</span></span>
+<span class="line"><span style="color: #FFA657">}</span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9">></span></span></code></pre>
+<ol start="2">
+<li>在 <code>uploadFile</code> 方法中，我们可以获取到选择的文件 <code>file</code>，并通过 <code>FormData</code> 对象将文件数据以 <code>multipart/form-data</code> 格式进行提交。</li>
+</ol>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #FF7B72">export</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">default</span><span style="color: #FFA657"> {</span></span>
+<span class="line"><span style="color: #FFA657">  </span><span style="color: #C9D1D9">methods: {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">async</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">uploadFile</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">event</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">file</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> event.target.files[</span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">];</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">formData</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">new</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">FormData</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">      formData.</span><span style="color: #D2A8FF">append</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'avatar'</span><span style="color: #C9D1D9">, file);</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #8B949E">// 发送上传请求</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">response</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">await</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">fetch</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'/api/upload'</span><span style="color: #C9D1D9">, {</span></span>
+<span class="line"><span style="color: #C9D1D9">        method: </span><span style="color: #A5D6FF">'POST'</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">        body: formData</span></span>
+<span class="line"><span style="color: #C9D1D9">      });</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #8B949E">// 处理上传结果</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">  }</span></span>
+<span class="line"><span style="color: #FFA657">}</span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9">></span></span></code></pre>
+<p>在上面的代码中，我们使用了 <code>async/await</code> 和 <code>fetch()</code> 函数实现了异步请求，从而可以更方便地处理上传结果。</p>
+<ol start="3">
+<li>在服务器端，我们可以使用 Node.js 和 Express 框架来处理文件上传请求，实现代码如下：</li>
+</ol>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">express</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">require</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'express'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">multer</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">require</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'multer'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">app</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">express</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">storage</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> multer.</span><span style="color: #D2A8FF">diskStorage</span><span style="color: #C9D1D9">({</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #D2A8FF">destination</span><span style="color: #C9D1D9">: </span><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> (</span><span style="color: #FFA657">req</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">file</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">cb</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">cb</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">null</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">'uploads'</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">  },</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #D2A8FF">filename</span><span style="color: #C9D1D9">: </span><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> (</span><span style="color: #FFA657">req</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">file</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">cb</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">cb</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">null</span><span style="color: #C9D1D9">, file.fieldname </span><span style="color: #FF7B72">+</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">'-'</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">+</span><span style="color: #C9D1D9"> Date.</span><span style="color: #D2A8FF">now</span><span style="color: #C9D1D9">())</span></span>
+<span class="line"><span style="color: #C9D1D9">  }</span></span>
+<span class="line"><span style="color: #C9D1D9">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">upload</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">multer</span><span style="color: #C9D1D9">({ storage: storage });</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">app.</span><span style="color: #D2A8FF">post</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'/api/upload'</span><span style="color: #C9D1D9">, upload.</span><span style="color: #D2A8FF">single</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'avatar'</span><span style="color: #C9D1D9">), </span><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> (</span><span style="color: #FFA657">req</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">res</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">next</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">  console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(req.file);</span></span>
+<span class="line"><span style="color: #C9D1D9">  res.</span><span style="color: #D2A8FF">send</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'文件上传成功！'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">app.</span><span style="color: #D2A8FF">listen</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">3000</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> () {</span></span>
+<span class="line"><span style="color: #C9D1D9">  console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'服务器已启动...'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">});</span></span></code></pre>
+<p>在上面的代码中，我们使用了 <code>multer</code> 中间件来处理文件上传请求，将上传的文件保存到 <code>uploads</code> 目录中，并返回成功响应。</p>
+<ol start="4">
+<li>最后，我们可以在用户提交表单之前，使用 JavaScript 来验证上传的文件是否符合要求，并在验证通过后将文件上传到服务器。</li>
+</ol>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #7EE787">template</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">    &#x3C;</span><span style="color: #7EE787">input</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">type</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"file"</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">@change</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"uploadFile"</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">    &#x3C;</span><span style="color: #7EE787">button</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">@click</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"submitForm"</span><span style="color: #C9D1D9">>提交表单&#x3C;/</span><span style="color: #7EE787">button</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;/</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #7EE787">template</span><span style="color: #C9D1D9">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #FF7B72">export</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">default</span><span style="color: #FFA657"> {</span></span>
+<span class="line"><span style="color: #FFA657">  </span><span style="color: #D2A8FF">data</span><span style="color: #FFA657">() </span><span style="color: #C9D1D9">{</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">      avatar: </span><span style="color: #79C0FF">null</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">  }</span><span style="color: #FFA657">,</span></span>
+<span class="line"><span style="color: #FFA657">  </span><span style="color: #C9D1D9">methods: {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">async</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">uploadFile</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">event</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">file</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> event.target.files[</span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">];</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">formData</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">new</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">FormData</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">      formData.</span><span style="color: #D2A8FF">append</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'avatar'</span><span style="color: #C9D1D9">, file);</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #8B949E">// 发送上传请求</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">response</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">await</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">fetch</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'/api/upload'</span><span style="color: #C9D1D9">, {</span></span>
+<span class="line"><span style="color: #C9D1D9">        method: </span><span style="color: #A5D6FF">'POST'</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">        body: formData</span></span>
+<span class="line"><span style="color: #C9D1D9">      });</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #8B949E">// 处理上传结果</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (response.ok) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.avatar </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">await</span><span style="color: #C9D1D9"> response.</span><span style="color: #D2A8FF">text</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">      } </span><span style="color: #FF7B72">else</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        console.</span><span style="color: #D2A8FF">error</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'上传失败！'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">      }</span></span>
+<span class="line"><span style="color: #C9D1D9">    },</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">async</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">submitForm</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #8B949E">// 验证用户数据</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (</span><span style="color: #FF7B72">!</span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.avatar) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">alert</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'请上传头像！'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">      }</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #8B949E">// 提交表单数据</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">response</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">await</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">fetch</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'/api/user'</span><span style="color: #C9D1D9">, {</span></span>
+<span class="line"><span style="color: #C9D1D9">        method: </span><span style="color: #A5D6FF">'POST'</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">        headers: { </span><span style="color: #A5D6FF">'Content-Type'</span><span style="color: #C9D1D9">: </span><span style="color: #A5D6FF">'application/json'</span><span style="color: #C9D1D9"> },</span></span>
+<span class="line"><span style="color: #C9D1D9">        body: </span><span style="color: #79C0FF">JSON</span><span style="color: #C9D1D9">.</span><span style="color: #D2A8FF">stringify</span><span style="color: #C9D1D9">({ avatar: </span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.avatar })</span></span>
+<span class="line"><span style="color: #C9D1D9">      });</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #8B949E">// 处理提交结果</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (response.ok) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">alert</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'表单提交成功！'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">      } </span><span style="color: #FF7B72">else</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        console.</span><span style="color: #D2A8FF">error</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'表单提交失败！'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">      }</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">  }</span></span>
+<span class="line"><span style="color: #FFA657">}</span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9">></span></span></code></pre>
+<p>在上面的代码中，我们通过 <code>fetch()</code> 函数将上传的文件提交到服务器，并在处理上传结果时，将返回的文件路径保存到 <code>avatar</code> 变量中。在用户提交表单时，我们通过 JavaScript 代码对用户数据进行验证，并将验证通过后的数据提交到服务器。</p>
+<h2 id="user-6">user:</h2>
+<p>vue3 后台管理系统头像管理需要什么第三方库更美观</p>
+<h2 id="assistant-6">assistant:</h2>
+<p>在 Vue 3 后台管理系统中，若需要实现美观的头像管理，可以通过以下第三方库实现：</p>
+<ol>
+<li>Element Plus</li>
+</ol>
+<p>Element Plus 是一个基于 Vue.js 3.0 的组件库，提供了丰富的 UI 组件，包括 Avatar 头像组件。Avatar 头像组件支持图片头像、图标头像和文字头像等多种类型，同时还支持自定义头像样式和点击事件。Element Plus 还提供了非常方便的配置选项来控制头像组件的大小、形状、边框和颜色等。</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #7EE787">el-avatar</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">size</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"large"</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">src</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"https://cdn.pixabay.com/photo/2017/06/13/12/53/profile-2398782_960_720.png"</span><span style="color: #C9D1D9">>&#x3C;/</span><span style="color: #7EE787">el-avatar</span><span style="color: #C9D1D9">></span></span></code></pre>
+<ol start="2">
+<li>Ant Design Vue</li>
+</ol>
+<p>Ant Design Vue 是一个基于 Vue.js 3.0 的 UI 组件库，提供了丰富的组件，包括 Avatar 头像组件。Avatar 头像组件支持图片头像、字符头像和图标头像，同时还支持自定义头像样式和点击事件。Ant Design Vue 还提供了丰富的主题和配色方案，可以让用户自定义头像的颜色和样式。</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #7EE787">a-avatar</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">:src</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"'https://cdn.pixabay.com/photo/2017/06/13/12/53/profile-2398782_960_720.png'"</span><span style="color: #C9D1D9">>&#x3C;/</span><span style="color: #7EE787">a-avatar</span><span style="color: #C9D1D9">></span></span></code></pre>
+<ol start="3">
+<li>Vuetify</li>
+</ol>
+<p>Vuetify 是一个基于 Vue.js 3.0 的 Material Design 组件库，提供了大量的 UI 组件，包括 Avatar 头像组件。Avatar 头像组件支持图片头像、文本头像和图标头像，同时还支持自定义头像样式和点击事件。Vuetify 还提供了丰富的主题和颜色方案，可以让用户自定义头像的颜色和样式。</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #7EE787">v-avatar</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">size</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"100"</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;</span><span style="color: #7EE787">v-img</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">src</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"https://cdn.pixabay.com/photo/2017/06/13/12/53/profile-2398782_960_720.png"</span><span style="color: #C9D1D9">>&#x3C;/</span><span style="color: #7EE787">v-img</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #7EE787">v-avatar</span><span style="color: #C9D1D9">></span></span></code></pre>
+<p>以上三个库都是当下比较受欢迎的 Vue.js 3.0 组件库，可以根据实际需要进行选择。同时，这些库也都提供了良好的文档和示例代码，方便用户进行使用和定制。</p>
+<h2 id="user-7">user:</h2>
+<p>golang实现一个grpc系统</p>
+<h2 id="assistant-7">assistant:</h2>
+<p>gRPC（Google Remote Procedure Call）是 Google 推出的一种高性能、通用的开源远程过程调用框架，基于 HTTP/2 协议，支持多种语言。下面介绍如何用 Golang 实现一个 gRPC 系统。</p>
+<ol>
+<li>安装 gRPC 和 protobuf</li>
+</ol>
+<p>首先需要安装 gRPC 和 protobuf，可以通过以下命令在 Linux 或 macOS 上安装：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">$ sudo apt install -y protobuf-compiler</span></span>
+<span class="line"><span style="color: #C9D1D9">$ go get -u google.golang.org/grpc</span></span>
+<span class="line"><span style="color: #C9D1D9">$ go get -u github.com/golang/protobuf/protoc-gen-go</span></span></code></pre>
+<ol start="2">
+<li>定义 Proto 文件</li>
+</ol>
+<p>定义一个名为 <code>example.proto</code> 的 Proto 文件：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">syntax = "proto3";</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">option go_package = "github.com/your_username/your_project";</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">service ExampleService {</span></span>
+<span class="line"><span style="color: #c9d1d9">  rpc SayHello(HelloRequest) returns (HelloResponse) {}</span></span>
+<span class="line"><span style="color: #c9d1d9">}</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">message HelloRequest {</span></span>
+<span class="line"><span style="color: #c9d1d9">  string name = 1;</span></span>
+<span class="line"><span style="color: #c9d1d9">}</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">message HelloResponse {</span></span>
+<span class="line"><span style="color: #c9d1d9">  string message = 1;</span></span>
+<span class="line"><span style="color: #c9d1d9">}</span></span></code></pre>
+<p>在上面的文件中，我们定义了一个服务 <code>ExampleService</code>，其中包含了一个名为 <code>SayHello</code> 的方法，该方法接受一个 <code>HelloRequest</code> 请求对象并返回一个 <code>HelloResponse</code> 响应对象。<code>HelloRequest</code> 中包含了一个字符串类型的 <code>name</code> 属性，<code>HelloResponse</code> 中包含了一个字符串类型的 <code>message</code> 属性。</p>
+<ol start="3">
+<li>生成 gRPC 代码</li>
+</ol>
+<p>执行以下命令生成 gRPC 代码：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">$ protoc --go_out=plugins=grpc:. example.proto</span></span></code></pre>
+<p>此命令将生成 <code>example.pb.go</code> 文件，其中包含了 gRPC 代码和 Proto 消息结构的定义。</p>
+<ol start="4">
+<li>实现 gRPC 服务端</li>
+</ol>
+<p>在 <code>main.go</code> 文件中实现 gRPC 服务端：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">package</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">main</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> (</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">context</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">fmt</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">log</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">net</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #79C0FF">pb</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">github.com/your_username/your_project/example</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">google.golang.org/grpc</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">type</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">server</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">struct</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">	pb.UnimplementedExampleServiceServer</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">func</span><span style="color: #C9D1D9"> (s </span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9">server) </span><span style="color: #D2A8FF">SayHello</span><span style="color: #C9D1D9">(ctx context.Context, req </span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9">pb.HelloRequest) (</span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9">pb.HelloResponse, </span><span style="color: #FF7B72">error</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">	message </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> fmt.</span><span style="color: #79C0FF">Sprintf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Hello, </span><span style="color: #79C0FF">%s</span><span style="color: #A5D6FF">!"</span><span style="color: #C9D1D9">, req.</span><span style="color: #79C0FF">GetName</span><span style="color: #C9D1D9">())</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">pb.HelloResponse{Message: message}, </span><span style="color: #79C0FF">nil</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">func</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">main</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">	lis, err </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> net.</span><span style="color: #79C0FF">Listen</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"tcp"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">":50051"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> err </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">nil</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">		log.</span><span style="color: #79C0FF">Fatalf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Failed to listen: </span><span style="color: #79C0FF">%v</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, err)</span></span>
+<span class="line"><span style="color: #C9D1D9">	}</span></span>
+<span class="line"><span style="color: #C9D1D9">	svr </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> grpc.</span><span style="color: #79C0FF">NewServer</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">	pb.</span><span style="color: #79C0FF">RegisterExampleServiceServer</span><span style="color: #C9D1D9">(svr, </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">server{})</span></span>
+<span class="line"><span style="color: #C9D1D9">	log.</span><span style="color: #79C0FF">Printf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Listening on </span><span style="color: #79C0FF">%v</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, lis.</span><span style="color: #79C0FF">Addr</span><span style="color: #C9D1D9">())</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> err </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> svr.</span><span style="color: #79C0FF">Serve</span><span style="color: #C9D1D9">(lis); err </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">nil</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">		log.</span><span style="color: #79C0FF">Fatalf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Failed to serve: </span><span style="color: #79C0FF">%v</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, err)</span></span>
+<span class="line"><span style="color: #C9D1D9">	}</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>在上面的代码中，我们实现了 <code>ExampleService</code> 的 <code>SayHello</code> 方法，该方法接收 <code>HelloRequest</code> 对象并返回 <code>HelloResponse</code> 对象。在 <code>main()</code> 函数中，我们通过 <code>grpc.NewServer()</code> 创建了一个 gRPC 服务器，将其绑定到 TCP 端口 50051，并注册了定义的 <code>ExampleServiceServer</code>，等待客户端调用。</p>
+<ol start="5">
+<li>实现 gRPC 客户端</li>
+</ol>
+<p>在 <code>main.go</code> 文件中实现 gRPC 客户端：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">package</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">main</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> (</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">context</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">log</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">os</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">time</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #79C0FF">pb</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">github.com/your_username/your_project/example</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">google.golang.org/grpc</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> address </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"localhost:50051"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">func</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">main</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">	conn, err </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> grpc.</span><span style="color: #79C0FF">Dial</span><span style="color: #C9D1D9">(address, grpc.</span><span style="color: #79C0FF">WithInsecure</span><span style="color: #C9D1D9">())</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> err </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">nil</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">		log.</span><span style="color: #79C0FF">Fatalf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"did not connect: </span><span style="color: #79C0FF">%v</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, err)</span></span>
+<span class="line"><span style="color: #C9D1D9">	}</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">defer</span><span style="color: #C9D1D9"> conn.</span><span style="color: #79C0FF">Close</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">	client </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> pb.</span><span style="color: #79C0FF">NewExampleServiceClient</span><span style="color: #C9D1D9">(conn)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">	name </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"world"</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">len</span><span style="color: #C9D1D9">(os.Args) </span><span style="color: #FF7B72">></span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">		name </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> os.Args[</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">]</span></span>
+<span class="line"><span style="color: #C9D1D9">	}</span></span>
+<span class="line"><span style="color: #C9D1D9">	ctx, cancel </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> context.</span><span style="color: #79C0FF">WithTimeout</span><span style="color: #C9D1D9">(context.</span><span style="color: #79C0FF">Background</span><span style="color: #C9D1D9">(), time.Second)</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">defer</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">cancel</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">	resp, err </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> client.</span><span style="color: #79C0FF">SayHello</span><span style="color: #C9D1D9">(ctx, </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">pb.HelloRequest{Name: name})</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> err </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">nil</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">		log.</span><span style="color: #79C0FF">Fatalf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"could not hello: </span><span style="color: #79C0FF">%v</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, err)</span></span>
+<span class="line"><span style="color: #C9D1D9">	}</span></span>
+<span class="line"><span style="color: #C9D1D9">	log.</span><span style="color: #79C0FF">Printf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Greeting: </span><span style="color: #79C0FF">%s</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, resp.</span><span style="color: #79C0FF">GetMessage</span><span style="color: #C9D1D9">())</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>在上面的代码中，我们实现了一个简单的命令行客户端，接收命令行参数作为请求参数，并向服务端发送 gRPC 请求并打印响应结果。</p>
+<ol start="6">
+<li>运行 gRPC 服务端和客户端</li>
+</ol>
+<p>现在可以通过以下命令运行 gRPC 服务端和客户端：</p>
+<p>运行服务端：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">$ go run main.go</span></span></code></pre>
+<p>运行客户端：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">$ go run main.go Alice</span></span>
+<span class="line"><span style="color: #C9D1D9">$ go run main.go Bob</span></span></code></pre>
+<p>在上面的命令中，<code>main.go</code> 是我们实现的 gRPC 代码，<code>Alice</code> 和 <code>Bob</code> 是命令行参数，代表请求的名字。当我们运行客户端时，会向服务端发送请求并打印响应结果。</p>
+<p>以上是实现一个 gRPC 系统的基本步骤，可根据实际需要进行定制。</p>
+	</body></html>

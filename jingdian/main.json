@@ -1,0 +1,60 @@
+{
+    "swiper": {
+        "options": {
+            "dot": true,
+            "auto": true,
+            "interval": 3000,
+            "duration": 2000
+        },
+        "list": [
+            {
+                "title": "论语",
+                "query": "path=ru/lunyu.txt&aname=论语",
+                "image": "lunyu.jpeg"
+            },
+            {
+                "title": "道德经",
+                "query": "path=dao/daodejing.txt&aname=道德经",
+                "image": "daodejing.jpeg"
+            },
+            {
+                "title": "黄帝内经 - 素问",
+                "query": "path=qihuang/suwen/index.json&aname=素问",
+                "image": "huangdineijing.jpeg"
+            },
+            {
+                "title": "孙子兵法",
+                "query": "path=bing/sunzibingfa.txt&aname=孙子兵法",
+                "image": "sunzibingfa.jpeg"
+            }
+        ]
+    },
+    "notice": "学习经典小程序上线",
+    "list": [
+        {
+            "title": "黄帝内经 - 灵枢经",
+            "right": "岐黄圣典",
+            "query": "path=qihuang/lingshu/index.json&aname=灵枢"
+        },
+        {
+            "title": "三十六计",
+            "right": "谋略",
+            "query": "path=bing/sanshiliuji/index.json&aname=三十六计"
+        },
+        {
+            "title": "人权宣言",
+            "right": "人权和公民权宣言",
+            "query": "path=manifesto/rights-of-man-and-citizen.txt&aname=人权宣言"
+        },
+        {
+            "title": "易传",
+            "right": "易经的儒家阐释",
+            "query": "path=ru/yizhuan/index.json&aname=易传"
+        },
+        {
+            "title": "心经",
+            "right": "佛家重要经典",
+            "query": "path=fo/xinjing.txt&aname=心经"
+        }
+    ]
+}

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网址仓库</title>
+    <style>
+        @media only screen and (min-width: 320px) and (max-width: 385px) {
+            .main {
+                width: 300px;
+                margin-left: -150px;
+            }
+        }
+
+        @media only screen and (min-width: 385px) and (max-width: 450px) {
+            .main {
+                width: 360px;
+                margin-left: -180px;
+            }
+        }
+
+        @media only screen and (min-width: 450px) {
+            .main {
+                width: 400px;
+                margin-left: -200px;
+            }
+        }
+
+        body {
+            background-color: #EFEFEF;
+        }
+
+        .main {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            height: 390px;
+            margin-top: -195px;
+            border: 5px solid #ABABAB;
+            border-radius: 20px;
+            background-color: #FFFFFF;
+        }
+
+        nav {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        nav ul {
+            list-style: none;
+        }
+
+        nav li:first-child::before {
+            display: inline-block;
+            content: " ";
+            width: 10px;
+            height: 10px;
+            background-color: #ABABAB;
+            margin-right: 1em;
+        }
+
+        nav li {
+            float: left;
+        }
+
+        nav .arrow::after {
+            display: inline-block;
+            content: " ";
+            width: 10px;
+            height: 10px;
+            border-top: 1px solid #ABABAB;
+            border-right: 1px solid #ABABAB;
+            transform: rotate(45deg);
+            margin: 0 1em 0 .5em;
+        }
+
+        .links {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            margin: 1em;
+        }
+
+        .links dl {
+            float: left;
+            line-height: 1.5em;
+            margin: auto;
+            margin-left: 4em;
+        }
+
+        .links dl dt {
+            float: left;
+            margin-left: -4em;
+        }
+
+        .links dl dd {
+            margin-left: 0;
+        }
+
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <nav>
+            <ul>
+                <li class="arrow"><a href="index.html">首页</a></li>
+                <li class="arrow"><a href="/blog">博客</a></li>
+                <li class="arrow"><a href="/zig">Zig语言</a></li>
+                <li><a href="index.html">关于</a></li>
+            </ul>
+        </nav>
+        <div class="links">
+            <dl>
+                <dt>计算机</dt>
+                <dd><a target="_blank" href="http://www.linuxassembly.org">Linux汇编</a></dd>
+                <dd><a target="_blank" href="https://www.bilibili.com/read/cv14056870">Rust框架</a></dd>
+                <dd><a target="_blank" href="https://www.freecodecamp.org">编码课</a></dd>
+                <dd><a target="_blank" href="https://blog.haoji.me">好记网</a></dd>
+                <dd><a target="_blank" href="https://translate.oschina.net">开源中国翻译</a></dd>
+                <dt>英语</dt>
+                <dd><a target="_blank" href="https://tingclass.net">听力网</a></dd>
+                <dd><a target="_blank" href="https://kekenet.com">可可英语</a></dd>
+                <dd><a target="_blank" href="https://hujiang.com">沪江英语</a></dd>
+                <dd><a target="_blank" href="https://quword.com">趣词网</a></dd>
+                <dd><a target="_blank" href="http://www.chinadaily.com.cn">中国日报</a></dd>
+                <dt>文化</dt>
+                <dd><a target="_blank" href="https://cnkgraph.com">知识图谱</a></dd>
+            </dl>
+        </div>
+    </div>
+</body>
+
+</html>

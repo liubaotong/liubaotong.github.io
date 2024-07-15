@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+		<meta name="generator" content="Astro v2.2.1">
+		<title></title>
+	<link rel="stylesheet" href="/_astro/001.c8750cb8.css" /></head>
+	<body>
+		<p>SSE（Streaming SIMD Extensions）和AVX（Advanced Vector Extensions）是x86架构中的浮点运算指令集，它们可以提供快速的浮点运算能力。SSE指令集从Pentium III开始支持，AVX指令集从2011年开始支持。</p>
+<p>SSE寄存器是128位的寄存器，包含了16个128位或8个64位浮点数或整数寄存器，命名为：XMM0至XMM15。XMM0至XMM7寄存器用于传递函数参数和返回函数值，XMM8至XMM15则可以用作临时寄存器。</p>
+<p>AVX增加了256位的寄存器，称为YMM0至YMM15，它们可以存储和处理更多的数据。它们可以容纳32个128位浮点数或整数。同时，AVX还支持更多的指令，提供更多的运算能力。</p>
+<p>SSE和AVX寄存器可以用于执行向量运算、图形处理等任务，可以大大提升程序的性能。但是，从编程角度来看，使用它们需要遵循特定的指令格式，并且在编写代码时需要考虑到向量数据的长度、对齐等问题。在一些应用场景中，它们可以被用来加速计算密集型的任务，比如机器学习、图像处理、信号处理等。但是，在一些其他类型的任务中，它们的使用会增加开发的复杂度，并且可能会导致代码可维护性差、易错等问题。</p>
+<p>下面是一个简单的SSE例子，展示如何使用SSE寄存器对两个数组进行加法操作：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;xmmintrin.h></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;stdio.h></span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">void</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">array_add_sse</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">float</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">a</span><span style="color: #FF7B72">[]</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">float</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">b</span><span style="color: #FF7B72">[]</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">float</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">c</span><span style="color: #FF7B72">[]</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">int</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">n</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">{</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">int</span><span style="color: #C9D1D9"> i;</span></span>
+<span class="line"><span style="color: #C9D1D9">    __m128 va, vb, vc;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">for</span><span style="color: #C9D1D9">(i</span><span style="color: #FF7B72">=</span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">; i</span><span style="color: #FF7B72">&#x3C;</span><span style="color: #C9D1D9">n; i</span><span style="color: #FF7B72">+=</span><span style="color: #79C0FF">4</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #8B949E">// 从内存加载4个单精度浮点数到va和vb寄存器中</span></span>
+<span class="line"><span style="color: #C9D1D9">        va </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">_mm_load_ps</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">&#x26;</span><span style="color: #FFA657">a</span><span style="color: #C9D1D9">[i]);</span></span>
+<span class="line"><span style="color: #C9D1D9">        vb </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">_mm_load_ps</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">&#x26;</span><span style="color: #FFA657">b</span><span style="color: #C9D1D9">[i]);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #8B949E">// 执行四个单精度浮点数加法操作，结果存储到vc寄存器中</span></span>
+<span class="line"><span style="color: #C9D1D9">        vc </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">_mm_add_ps</span><span style="color: #C9D1D9">(va, vb);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #8B949E">// 将四个单精度浮点数从vc寄存器存储到内存中</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">_mm_store_ps</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">&#x26;</span><span style="color: #FFA657">c</span><span style="color: #C9D1D9">[i], vc);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">int</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">main</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">{</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">float</span><span style="color: #C9D1D9"> a</span><span style="color: #FF7B72">[]</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> {</span><span style="color: #79C0FF">1.0</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">2.0</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">3.0</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">4.0</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">5.0</span><span style="color: #C9D1D9">};</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">float</span><span style="color: #C9D1D9"> b</span><span style="color: #FF7B72">[]</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> {</span><span style="color: #79C0FF">2.0</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">4.0</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">6.0</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">8.0</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">10.0</span><span style="color: #C9D1D9">};</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">float</span><span style="color: #C9D1D9"> c</span><span style="color: #FF7B72">[]</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> {</span><span style="color: #79C0FF">0.0</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">0.0</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">0.0</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">0.0</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">0.0</span><span style="color: #C9D1D9">};</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">int</span><span style="color: #C9D1D9"> n </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">sizeof</span><span style="color: #C9D1D9">(a) </span><span style="color: #FF7B72">/</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">sizeof</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">a</span><span style="color: #C9D1D9">[</span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">]);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">array_add_sse</span><span style="color: #C9D1D9">(a, b, c, n);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">for</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">int</span><span style="color: #C9D1D9"> i</span><span style="color: #FF7B72">=</span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">; i</span><span style="color: #FF7B72">&#x3C;</span><span style="color: #C9D1D9">n; </span><span style="color: #FF7B72">++</span><span style="color: #C9D1D9">i) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">printf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"</span><span style="color: #79C0FF">%.1f</span><span style="color: #A5D6FF"> "</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">c</span><span style="color: #C9D1D9">[i]);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">putchar</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'</span><span style="color: #79C0FF">\n</span><span style="color: #A5D6FF">'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>该程序使用<code>_mm_load_ps</code>和<code>_mm_store_ps</code>函数将数据从内存传输到SSE寄存器中，然后使用<code>_mm_add_ps</code>函数执行四个单精度浮点数的加法操作，最后将结果存储到内存中。需要注意的是，传输到运算结果从内存到寄存器和从寄存器到内存都需要遵循一定的对齐规则，否则会导致性能下降或者错误的结果。由于SSE寄存器是128位的，每次处理四个单精度浮点数，因此程序的执行效率要比使用标量指令执行加法操作高很多。</p>
+<p>在汇编中使用SSE和AVX寄存器也是比较常见的。下面是一个使用汇编实现的SSE例子，将两个数组的数据相加：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FFA657">section .data</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">a:</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">dd</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">1.0</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">2.0</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">3.0</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">4.0</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">b:</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">dd</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">2.0</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">4.0</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">6.0</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">8.0</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">c:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">times</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">16</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">db</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9"> </span><span style="color: #8B949E">; 用于存储运算结果</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FFA657">section .text</span></span>
+<span class="line"><span style="color: #C9D1D9">    global _start</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #D2A8FF">_start:</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">mov</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">edx</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">0</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">mov</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">ecx</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">4</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">loop_start:</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">movss</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">xmm0</span><span style="color: #C9D1D9">, [a + </span><span style="color: #79C0FF">edx</span><span style="color: #C9D1D9">]</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">movss</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">xmm1</span><span style="color: #C9D1D9">, [b + </span><span style="color: #79C0FF">edx</span><span style="color: #C9D1D9">]</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">addss</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">xmm0</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">xmm1</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">movss</span><span style="color: #C9D1D9"> [c + </span><span style="color: #79C0FF">edx</span><span style="color: #C9D1D9">], </span><span style="color: #79C0FF">xmm0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">add</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">edx</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">4</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">sub</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">ecx</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">1</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">jne</span><span style="color: #C9D1D9"> loop_start</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">; 显示运算结果</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">mov</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">edx</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">0</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">mov</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">ecx</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">4</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">loop_display:</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">movss</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">xmm0</span><span style="color: #C9D1D9">, [c + </span><span style="color: #79C0FF">edx</span><span style="color: #C9D1D9">]</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">push</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">rax</span><span style="color: #C9D1D9"> </span><span style="color: #8B949E">; 保存寄存器</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">push</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">rcx</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">fld</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">dword</span><span style="color: #C9D1D9"> [</span><span style="color: #79C0FF">esp</span><span style="color: #C9D1D9">] </span><span style="color: #8B949E">; 将single类型的浮点数压入FPU栈</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">sub</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">esp</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">4</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">fstp</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">dword</span><span style="color: #C9D1D9"> [</span><span style="color: #79C0FF">esp</span><span style="color: #C9D1D9">] </span><span style="color: #8B949E">; 弹出FPU栈并将值存储到内存中</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">sub</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">esp</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">4</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">call</span><span style="color: #C9D1D9"> printf </span><span style="color: #8B949E">; 调用printf函数显示浮点数</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">add</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">esp</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">12</span><span style="color: #C9D1D9"> </span><span style="color: #8B949E">; 修正栈指针</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">pop</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">rcx</span><span style="color: #C9D1D9"> </span><span style="color: #8B949E">; 还原寄存器</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">pop</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">rax</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">add</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">edx</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">4</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">sub</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">ecx</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">1</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">jne</span><span style="color: #C9D1D9"> loop_display</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">; 退出程序</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">xor</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">eax</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">eax</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">ret</span></span></code></pre>
+<p>该程序使用SSE指令实现数组相加操作，使用<code>movss</code>将单精度浮点数从内存中加载到SSE寄存器中；使用<code>addss</code>指令进行加法运算；最后使用<code>movss</code>将运算结果存储回到内存中。需要注意的是，在使用汇编实现SSE指令时需要遵循特定的寄存器使用规则，并且在处理结果时需要使用FLU指令将结果从XMM寄存器转移到FPU堆栈中，然后使用FPU指令操作浮点数。</p>
+	</body></html>

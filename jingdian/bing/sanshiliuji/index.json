@@ -1,0 +1,15 @@
+{
+    "index": [
+        ["前言", "bing/sanshiliuji/xu.txt"],
+        ["胜战计", "bing/sanshiliuji/1.txt"],
+        ["敌战计", "bing/sanshiliuji/2.txt"],
+        ["攻战计", "bing/sanshiliuji/3.txt"],
+        ["混战计", "bing/sanshiliuji/4.txt"],
+        ["并战计", "bing/sanshiliuji/5.txt"],
+        ["败战计", "bing/sanshiliuji/6.txt"]
+    ],
+    "synopsis": [
+        "《三十六计》或称三十六策，是指中国古代三十六个兵法策略，语源于南北朝，成书于明清。",
+        "它是根据中国古代军事思想和丰富的斗争经验总结而成的兵书，是中华民族悠久非物质文化遗产之一。"
+    ]
+}

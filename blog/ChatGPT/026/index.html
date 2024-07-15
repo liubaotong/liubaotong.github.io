@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+		<meta name="generator" content="Astro v2.2.1">
+		<title></title>
+	<link rel="stylesheet" href="/_astro/001.c8750cb8.css" /></head>
+	<body>
+		<p>String.fromCharCode() 的底层实现具体取决于 JavaScript 引擎的类型和实现细节。不过，我们可以大致了解一下 String.fromCharCode() 方法的实现原理。</p>
+<p>在 JavaScript 引擎的内部实现中，字符串通常采用 UTF-16 编码方式来存储和表示。UTF-16 编码是一种可变长编码方式，它使用两个 16 位的代码单元来表示一个 Unicode 字符。因此，String.fromCharCode() 的底层实现中通常会涉及对传入的 Unicode 代码单元的拼接、转换和存储等操作。</p>
+<p>在 V8 引擎中，String.fromCharCode() 的实现如下：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">RUNTIME_FUNCTION(Runtime_StringFromCharCode) {</span></span>
+<span class="line"><span style="color: #c9d1d9">  HandleScope scope(isolate);</span></span>
+<span class="line"><span style="color: #c9d1d9">  DCHECK_EQ(args.length(), 1);</span></span>
+<span class="line"><span style="color: #c9d1d9">  CONVERT_ARG_HANDLE_CHECKED(JSArray, code_point_array, 0);</span></span>
+<span class="line"><span style="color: #c9d1d9">  CHECK_OBJECT_COERCIBLE(isolate, code_point_array);</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">  const int kArrayMaxLength = 0x40000000;  // The maximum length a JS array can have.</span></span>
+<span class="line"><span style="color: #c9d1d9">  int code_point_count = code_point_array->length();</span></span>
+<span class="line"><span style="color: #c9d1d9">  if (code_point_count > kArrayMaxLength) {</span></span>
+<span class="line"><span style="color: #c9d1d9">    THROW_NEW_ERROR_RETURN_FAILURE(</span></span>
+<span class="line"><span style="color: #c9d1d9">        isolate,</span></span>
+<span class="line"><span style="color: #c9d1d9">        NewRangeError(</span></span>
+<span class="line"><span style="color: #c9d1d9">            MessageTemplate::kArrayTooLarge, Smi::FromInt(kArrayMaxLength)));</span></span>
+<span class="line"><span style="color: #c9d1d9">  }</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">  Vector&#x3C;uint16_t> code_points_vector(code_point_count,</span></span>
+<span class="line"><span style="color: #c9d1d9">                                      code_point_array->GetData());</span></span>
+<span class="line"><span style="color: #c9d1d9">  if (code_point_count == 1) {</span></span>
+<span class="line"><span style="color: #c9d1d9">    RETURN_FIXED_STRING(iso_string, *code_points_vector.begin());</span></span>
+<span class="line"><span style="color: #c9d1d9">  }</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">  Zone* zone = isolate->runtime_zone();</span></span>
+<span class="line"><span style="color: #c9d1d9">  typedef Vector&#x3C;const uint16_t> Vector16;</span></span>
+<span class="line"><span style="color: #c9d1d9">  Vector16 code_points(code_point_count, code_points_vector.start());</span></span>
+<span class="line"><span style="color: #c9d1d9">  scoped_array&#x3C;int> output_lengths(new int[code_point_count]);</span></span>
+<span class="line"><span style="color: #c9d1d9">  int32_t total_length = icu::u_strFromUTF16(NULL, 0, code_points_vector.start(),</span></span>
+<span class="line"><span style="color: #c9d1d9">                                              code_point_count);</span></span>
+<span class="line"><span style="color: #c9d1d9">  if (total_length &#x3C;= 0) {</span></span>
+<span class="line"><span style="color: #c9d1d9">    THROW_NEW_ERROR_RETURN_FAILURE(isolate, NewRangeError("invalid_code_point"));</span></span>
+<span class="line"><span style="color: #c9d1d9">  }</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">  void* buffer_space = zone->New(total_length + 1);</span></span>
+<span class="line"><span style="color: #c9d1d9">  if (buffer_space == NULL) {</span></span>
+<span class="line"><span style="color: #c9d1d9">    isolate->heap()->CollectAllGarbage(Heap::kNoGCFlags,</span></span>
+<span class="line"><span style="color: #c9d1d9">                                       "String.fromCharCode");</span></span>
+<span class="line"><span style="color: #c9d1d9">    buffer_space = zone->New(total_length + 1);</span></span>
+<span class="line"><span style="color: #c9d1d9">    if (buffer_space == NULL) {</span></span>
+<span class="line"><span style="color: #c9d1d9">      return isolate->heap()->FatalProcessOutOfMemory("String.fromCharCode");</span></span>
+<span class="line"><span style="color: #c9d1d9">    }</span></span>
+<span class="line"><span style="color: #c9d1d9">  }</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">  icu::UChar* buffer = reinterpret_cast&#x3C;icu::UChar*>(buffer_space);</span></span>
+<span class="line"><span style="color: #c9d1d9">  buffer[total_length] = 0;</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">  icu::UErrorCode error;</span></span>
+<span class="line"><span style="color: #c9d1d9">  icu::u_strFromUTF16(buffer, total_length + 1, code_points_vector.start(),</span></span>
+<span class="line"><span style="color: #c9d1d9">                      code_point_count, &#x26;error);</span></span>
+<span class="line"><span style="color: #c9d1d9">  if (U_FAILURE(error)) {</span></span>
+<span class="line"><span style="color: #c9d1d9">    THROW_NEW_ERROR_RETURN_FAILURE(</span></span>
+<span class="line"><span style="color: #c9d1d9">        isolate, NewRangeError("could_not_convert_to_unicode"));</span></span>
+<span class="line"><span style="color: #c9d1d9">  }</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">  RETURN_STRING_VALUE(ReadOnlyRoots(isolate).factory()->NewStringFromTwoByte(</span></span>
+<span class="line"><span style="color: #c9d1d9">      String::F_ASCII | String::F_BARRIER, buffer, total_length));</span></span>
+<span class="line"><span style="color: #c9d1d9">}</span></span></code></pre>
+<p>在 V8 引擎中，String.fromCharCode() 的底层实现主要依赖了 ICU（International Components for Unicode）这个开源库。在实现过程中，首先解析调用时传递的参数，然后采用 UTF-16 编码方式将所有参数中的 Unicode 代码单元拼接成一个字符串。ICU 库提供了一个 u_strFromUTF16 函数，可以将一个代码单元数组转换成 Unicode 字符串。在函数执行前首先需要计算出拼接后的字符串的长度，然后在 runtime zone 中分配字符串 buffer 的内存空间，最后将转换后的 Unicode 字符串存储到 buffer 中，并将 buffer 转换为 JS 字符串返回。</p>
+<p>需要注意的是，String.fromCharCode() 的底层实现可能因为不同的 JavaScript 引擎而异，它们在实现方法、算法和数据结构上可能存在很大差异。</p>
+	</body></html>

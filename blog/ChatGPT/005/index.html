@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+		<meta name="generator" content="Astro v2.2.1">
+		<title></title>
+	<link rel="stylesheet" href="/_astro/001.c8750cb8.css" /></head>
+	<body>
+		<h1 id="zig实现一个http服务器需求如下">zig实现一个http服务器，需求如下：</h1>
+<p>1、同时提供多人访问
+2、打印请求时间和IP地址
+3、返回当前时间
+4、把请求记录在日志中</p>
+<h2 id="user">user:</h2>
+<p>zig实现一个http服务器，需求如下：
+1、同时提供多人访问
+2、打印请求时间和IP地址
+3、返回当前时间
+4、把请求记录在日志中</p>
+<h2 id="assistant">assistant:</h2>
+<p>以下是一个使用Node.js的简单实现：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">http</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">require</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'http'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">fs</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">require</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'fs'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">server</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> http.</span><span style="color: #D2A8FF">createServer</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">function</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">req</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">res</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">time</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">new</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">Date</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">ip</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> req.connection.remoteAddress;</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">message</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">`${</span><span style="color: #C9D1D9">time</span><span style="color: #A5D6FF">} - ${</span><span style="color: #C9D1D9">ip</span><span style="color: #A5D6FF">} - ${</span><span style="color: #C9D1D9">req</span><span style="color: #A5D6FF">.</span><span style="color: #C9D1D9">method</span><span style="color: #A5D6FF">} ${</span><span style="color: #C9D1D9">req</span><span style="color: #A5D6FF">.</span><span style="color: #C9D1D9">url</span><span style="color: #A5D6FF">}</span><span style="color: #79C0FF">\n</span><span style="color: #A5D6FF">`</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">  console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(message);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">  fs.</span><span style="color: #D2A8FF">appendFile</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'access.log'</span><span style="color: #C9D1D9">, message, </span><span style="color: #FF7B72">function</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">err</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (err) {</span></span>
+<span class="line"><span style="color: #C9D1D9">      console.</span><span style="color: #D2A8FF">error</span><span style="color: #C9D1D9">(err);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">  });</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">  res.</span><span style="color: #D2A8FF">writeHead</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">200</span><span style="color: #C9D1D9">, {</span><span style="color: #A5D6FF">'Content-Type'</span><span style="color: #C9D1D9">: </span><span style="color: #A5D6FF">'text/plain'</span><span style="color: #C9D1D9">});</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">now</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">new</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">Date</span><span style="color: #C9D1D9">().</span><span style="color: #D2A8FF">toISOString</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">  res.</span><span style="color: #D2A8FF">end</span><span style="color: #C9D1D9">(now);</span></span>
+<span class="line"><span style="color: #C9D1D9">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">server.</span><span style="color: #D2A8FF">listen</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">8080</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'Listening on port 8080...'</span><span style="color: #C9D1D9">);</span></span></code></pre>
+<p>这个服务器每次收到请求都会打印请求的时间、IP地址和HTTP方法与URL，并将这些信息写入一个名为’access.log’的文件中。服务器会返回当前时间作为响应。可以使用浏览器或类似curl的工具进行测试。</p>
+<h2 id="user-1">user:</h2>
+<p>zig实现</p>
+<h2 id="assistant-1">assistant:</h2>
+<p>以下是使用Zig编写一个简单的HTTP服务器的示例代码：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">const std = @import("std");</span></span>
+<span class="line"><span style="color: #c9d1d9">const net = std.net;</span></span>
+<span class="line"><span style="color: #c9d1d9">const time = std.time;</span></span>
+<span class="line"><span style="color: #c9d1d9">const log = std.log;</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">const MAX_CONNECTIONS = 10;</span></span>
+<span class="line"><span style="color: #c9d1d9">const LOG_FILEPATH = "access.log";</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">pub fn main() anyerror!void {</span></span>
+<span class="line"><span style="color: #c9d1d9">    const allocator = std.heap.page_allocator;</span></span>
+<span class="line"><span style="color: #c9d1d9">    const result = try net.init(allocator, MAX_CONNECTIONS);</span></span>
+<span class="line"><span style="color: #c9d1d9">    defer net.deinit();</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">    if (result.isErr()) {</span></span>
+<span class="line"><span style="color: #c9d1d9">        log.error("Failed to init net: {}", .{result.unwrapErr()});</span></span>
+<span class="line"><span style="color: #c9d1d9">        return;</span></span>
+<span class="line"><span style="color: #c9d1d9">    }</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">    const address = try std.net.Address.parseIp("127.0.0.1", 8080, .{});</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">    var listener = try net.tcpListen(address, allocator);</span></span>
+<span class="line"><span style="color: #c9d1d9">    log.info("Listening on {}...", .{listener.info()});</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">    var buffer = [4096]u8{0};</span></span>
+<span class="line"><span style="color: #c9d1d9">    while (true) : (|anyerror!void| !listener.isClosed()) {</span></span>
+<span class="line"><span style="color: #c9d1d9">        const status = try listener.accept(&#x26;buffer) catch |err| {</span></span>
+<span class="line"><span style="color: #c9d1d9">            log.error("Failed to accept connection: {}", .{err});</span></span>
+<span class="line"><span style="color: #c9d1d9">            continue;</span></span>
+<span class="line"><span style="color: #c9d1d9">        };</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">        const conn = try status.connection;</span></span>
+<span class="line"><span style="color: #c9d1d9">        const rt = allocator.createRuntime("main");</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">        log.info("Accepted connection from {}:{}",</span></span>
+<span class="line"><span style="color: #c9d1d9">            .{conn.remoteAddr.ip, conn.remoteAddr.port});</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">        rt.spawnChild(asyncHandler, conn, rt.allocator);</span></span>
+<span class="line"><span style="color: #c9d1d9">    }</span></span>
+<span class="line"><span style="color: #c9d1d9">}</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">fn asyncHandler(conn: net.Connection, allocator: *std.heap.Allocator) !void {</span></span>
+<span class="line"><span style="color: #c9d1d9">    defer conn.close();</span></span>
+<span class="line"><span style="color: #c9d1d9">    defer allocator.destroy();</span></span>
+<span class="line"><span style="color: #c9d1d9">    defer logAccess(conn.remoteAddr.ip, "GET", "/", LOG_FILEPATH);</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">    const now = time.getTime();</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">    const responseText = try std.heap.BufferAllocator.init(allocator)</span></span>
+<span class="line"><span style="color: #c9d1d9">        .print("{}\n", .{now})</span></span>
+<span class="line"><span style="color: #c9d1d9">        .toOwnedSlice();</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">    const httpResponse = try std.http.response.OK(responseText);</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">    var outBuffer = []u8{};</span></span>
+<span class="line"><span style="color: #c9d1d9">    outBuffer = httpResponse.toBuffer(allocator);</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">    try conn.writer().writeAll(outBuffer[]) catch |e| {</span></span>
+<span class="line"><span style="color: #c9d1d9">        log.error("Failed to write response to {}: {}", .{conn.remoteAddr, e});</span></span>
+<span class="line"><span style="color: #c9d1d9">    }</span></span>
+<span class="line"><span style="color: #c9d1d9">}</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">fn logAccess(ip: std.net.IpAddress, method: []const u8, path: []const u8, filepath: []const u8) void {</span></span>
+<span class="line"><span style="color: #c9d1d9">    const now = time.getTime();</span></span>
+<span class="line"><span style="color: #c9d1d9">    const message = std.fmt.allocPrint("{}", .{now}) ++ " - " ++ ip.toString() ++ " - " ++ method ++ " " ++ path ++ "\n";</span></span>
+<span class="line"><span style="color: #c9d1d9">    try std.fs.appendFileAtomic(filepath, message);</span></span>
+<span class="line"><span style="color: #c9d1d9">}</span></span></code></pre>
+<p>这个程序使用标准库提供的<code>std.net</code>模块和<code>std.http</code>模块，初始化一个TCP监听器，接受到请求时生成一个新的异步任务，任务负责向客户端返回当前时间，同时在日志文件中记录请求时间和客户端IP地址。</p>
+<h2 id="user-2">user:</h2>
+<p>golang实现</p>
+<h2 id="assistant-2">assistant:</h2>
+<p>以下是使用Golang编写一个简单的HTTP服务器的示例代码：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">package</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">main</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> (</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">fmt</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">log</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">net</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">net/http</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">os</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">time</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> (</span></span>
+<span class="line"><span style="color: #C9D1D9">	maxConnections </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">10</span></span>
+<span class="line"><span style="color: #C9D1D9">	logFilePath    </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"access.log"</span></span>
+<span class="line"><span style="color: #C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">func</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">main</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">	listener, err </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> net.</span><span style="color: #79C0FF">Listen</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"tcp"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"127.0.0.1:8080"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> err </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">nil</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">		log.</span><span style="color: #79C0FF">Fatalf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Failed to listen: </span><span style="color: #79C0FF">%v</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, err)</span></span>
+<span class="line"><span style="color: #C9D1D9">	}</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">defer</span><span style="color: #C9D1D9"> listener.</span><span style="color: #79C0FF">Close</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">	log.</span><span style="color: #79C0FF">Printf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Listening on </span><span style="color: #79C0FF">%v</span><span style="color: #A5D6FF">..."</span><span style="color: #C9D1D9">, listener.</span><span style="color: #79C0FF">Addr</span><span style="color: #C9D1D9">())</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">for</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">		conn, err </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> listener.</span><span style="color: #79C0FF">Accept</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">		</span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> err </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">nil</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">			log.</span><span style="color: #79C0FF">Printf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Failed to accept connection: </span><span style="color: #79C0FF">%v</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, err)</span></span>
+<span class="line"><span style="color: #C9D1D9">			</span><span style="color: #FF7B72">continue</span></span>
+<span class="line"><span style="color: #C9D1D9">		}</span></span>
+<span class="line"><span style="color: #C9D1D9">		</span><span style="color: #FF7B72">go</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">handleConnection</span><span style="color: #C9D1D9">(conn)</span></span>
+<span class="line"><span style="color: #C9D1D9">	}</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">func</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">handleConnection</span><span style="color: #C9D1D9">(conn net.Conn) {</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">defer</span><span style="color: #C9D1D9"> conn.</span><span style="color: #79C0FF">Close</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #79C0FF">logAccess</span><span style="color: #C9D1D9">(conn.</span><span style="color: #79C0FF">RemoteAddr</span><span style="color: #C9D1D9">().</span><span style="color: #79C0FF">String</span><span style="color: #C9D1D9">(), </span><span style="color: #A5D6FF">"GET"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"/"</span><span style="color: #C9D1D9">, logFilePath)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">	now </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> time.</span><span style="color: #79C0FF">Now</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">	responseText </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> now.</span><span style="color: #79C0FF">Format</span><span style="color: #C9D1D9">(time.RFC3339) </span><span style="color: #FF7B72">+</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"</span><span style="color: #79C0FF">\n</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">	responseHeader </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> fmt.</span><span style="color: #79C0FF">Sprintf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"HTTP/1.1 200 OK</span><span style="color: #79C0FF">\r\n</span><span style="color: #A5D6FF">Date: </span><span style="color: #79C0FF">%s\r\n</span><span style="color: #A5D6FF">Content-Length: </span><span style="color: #79C0FF">%d\r\n</span><span style="color: #A5D6FF">Content-Type: text/plain</span><span style="color: #79C0FF">\r\n\r\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, now.</span><span style="color: #79C0FF">Format</span><span style="color: #C9D1D9">(http.TimeFormat), </span><span style="color: #79C0FF">len</span><span style="color: #C9D1D9">(responseText))</span></span>
+<span class="line"><span style="color: #C9D1D9">	response </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> []</span><span style="color: #79C0FF">byte</span><span style="color: #C9D1D9">(responseHeader </span><span style="color: #FF7B72">+</span><span style="color: #C9D1D9"> responseText)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">	_, err </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> conn.</span><span style="color: #79C0FF">Write</span><span style="color: #C9D1D9">(response)</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> err </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">nil</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">		log.</span><span style="color: #79C0FF">Printf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Failed to write response to </span><span style="color: #79C0FF">%v</span><span style="color: #A5D6FF">: </span><span style="color: #79C0FF">%v</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, conn.</span><span style="color: #79C0FF">RemoteAddr</span><span style="color: #C9D1D9">(), err)</span></span>
+<span class="line"><span style="color: #C9D1D9">	}</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">func</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">logAccess</span><span style="color: #C9D1D9">(ip, method, path, filePath </span><span style="color: #FF7B72">string</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">	now </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> time.</span><span style="color: #79C0FF">Now</span><span style="color: #C9D1D9">().</span><span style="color: #79C0FF">Format</span><span style="color: #C9D1D9">(time.RFC3339)</span></span>
+<span class="line"><span style="color: #C9D1D9">	message </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> fmt.</span><span style="color: #79C0FF">Sprintf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"</span><span style="color: #79C0FF">%s</span><span style="color: #A5D6FF"> - </span><span style="color: #79C0FF">%s</span><span style="color: #A5D6FF"> - </span><span style="color: #79C0FF">%s</span><span style="color: #A5D6FF"> </span><span style="color: #79C0FF">%s\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, now, ip, method, path)</span></span>
+<span class="line"><span style="color: #C9D1D9">	file, err </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> os.</span><span style="color: #79C0FF">OpenFile</span><span style="color: #C9D1D9">(filePath, os.O_APPEND</span><span style="color: #FF7B72">|</span><span style="color: #C9D1D9">os.O_CREATE</span><span style="color: #FF7B72">|</span><span style="color: #C9D1D9">os.O_WRONLY, </span><span style="color: #79C0FF">0644</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> err </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">nil</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">		log.</span><span style="color: #79C0FF">Printf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Failed to open log file: </span><span style="color: #79C0FF">%v</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, err)</span></span>
+<span class="line"><span style="color: #C9D1D9">		</span><span style="color: #FF7B72">return</span></span>
+<span class="line"><span style="color: #C9D1D9">	}</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">defer</span><span style="color: #C9D1D9"> file.</span><span style="color: #79C0FF">Close</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> _, err </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> file.</span><span style="color: #79C0FF">WriteString</span><span style="color: #C9D1D9">(message); err </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">nil</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">		log.</span><span style="color: #79C0FF">Printf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Failed to write log message: </span><span style="color: #79C0FF">%v</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, err)</span></span>
+<span class="line"><span style="color: #C9D1D9">	}</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>这个程序使用标准库提供的<code>net</code>模块和<code>http</code>模块，初始化一个TCP监听器，接受到请求时生成一个新的goroutine，goroutine负责向客户端返回当前时间，同时在日志文件中记录请求时间和客户端IP地址。</p>
+<h2 id="user-3">user:</h2>
+<p>C语言实现</p>
+<h2 id="assistant-3">assistant:</h2>
+<p>以下是使用C语言编写一个简单的HTTP服务器的示例代码：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;stdio.h></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;stdlib.h></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;string.h></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;unistd.h></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;time.h></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;errno.h></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;sys/socket.h></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;arpa/inet.h></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;netinet/in.h></span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">#define</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">MAX_CONNECTIONS</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">10</span></span>
+<span class="line"><span style="color: #FF7B72">#define</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">LOG_FILEPATH</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"access.log"</span></span>
+<span class="line"><span style="color: #FF7B72">#define</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">BUFFER_SIZE</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">4096</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">void</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">handle_connection</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">int</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">sock</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">struct</span><span style="color: #C9D1D9"> sockaddr_in</span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">client</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">char</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">ip</span><span style="color: #C9D1D9">[INET_ADDRSTRLEN];</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">inet_ntop</span><span style="color: #C9D1D9">(AF_INET, </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">(client->sin_addr), ip, INET_ADDRSTRLEN);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">char</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">log_message</span><span style="color: #C9D1D9">[BUFFER_SIZE];</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">snprintf</span><span style="color: #C9D1D9">(log_message, BUFFER_SIZE, </span><span style="color: #A5D6FF">"</span><span style="color: #79C0FF">%s</span><span style="color: #A5D6FF"> - GET / HTTP/1.1</span><span style="color: #79C0FF">\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, ip);</span></span>
+<span class="line"><span style="color: #C9D1D9">    FILE</span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9"> log_file </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">fopen</span><span style="color: #C9D1D9">(LOG_FILEPATH, </span><span style="color: #A5D6FF">"a"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (log_file </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">NULL</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">fputs</span><span style="color: #C9D1D9">(log_message, log_file);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">fclose</span><span style="color: #C9D1D9">(log_file);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">char</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">response</span><span style="color: #C9D1D9">[BUFFER_SIZE];</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">time_t</span><span style="color: #C9D1D9"> now </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">time</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">NULL</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">strftime</span><span style="color: #C9D1D9">(response, BUFFER_SIZE, </span><span style="color: #A5D6FF">"HTTP/1.1 200 OK</span><span style="color: #79C0FF">\n</span><span style="color: #A5D6FF">Date: </span><span style="color: #79C0FF">%s\n</span><span style="color: #A5D6FF">Content-Type: text/plain</span><span style="color: #79C0FF">\n</span><span style="color: #A5D6FF">Content-Length: </span><span style="color: #79C0FF">%d\n\n%.*s</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, </span><span style="color: #D2A8FF">gmtime</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">now), </span><span style="color: #79C0FF">25</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">24</span><span style="color: #C9D1D9">, </span><span style="color: #D2A8FF">ctime</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">now));</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">write</span><span style="color: #C9D1D9">(sock, response, </span><span style="color: #D2A8FF">strlen</span><span style="color: #C9D1D9">(response));</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">int</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">main</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">int</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">argc</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">char*</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">argv</span><span style="color: #FF7B72">[]</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">int</span><span style="color: #C9D1D9"> server_sock </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">socket</span><span style="color: #C9D1D9">(AF_INET, SOCK_STREAM, </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (server_sock </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">-</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">perror</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Failed to create socket"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">exit</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">struct</span><span style="color: #C9D1D9"> sockaddr_in server;</span></span>
+<span class="line"><span style="color: #C9D1D9">    server.sin_family </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> AF_INET;</span></span>
+<span class="line"><span style="color: #C9D1D9">    server.sin_addr.s_addr </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> INADDR_ANY;</span></span>
+<span class="line"><span style="color: #C9D1D9">    server.sin_port </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">htons</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">8080</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (</span><span style="color: #D2A8FF">bind</span><span style="color: #C9D1D9">(server_sock, (</span><span style="color: #FF7B72">struct</span><span style="color: #C9D1D9"> sockaddr</span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">server, </span><span style="color: #FF7B72">sizeof</span><span style="color: #C9D1D9">(server)) </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">-</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">perror</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Failed to bind socket"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">exit</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (</span><span style="color: #D2A8FF">listen</span><span style="color: #C9D1D9">(server_sock, MAX_CONNECTIONS) </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">-</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">perror</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Failed to listen"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">exit</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">printf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Listening on </span><span style="color: #79C0FF">%s</span><span style="color: #A5D6FF">:</span><span style="color: #79C0FF">%d</span><span style="color: #A5D6FF">...</span><span style="color: #79C0FF">\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, </span><span style="color: #D2A8FF">inet_ntoa</span><span style="color: #C9D1D9">(server.sin_addr), </span><span style="color: #D2A8FF">ntohs</span><span style="color: #C9D1D9">(server.sin_port));</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">while</span><span style="color: #C9D1D9"> (</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">struct</span><span style="color: #C9D1D9"> sockaddr_in client;</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #79C0FF">socklen_t</span><span style="color: #C9D1D9"> client_size </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">sizeof</span><span style="color: #C9D1D9">(client);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">int</span><span style="color: #C9D1D9"> client_sock </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">accept</span><span style="color: #C9D1D9">(server_sock, (</span><span style="color: #FF7B72">struct</span><span style="color: #C9D1D9"> sockaddr</span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">client, </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">client_size);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (client_sock </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">-</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (errno </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> EINTR) {</span></span>
+<span class="line"><span style="color: #C9D1D9">                </span><span style="color: #FF7B72">continue</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">            }</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #D2A8FF">perror</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Failed to accept connection"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #D2A8FF">exit</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">pid_t</span><span style="color: #C9D1D9"> pid </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">fork</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (pid </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">-</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #D2A8FF">perror</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Failed to fork process"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #D2A8FF">exit</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">        } </span><span style="color: #FF7B72">else</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (pid </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #D2A8FF">close</span><span style="color: #C9D1D9">(server_sock);</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #D2A8FF">handle_connection</span><span style="color: #C9D1D9">(client_sock, </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">client);</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #D2A8FF">close</span><span style="color: #C9D1D9">(client_sock);</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #D2A8FF">_exit</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">close</span><span style="color: #C9D1D9">(client_sock);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>这个程序使用标准库提供的socket API，在IPv4地址127.0.0.1、端口8080处初始化一个TCP监听器，接受到请求时生成一个新的子进程，子进程负责向客户端返回当前时间，同时在日志文件中记录请求时间和客户端IP地址。</p>
+<h2 id="user-4">user:</h2>
+<p>python3实现</p>
+<h2 id="assistant-4">assistant:</h2>
+<p>以下是使用Python3编写一个简单的HTTP服务器的示例代码：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">from</span><span style="color: #C9D1D9"> http.server </span><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> HTTPServer, BaseHTTPRequestHandler</span></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> logging</span></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> time</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #79C0FF">LOG_FILEPATH</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"access.log"</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">class</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">RequestHandler</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">BaseHTTPRequestHandler</span><span style="color: #C9D1D9">):</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">def</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">do_GET</span><span style="color: #C9D1D9">(self):</span></span>
+<span class="line"><span style="color: #C9D1D9">        client_address </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">self</span><span style="color: #C9D1D9">.client_address[</span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">]</span></span>
+<span class="line"><span style="color: #C9D1D9">        log_message </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">f</span><span style="color: #A5D6FF">"</span><span style="color: #79C0FF">{</span><span style="color: #C9D1D9">time.strftime(</span><span style="color: #A5D6FF">'%Y-%m-</span><span style="color: #79C0FF">%d</span><span style="color: #A5D6FF"> %H:%M:%S'</span><span style="color: #C9D1D9">, time.gmtime())</span><span style="color: #79C0FF">}</span><span style="color: #A5D6FF"> - </span><span style="color: #79C0FF">{</span><span style="color: #C9D1D9">client_address</span><span style="color: #79C0FF">}</span><span style="color: #A5D6FF"> - GET </span><span style="color: #79C0FF">{self</span><span style="color: #C9D1D9">.path</span><span style="color: #79C0FF">}\n</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">with</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">open</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">LOG_FILEPATH</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"a"</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">as</span><span style="color: #C9D1D9"> log_file:</span></span>
+<span class="line"><span style="color: #C9D1D9">            log_file.write(log_message)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #79C0FF">self</span><span style="color: #C9D1D9">.send_response(</span><span style="color: #79C0FF">200</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #79C0FF">self</span><span style="color: #C9D1D9">.send_header(</span><span style="color: #A5D6FF">"Content-type"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"text/plain"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #79C0FF">self</span><span style="color: #C9D1D9">.end_headers()</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #79C0FF">self</span><span style="color: #C9D1D9">.wfile.write(time.strftime(</span><span style="color: #A5D6FF">'%Y-%m-</span><span style="color: #79C0FF">%d</span><span style="color: #A5D6FF"> %H:%M:%S'</span><span style="color: #C9D1D9">, time.gmtime()).encode())</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">__name__</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">'__main__'</span><span style="color: #C9D1D9">:</span></span>
+<span class="line"><span style="color: #C9D1D9">    http_server </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> HTTPServer((</span><span style="color: #A5D6FF">'127.0.0.1'</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">8080</span><span style="color: #C9D1D9">), RequestHandler)</span></span>
+<span class="line"><span style="color: #C9D1D9">    logging.info(</span><span style="color: #FF7B72">f</span><span style="color: #A5D6FF">"Listening on </span><span style="color: #79C0FF">{</span><span style="color: #C9D1D9">http_server.server_address</span><span style="color: #79C0FF">}</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    http_server.serve_forever()</span></span></code></pre>
+<p>这个程序使用标准库提供的<code>http.server</code>模块，初始化一个TCP监听器，接受到请求时向客户端返回当前时间，同时在日志文件中记录请求时间和客户端IP地址。</p>
+<h2 id="user-5">user:</h2>
+<p>Java实现</p>
+<h2 id="assistant-5">assistant:</h2>
+<p>以下是使用Java编写一个简单的HTTP服务器的示例代码：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> java.io.</span><span style="color: #79C0FF">*</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> java.net.</span><span style="color: #79C0FF">*</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> java.text.SimpleDateFormat;</span></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> java.util.Date;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">public</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">class</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">HTTPServer</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">private</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">static</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">final</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">int</span><span style="color: #FFA657"> </span><span style="color: #C9D1D9">PORT</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">8080</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">private</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">static</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">final</span><span style="color: #C9D1D9"> String</span><span style="color: #FFA657"> </span><span style="color: #C9D1D9">LOG_FILEPATH</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"access.log"</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">private</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">static</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">final</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">int</span><span style="color: #FFA657"> </span><span style="color: #C9D1D9">BUFFER_SIZE</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">4096</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">public</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">static</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">void</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">main</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">String</span><span style="color: #C9D1D9">[] </span><span style="color: #FFA657">args</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">try</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">            ServerSocket</span><span style="color: #FFA657"> </span><span style="color: #C9D1D9">serverSocket</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">new</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">ServerSocket</span><span style="color: #C9D1D9">(PORT);</span></span>
+<span class="line"><span style="color: #C9D1D9">            System.out.</span><span style="color: #D2A8FF">printf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Listening on %s:%d...</span><span style="color: #79C0FF">\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, serverSocket.</span><span style="color: #D2A8FF">getInetAddress</span><span style="color: #C9D1D9">().</span><span style="color: #D2A8FF">getHostAddress</span><span style="color: #C9D1D9">(), PORT);</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">while</span><span style="color: #C9D1D9"> (</span><span style="color: #79C0FF">true</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">                Socket</span><span style="color: #FFA657"> </span><span style="color: #C9D1D9">clientSocket</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> serverSocket.</span><span style="color: #D2A8FF">accept</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">                </span><span style="color: #D2A8FF">handleConnection</span><span style="color: #C9D1D9">(clientSocket);</span></span>
+<span class="line"><span style="color: #C9D1D9">                clientSocket.</span><span style="color: #D2A8FF">close</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">            }</span></span>
+<span class="line"><span style="color: #C9D1D9">        } </span><span style="color: #FF7B72">catch</span><span style="color: #C9D1D9"> (IOException </span><span style="color: #FFA657">e</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">            e.</span><span style="color: #D2A8FF">printStackTrace</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">private</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">static</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">void</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">handleConnection</span><span style="color: #C9D1D9">(Socket </span><span style="color: #FFA657">client</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">try</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">            SimpleDateFormat</span><span style="color: #FFA657"> </span><span style="color: #C9D1D9">dateFormat</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">new</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">SimpleDateFormat</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"yyyy-MM-dd HH:mm:ss"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">            String</span><span style="color: #FFA657"> </span><span style="color: #C9D1D9">clientAddress</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> client.</span><span style="color: #D2A8FF">getInetAddress</span><span style="color: #C9D1D9">().</span><span style="color: #D2A8FF">getHostAddress</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">            String</span><span style="color: #FFA657"> </span><span style="color: #C9D1D9">logMessage</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> String.</span><span style="color: #D2A8FF">format</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"%s - %s - GET / HTTP/1.1</span><span style="color: #79C0FF">\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, dateFormat.</span><span style="color: #D2A8FF">format</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">new</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">Date</span><span style="color: #C9D1D9">()), clientAddress);</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">try</span><span style="color: #C9D1D9"> (FileWriter</span><span style="color: #FFA657"> </span><span style="color: #C9D1D9">logFile</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">new</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">FileWriter</span><span style="color: #C9D1D9">(LOG_FILEPATH, </span><span style="color: #79C0FF">true</span><span style="color: #C9D1D9">)) {</span></span>
+<span class="line"><span style="color: #C9D1D9">                logFile.</span><span style="color: #D2A8FF">write</span><span style="color: #C9D1D9">(logMessage);</span></span>
+<span class="line"><span style="color: #C9D1D9">            }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">            OutputStream</span><span style="color: #FFA657"> </span><span style="color: #C9D1D9">out</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> client.</span><span style="color: #D2A8FF">getOutputStream</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">            out.</span><span style="color: #D2A8FF">write</span><span style="color: #C9D1D9">(String.</span><span style="color: #D2A8FF">format</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"HTTP/1.1 200 OK</span><span style="color: #79C0FF">\n</span><span style="color: #A5D6FF">Content-Type: text/plain</span><span style="color: #79C0FF">\n</span><span style="color: #A5D6FF">Content-Length: %d</span><span style="color: #79C0FF">\n\n</span><span style="color: #A5D6FF">%s"</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">19</span><span style="color: #C9D1D9">, dateFormat.</span><span style="color: #D2A8FF">format</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">new</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">Date</span><span style="color: #C9D1D9">())).</span><span style="color: #D2A8FF">getBytes</span><span style="color: #C9D1D9">());</span></span>
+<span class="line"><span style="color: #C9D1D9">            out.</span><span style="color: #D2A8FF">flush</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">        } </span><span style="color: #FF7B72">catch</span><span style="color: #C9D1D9"> (IOException </span><span style="color: #FFA657">e</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">            e.</span><span style="color: #D2A8FF">printStackTrace</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>这个程序使用标准库提供的<code>java.net</code>和<code>java.io</code>包，初始化一个TCP监听器，接受到请求时向客户端返回当前时间，同时在日志文件中记录请求时间和客户端IP地址。</p>
+<h2 id="user-6">user:</h2>
+<p>Rust实现</p>
+<h2 id="assistant-6">assistant:</h2>
+<p>以下是使用Rust编写一个简单的HTTP服务器的示例代码：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">use</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">std</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">io</span><span style="color: #FF7B72">::</span><span style="color: #C9D1D9">{</span><span style="color: #FFA657">Read</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">Write</span><span style="color: #C9D1D9">};</span></span>
+<span class="line"><span style="color: #FF7B72">use</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">std</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">net</span><span style="color: #FF7B72">::</span><span style="color: #C9D1D9">{</span><span style="color: #FFA657">TcpListener</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">TcpStream</span><span style="color: #C9D1D9">};</span></span>
+<span class="line"><span style="color: #FF7B72">use</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">std</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">fs</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">OpenOptions</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #FF7B72">use</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">std</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">time</span><span style="color: #FF7B72">::</span><span style="color: #C9D1D9">{</span><span style="color: #FFA657">SystemTime</span><span style="color: #C9D1D9">, UNIX_EPOCH};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">PORT</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">'</span><span style="color: #FFA657">static</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">str</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"8080"</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">LOG_FILEPATH</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">'</span><span style="color: #FFA657">static</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">str</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"access.log"</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">fn</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">main</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> listener </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">TcpListener</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">bind</span><span style="color: #C9D1D9">(</span><span style="color: #D2A8FF">format!</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"127.0.0.1:{}"</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">PORT</span><span style="color: #C9D1D9">))</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">expect</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Failed to bind to socket"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">println!</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Listening on 127.0.0.1:{}"</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">PORT</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">for</span><span style="color: #C9D1D9"> stream </span><span style="color: #FF7B72">in</span><span style="color: #C9D1D9"> listener</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">incoming</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> stream </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> stream</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">expect</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Failed to establish connection"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">handle_connection</span><span style="color: #C9D1D9">(stream);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">fn</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">handle_connection</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">mut</span><span style="color: #C9D1D9"> stream</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">TcpStream</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> client_address </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> stream</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">peer_addr</span><span style="color: #C9D1D9">()</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">unwrap</span><span style="color: #C9D1D9">()</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">ip</span><span style="color: #C9D1D9">()</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">to_string</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> timestamp </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">SystemTime</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">now</span><span style="color: #C9D1D9">()</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">duration_since</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">UNIX_EPOCH</span><span style="color: #C9D1D9">)</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">unwrap</span><span style="color: #C9D1D9">()</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">as_secs</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">mut</span><span style="color: #C9D1D9"> log_file </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">OpenOptions</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">new</span><span style="color: #C9D1D9">()</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">append</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">true</span><span style="color: #C9D1D9">)</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">open</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">LOG_FILEPATH</span><span style="color: #C9D1D9">)</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">expect</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Failed to open log file"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> response </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">format!</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"HTTP/1.1 200 OK</span><span style="color: #79C0FF">\r\n</span><span style="color: #A5D6FF">Content-Type: text/plain</span><span style="color: #79C0FF">\r\n</span><span style="color: #A5D6FF">Content-Length: {}</span><span style="color: #79C0FF">\r\n\r\n</span><span style="color: #A5D6FF">{}"</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">19</span><span style="color: #C9D1D9">, timestamp);</span></span>
+<span class="line"><span style="color: #C9D1D9">    stream</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">write</span><span style="color: #C9D1D9">(response</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">as_bytes</span><span style="color: #C9D1D9">())</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">expect</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Failed to send response"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> log_message </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">format!</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"{} - {} - GET / HTTP/1.1</span><span style="color: #79C0FF">\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, timestamp, client_address);</span></span>
+<span class="line"><span style="color: #C9D1D9">    log_file</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">write</span><span style="color: #C9D1D9">(log_message</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">as_bytes</span><span style="color: #C9D1D9">())</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">expect</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Failed to write to log file"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>这个程序使用标准库提供的<code>std::net</code>和<code>std::io</code>模块，初始化一个TCP监听器，接受到请求时向客户端返回当前时间，同时在日志文件中记录请求时间和客户端IP地址。</p>
+<h2 id="user-7">user:</h2>
+<p>rust开发一个简单安卓应用</p>
+<h2 id="assistant-7">assistant:</h2>
+<p>开发一个安卓应用，需要使用Rust的Android工具链和Android SDK，以及在Rust中使用Java Native Interface（JNI）来调用Android的Java API。</p>
+<p>以下是一个简单的安卓应用，使用Rust编写逻辑，Java作为UI层：</p>
+<p>首先需要在命令行中获取安卓SDK的路径：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">$ echo $ANDROID_SDK_ROOT</span></span>
+<span class="line"><span style="color: #c9d1d9">/path/to/android/sdk</span></span></code></pre>
+<p>接着创建一个新的安卓项目：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">$ cargo install cargo-apk</span></span>
+<span class="line"><span style="color: #c9d1d9">$ cargo apk new simple-android-app</span></span>
+<span class="line"><span style="color: #c9d1d9">$ cd simple-android-app</span></span></code></pre>
+<p>然后将<code>build.gradle</code>文件的<code>android</code>部分替换为以下内容：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">android {</span></span>
+<span class="line"><span style="color: #c9d1d9">    compileSdkVersion 30</span></span>
+<span class="line"><span style="color: #c9d1d9">    buildToolsVersion "30.0.3"</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">    defaultConfig {</span></span>
+<span class="line"><span style="color: #c9d1d9">        applicationId "com.example.simpleandroidapp"</span></span>
+<span class="line"><span style="color: #c9d1d9">        minSdkVersion 24</span></span>
+<span class="line"><span style="color: #c9d1d9">        targetSdkVersion 30</span></span>
+<span class="line"><span style="color: #c9d1d9">        versionCode 1</span></span>
+<span class="line"><span style="color: #c9d1d9">        versionName "0.1.0"</span></span>
+<span class="line"><span style="color: #c9d1d9">        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"</span></span>
+<span class="line"><span style="color: #c9d1d9">    }</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">    sourceSets {</span></span>
+<span class="line"><span style="color: #c9d1d9">        main {</span></span>
+<span class="line"><span style="color: #c9d1d9">            jni.srcDirs = ['src/main/jni']</span></span>
+<span class="line"><span style="color: #c9d1d9">            jniLibs.srcDirs = ['../app/src/main/jniLibs']</span></span>
+<span class="line"><span style="color: #c9d1d9">        }</span></span>
+<span class="line"><span style="color: #c9d1d9">    }</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">    buildTypes {</span></span>
+<span class="line"><span style="color: #c9d1d9">        release {</span></span>
+<span class="line"><span style="color: #c9d1d9">            minifyEnabled false</span></span>
+<span class="line"><span style="color: #c9d1d9">            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'</span></span>
+<span class="line"><span style="color: #c9d1d9">        }</span></span>
+<span class="line"><span style="color: #c9d1d9">    }</span></span>
+<span class="line"><span style="color: #c9d1d9">}</span></span></code></pre>
+<p>然后在<code>src/main/jni/</code>目录下创建一个<code>lib.rs</code>文件，编写Rust逻辑：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">#[no_mangle]</span></span>
+<span class="line"><span style="color: #FF7B72">pub</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">extern</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"C"</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">fn</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">rust_sum</span><span style="color: #C9D1D9">(a</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">i32</span><span style="color: #C9D1D9">, b</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">i32</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">-></span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">i32</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    a </span><span style="color: #FF7B72">+</span><span style="color: #C9D1D9"> b</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>保存文件后，在命令行中使用以下命令编译Rust代码，生成测试用例：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">$ cargo apk build -p rust-libs</span></span></code></pre>
+<p>然后在<code>src/main/java/com/example/simpleandroidapp/MainActivity.java</code>中使用JNI调用Rust代码：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">package</span><span style="color: #C9D1D9"> com.example.simpleandroidapp;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> androidx.appcompat.app.AppCompatActivity;</span></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> android.os.Bundle;</span></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> android.widget.TextView;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">public</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">class</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">MainActivity</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">extends</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">AppCompatActivity</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">static</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    System.</span><span style="color: #D2A8FF">loadLibrary</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"simple_android_app"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">private</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">native</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">int</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">rust_sum</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">int</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">a</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">int</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">b</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">  @</span><span style="color: #FF7B72">Override</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">protected</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">void</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">onCreate</span><span style="color: #C9D1D9">(Bundle </span><span style="color: #FFA657">savedInstanceState</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">super</span><span style="color: #C9D1D9">.</span><span style="color: #D2A8FF">onCreate</span><span style="color: #C9D1D9">(savedInstanceState);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">setContentView</span><span style="color: #C9D1D9">(R.layout.activity_main);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    TextView</span><span style="color: #FFA657"> </span><span style="color: #C9D1D9">textView</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">findViewById</span><span style="color: #C9D1D9">(R.id.result_text);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">int</span><span style="color: #FFA657"> </span><span style="color: #C9D1D9">result</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">rust_sum</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    textView.</span><span style="color: #D2A8FF">setText</span><span style="color: #C9D1D9">(String.</span><span style="color: #D2A8FF">format</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"%d + %d = %d"</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9">, result));</span></span>
+<span class="line"><span style="color: #C9D1D9">  }</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>最后，在命令行中使用以下命令生成APK并安装到模拟器或真机中：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">$ cargo apk install</span></span></code></pre>
+<p>这样就完成了一个简单的安卓应用，使用Rust编写逻辑，Java作为UI层。</p>
+<h2 id="user-8">user:</h2>
+<p>golang开发</p>
+<h2 id="assistant-8">assistant:</h2>
+<p>Go是一个开源的编程语言，适合高并发、分布式、网络编程等场景。以下是一个简单的Go程序示例，实现了从终端读入用户输入，输出到控制台的功能。</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">package</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">main</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> (</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">bufio</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">fmt</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">os</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">func</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">main</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">    reader </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> bufio.</span><span style="color: #79C0FF">NewReader</span><span style="color: #C9D1D9">(os.Stdin)</span></span>
+<span class="line"><span style="color: #C9D1D9">    fmt.</span><span style="color: #79C0FF">Println</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"请输入字符串："</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    input, _ </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> reader.</span><span style="color: #79C0FF">ReadString</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'</span><span style="color: #79C0FF">\n</span><span style="color: #A5D6FF">'</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    fmt.</span><span style="color: #79C0FF">Println</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"你输入的是："</span><span style="color: #C9D1D9">, input)</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>这个程序使用了<code>bufio</code>和<code>os</code>库，<code>bufio.NewReader</code>创建一个新的<code>io.Reader</code>对象，从<code>os.Stdin</code>（标准输入）读取用户输入的内容。<code>fmt.Println</code>将输入的内容输出到控制台。</p>
+<h2 id="user-9">user:</h2>
+<p>golang开发一个安卓应用</p>
+<h2 id="assistant-9">assistant:</h2>
+<p>开发一个安卓应用，需要使用Go的gomobile工具和Android SDK，以及在Go中使用cgo调用Android的C API。</p>
+<p>以下是一个简单的安卓应用，使用Go编写逻辑，Java作为UI层：</p>
+<p>首先需要在命令行中获取安卓SDK的路径：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">$ echo $ANDROID_SDK_ROOT</span></span>
+<span class="line"><span style="color: #c9d1d9">/path/to/android/sdk</span></span></code></pre>
+<p>接着使用gomobile创建一个新的安卓库：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">$ gomobile init</span></span>
+<span class="line"><span style="color: #c9d1d9">$ gomobile bind -target=android -o simple-android-app.aar github.com/myname/simple-android-app</span></span></code></pre>
+<p>然后将<code>build.gradle</code>文件的<code>android</code>部分替换为以下内容：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">android {</span></span>
+<span class="line"><span style="color: #c9d1d9">    compileSdkVersion 30</span></span>
+<span class="line"><span style="color: #c9d1d9">    buildToolsVersion "30.0.3"</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">    defaultConfig {</span></span>
+<span class="line"><span style="color: #c9d1d9">        applicationId "com.example.simpleandroidapp"</span></span>
+<span class="line"><span style="color: #c9d1d9">        minSdkVersion 24</span></span>
+<span class="line"><span style="color: #c9d1d9">        targetSdkVersion 30</span></span>
+<span class="line"><span style="color: #c9d1d9">        versionCode 1</span></span>
+<span class="line"><span style="color: #c9d1d9">        versionName "0.1.0"</span></span>
+<span class="line"><span style="color: #c9d1d9">        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"</span></span>
+<span class="line"><span style="color: #c9d1d9">    }</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">    sourceSets {</span></span>
+<span class="line"><span style="color: #c9d1d9">        main {</span></span>
+<span class="line"><span style="color: #c9d1d9">            jniLibs.srcDirs = ['../app/src/main/jniLibs']</span></span>
+<span class="line"><span style="color: #c9d1d9">        }</span></span>
+<span class="line"><span style="color: #c9d1d9">    }</span></span>
+<span class="line"><span style="color: #c9d1d9"></span></span>
+<span class="line"><span style="color: #c9d1d9">    buildTypes {</span></span>
+<span class="line"><span style="color: #c9d1d9">        release {</span></span>
+<span class="line"><span style="color: #c9d1d9">            minifyEnabled false</span></span>
+<span class="line"><span style="color: #c9d1d9">            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'</span></span>
+<span class="line"><span style="color: #c9d1d9">        }</span></span>
+<span class="line"><span style="color: #c9d1d9">    }</span></span>
+<span class="line"><span style="color: #c9d1d9">}</span></span></code></pre>
+<p>然后在Go代码中使用cgo调用安卓C API：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">package</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">main</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8B949E">// #include &#x3C;jni.h></span></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">C</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> (</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">log</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">unsafe</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8B949E">//export Java_com_example_simpleandroidapp_MainActivity_callNativeFunction</span></span>
+<span class="line"><span style="color: #FF7B72">func</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">Java_com_example_simpleandroidapp_MainActivity_callNativeFunction</span><span style="color: #C9D1D9">(env </span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9">C.JNIEnv, obj C.jobject, str C.jstring) {</span></span>
+<span class="line"><span style="color: #C9D1D9">	strChars, free </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> C.</span><span style="color: #79C0FF">GoString</span><span style="color: #C9D1D9">(C.</span><span style="color: #79C0FF">JS</span><span style="color: #C9D1D9">(str)), </span><span style="color: #FF7B72">func</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">		C.</span><span style="color: #79C0FF">free</span><span style="color: #C9D1D9">(unsafe.</span><span style="color: #79C0FF">Pointer</span><span style="color: #C9D1D9">(strChars))</span></span>
+<span class="line"><span style="color: #C9D1D9">	}</span></span>
+<span class="line"><span style="color: #C9D1D9">	</span><span style="color: #FF7B72">defer</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">free</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">	log.</span><span style="color: #79C0FF">Printf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Call Native Function: </span><span style="color: #79C0FF">%s</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, strChars)</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>在这个例子中，我们使用了<code>log</code>库打印输出，通过在Go代码中定义<code>export</code>函数来使Java代码能够调用它，并使用Go的<code>unsafe</code>包中的<code>Pointer</code>类型安全地传递指针参数。</p>
+<p>最后，在<code>AndroidManifest.xml</code>文件中添加权限：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #7EE787">uses-permission</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">android:name</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"android.permission.INTERNET"</span><span style="color: #C9D1D9"> /></span></span></code></pre>
+<p>在<code>MainActivity.java</code>中调用该函数：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">package</span><span style="color: #C9D1D9"> com.example.simpleandroidapp;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> androidx.appcompat.app.AppCompatActivity;</span></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> android.os.Bundle;</span></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> android.util.Log;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">public</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">class</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">MainActivity</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">extends</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">AppCompatActivity</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">static</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        System.</span><span style="color: #D2A8FF">loadLibrary</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"simple-android-app"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">private</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">native</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">void</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">callNativeFunction</span><span style="color: #C9D1D9">(String </span><span style="color: #FFA657">msg</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    @</span><span style="color: #FF7B72">Override</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">protected</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">void</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">onCreate</span><span style="color: #C9D1D9">(Bundle </span><span style="color: #FFA657">savedInstanceState</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #79C0FF">super</span><span style="color: #C9D1D9">.</span><span style="color: #D2A8FF">onCreate</span><span style="color: #C9D1D9">(savedInstanceState);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">setContentView</span><span style="color: #C9D1D9">(R.layout.activity_main);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">callNativeFunction</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Hello from Java!"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">        Log.</span><span style="color: #D2A8FF">i</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"MainActivity"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"Call Native Function: Hello from Java!"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>最后，在命令行中使用以下命令生成APK并安装到模拟器或真机中：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">$ gradle assembleDebug</span></span>
+<span class="line"><span style="color: #c9d1d9">$ adb install -r app/build/outputs/apk/debug/app-debug.apk</span></span></code></pre>
+<p>这样就完成了一个简单的安卓应用，使用Go编写逻辑，Java作为UI层。</p>
+<h2 id="user-10">user:</h2>
+<p>golang最新版本</p>
+<h2 id="assistant-10">assistant:</h2>
+<p>当前最新版本的Go是1.16。它于2021年2月16日发布。你可以从官方网站（<a href="https://golang.org/dl/%EF%BC%89%E4%B8%8B%E8%BD%BD%E9%80%82%E5%90%88%E4%BD%A0%E7%9A%84%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E8%A3%85%E5%8C%85%E8%BF%9B%E8%A1%8C%E5%AE%89%E8%A3%85%E3%80%82%E9%99%A4%E6%AD%A4%E4%B9%8B%E5%A4%96%EF%BC%8C%E8%BF%98%E5%8F%AF%E4%BB%A5%E4%BB%8E%E6%BA%90%E7%A0%81%E8%BF%9B%E8%A1%8C%E5%AE%89%E8%A3%85%E3%80%82">https://golang.org/dl/）下载适合你的操作系统的二进制安装包进行安装。除此之外，还可以从源码进行安装。</a></p>
+<h2 id="user-11">user:</h2>
+<p>rust最新版本</p>
+<h2 id="assistant-11">assistant:</h2>
+<p>当前最新版本的Rust是1.51.0，它于2021年3月25日发布。你可以从官方网站（<a href="https://www.rust-lang.org/tools/install%EF%BC%89%E4%B8%8B%E8%BD%BD%E9%80%82%E5%90%88%E4%BD%A0%E7%9A%84%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E8%A3%85%E7%A8%8B%E5%BA%8F%E8%BF%9B%E8%A1%8C%E5%AE%89%E8%A3%85%E3%80%82%E9%99%A4%E6%AD%A4%E4%B9%8B%E5%A4%96%EF%BC%8C%E8%BF%98%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8rustup%E5%B7%A5%E5%85%B7%E8%BF%9B%E8%A1%8C%E5%AE%89%E8%A3%85%E6%88%96%E5%8D%87%E7%BA%A7%E3%80%82%E5%85%B6%E4%B8%AD%EF%BC%8Crustup%E6%98%AF%E4%B8%80%E4%B8%AA%E7%94%A8%E4%BA%8E%E7%AE%A1%E7%90%86Rust%E7%89%88%E6%9C%AC%E5%92%8C%E7%BB%84%E4%BB%B6%EF%BC%88%E4%BE%8B%E5%A6%82%EF%BC%8C%E5%B7%A5%E5%85%B7%E9%93%BE%E3%80%81%E5%BA%93%E7%AD%89%EF%BC%89%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7%E3%80%82%E5%8F%AF%E4%BB%A5%E9%80%9A%E8%BF%87%E8%BF%90%E8%A1%8C%E4%BB%A5%E4%B8%8B%E5%91%BD%E4%BB%A4%E5%AE%89%E8%A3%85rustup%EF%BC%9A">https://www.rust-lang.org/tools/install）下载适合你的操作系统的二进制安装程序进行安装。除此之外，还可以使用rustup工具进行安装或升级。其中，rustup是一个用于管理Rust版本和组件（例如，工具链、库等）的命令行工具。可以通过运行以下命令安装rustup：</a></p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh</span></span></code></pre>
+<p>安装完成后，可以通过运行以下命令升级到最新版本：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">rustup update stable</span></span></code></pre>
+<h2 id="user-12">user:</h2>
+<p>golang实现一个http服务器，接受一个汉字，返回汉字对应的粤语注音和闽南语注音</p>
+<h2 id="assistant-12">assistant:</h2>
+<p>这里是一个简单的例子，可以实现一个HTTP服务器，接收GET请求中的汉字参数，并返回汉字对应的粤语注音和闽南语注音。</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">package</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">main</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> (</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">fmt</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">net/http</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">github.com/mozillazg/go-pinyin</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">type</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">result</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">struct</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    Mandarin </span><span style="color: #FF7B72">string</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">`json:"mandarin"`</span></span>
+<span class="line"><span style="color: #C9D1D9">    Cantonese </span><span style="color: #FF7B72">string</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">`json:"cantonese"`</span></span>
+<span class="line"><span style="color: #C9D1D9">    Minnan </span><span style="color: #FF7B72">string</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">`json:"minnan"`</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">func</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">main</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">    http.</span><span style="color: #79C0FF">HandleFunc</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"/pinyin"</span><span style="color: #C9D1D9">, handlePinyin)</span></span>
+<span class="line"><span style="color: #C9D1D9">    http.</span><span style="color: #79C0FF">ListenAndServe</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">":8080"</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">nil</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">func</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">handlePinyin</span><span style="color: #C9D1D9">(w http.ResponseWriter, r </span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9">http.Request) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    queryValues </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> r.URL.</span><span style="color: #79C0FF">Query</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">    word </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> queryValues.</span><span style="color: #79C0FF">Get</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"word"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> word </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">""</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        http.</span><span style="color: #79C0FF">Error</span><span style="color: #C9D1D9">(w, </span><span style="color: #A5D6FF">"Missing parameter 'word'"</span><span style="color: #C9D1D9">, http.StatusBadRequest)</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">return</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    pinyinArgs </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> pinyin.</span><span style="color: #79C0FF">NewArgs</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">    cantoneseArgs </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> pinyinArgs</span></span>
+<span class="line"><span style="color: #C9D1D9">    cantoneseArgs.Style </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> pinyin.Tone3</span></span>
+<span class="line"><span style="color: #C9D1D9">    minnanArgs </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> pinyinArgs</span></span>
+<span class="line"><span style="color: #C9D1D9">    minnanArgs.Heteronym </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">true</span></span>
+<span class="line"><span style="color: #C9D1D9">    minnanArgs.Style </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> pinyin.Tone3</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    mandarin </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> pinyin.</span><span style="color: #79C0FF">Pinyin</span><span style="color: #C9D1D9">(word, pinyinArgs)</span></span>
+<span class="line"><span style="color: #C9D1D9">    cantonese </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> pinyin.</span><span style="color: #79C0FF">Pinyin</span><span style="color: #C9D1D9">(word, cantoneseArgs)</span></span>
+<span class="line"><span style="color: #C9D1D9">    minnan </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> pinyin.</span><span style="color: #79C0FF">Pinyin</span><span style="color: #C9D1D9">(word, minnanArgs)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    resp </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> result{</span></span>
+<span class="line"><span style="color: #C9D1D9">        Mandarin: </span><span style="color: #79C0FF">mandarinToStr</span><span style="color: #C9D1D9">(mandarin),</span></span>
+<span class="line"><span style="color: #C9D1D9">        Cantonese: </span><span style="color: #79C0FF">mandarinToStr</span><span style="color: #C9D1D9">(cantonese),</span></span>
+<span class="line"><span style="color: #C9D1D9">        Minnan: </span><span style="color: #79C0FF">mandarinToStr</span><span style="color: #C9D1D9">(minnan),</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">writeJSON</span><span style="color: #C9D1D9">(w, resp)</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">func</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">mandarinToStr</span><span style="color: #C9D1D9">(m PinyinSlice) </span><span style="color: #FF7B72">string</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    ret </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">""</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">for</span><span style="color: #C9D1D9"> _, p </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">range</span><span style="color: #C9D1D9"> m {</span></span>
+<span class="line"><span style="color: #C9D1D9">        ret </span><span style="color: #FF7B72">+=</span><span style="color: #C9D1D9"> p[</span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">] </span><span style="color: #FF7B72">+</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">" "</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> ret</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">type</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">PinyinSlice</span><span style="color: #C9D1D9"> [][]</span><span style="color: #FF7B72">string</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">func</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">writeJSON</span><span style="color: #C9D1D9">(w http.ResponseWriter, v </span><span style="color: #FF7B72">interface</span><span style="color: #C9D1D9">{}) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    w.</span><span style="color: #79C0FF">Header</span><span style="color: #C9D1D9">().</span><span style="color: #79C0FF">Set</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Content-Type"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"application/json"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> err </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> json.</span><span style="color: #79C0FF">NewEncoder</span><span style="color: #C9D1D9">(w).</span><span style="color: #79C0FF">Encode</span><span style="color: #C9D1D9">(v); err </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">nil</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        http.</span><span style="color: #79C0FF">Error</span><span style="color: #C9D1D9">(w, fmt.</span><span style="color: #79C0FF">Sprintf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"failed to marshal JSON: </span><span style="color: #79C0FF">%v</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, err), http.StatusInternalServerError)</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>这个例子使用了<a href="https://github.com/mozillazg/go-pinyin">go-pinyin</a>这个库来辅助生成汉字的注音。该库可以生成不同样式的注音，包括普通话、粤语、闽南语等。在上面的例子中，我们调用<code>Pinyin()</code>方法三次，以生成普通话、粤语和闽南语的注音。</p>
+<p>当然，你也可以使用其它的库，或者临时实现一个注音转换器来完成这个例子。</p>
+<h2 id="user-13">user:</h2>
+<p>C++实现一个服务器，接受一个汉字，返回汉字的粤语注音和闽南语注音</p>
+<h2 id="assistant-13">assistant:</h2>
+<p>这里是一个示例代码，可以实现一个服务器，接收GET请求中的汉字参数，并返回汉字的粤语注音和闽南语注音。</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;iostream></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;string></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;map></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;cpprest/http_listener.h></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;cpprest/json.h></span></span>
+<span class="line"><span style="color: #FF7B72">#include</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#x3C;pinyin.h></span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">using</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">namespace</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">web</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #FF7B72">using</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">namespace</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">web</span><span style="color: #C9D1D9">::</span><span style="color: #FFA657">http</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #FF7B72">using</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">namespace</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">web</span><span style="color: #C9D1D9">::</span><span style="color: #FFA657">http</span><span style="color: #C9D1D9">::</span><span style="color: #FFA657">experimental</span><span style="color: #C9D1D9">::</span><span style="color: #FFA657">listener</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #FF7B72">using</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">namespace</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">std</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">map</span><span style="color: #FF7B72">&#x3C;</span><span style="color: #C9D1D9">wstring, wstring</span><span style="color: #FF7B72">></span><span style="color: #C9D1D9"> mandarin_to_cantonese;</span></span>
+<span class="line"><span style="color: #C9D1D9">map</span><span style="color: #FF7B72">&#x3C;</span><span style="color: #C9D1D9">wstring, wstring</span><span style="color: #FF7B72">></span><span style="color: #C9D1D9"> mandarin_to_minnan;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FFA657">wstring</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">pinyin_to_string</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">vector</span><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FFA657">wstring</span><span style="color: #C9D1D9">></span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">pinyin</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    wstring ret;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">for</span><span style="color: #C9D1D9"> (</span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">auto&#x26;</span><span style="color: #C9D1D9"> py : pinyin) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        ret </span><span style="color: #FF7B72">+=</span><span style="color: #C9D1D9"> py </span><span style="color: #FF7B72">+</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">L" "</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> ret;</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">void</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">handle_get</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">http_request</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">req</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">auto</span><span style="color: #C9D1D9"> word </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> req.</span><span style="color: #D2A8FF">relative_uri</span><span style="color: #C9D1D9">().</span><span style="color: #D2A8FF">query</span><span style="color: #C9D1D9">().</span><span style="color: #D2A8FF">find</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">L"word"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (word </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">wstring</span><span style="color: #C9D1D9">::npos) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        req.</span><span style="color: #D2A8FF">reply</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">status_codes</span><span style="color: #C9D1D9">::BadRequest, </span><span style="color: #A5D6FF">L"Missing parameter 'word'"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    wstring hanzi </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">uri</span><span style="color: #C9D1D9">::</span><span style="color: #D2A8FF">decode</span><span style="color: #C9D1D9">(req.</span><span style="color: #D2A8FF">relative_uri</span><span style="color: #C9D1D9">().</span><span style="color: #D2A8FF">query</span><span style="color: #C9D1D9">().</span><span style="color: #D2A8FF">substr</span><span style="color: #C9D1D9">(word </span><span style="color: #FF7B72">+</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">5</span><span style="color: #C9D1D9">));</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (hanzi.</span><span style="color: #D2A8FF">empty</span><span style="color: #C9D1D9">()) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        req.</span><span style="color: #D2A8FF">reply</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">status_codes</span><span style="color: #C9D1D9">::BadRequest, </span><span style="color: #A5D6FF">L"Invalid parameter 'word'"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">auto</span><span style="color: #C9D1D9"> args </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">pinyin</span><span style="color: #C9D1D9">::</span><span style="color: #D2A8FF">Args</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">auto</span><span style="color: #C9D1D9"> cantonese_args </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> args;</span></span>
+<span class="line"><span style="color: #C9D1D9">    cantonese_args.style </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">pinyin</span><span style="color: #C9D1D9">::</span><span style="color: #FFA657">Style</span><span style="color: #C9D1D9">::TONE3;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">auto</span><span style="color: #C9D1D9"> minnan_args </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> args;</span></span>
+<span class="line"><span style="color: #C9D1D9">    minnan_args.heteronym </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">true</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    minnan_args.style </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">pinyin</span><span style="color: #C9D1D9">::</span><span style="color: #FFA657">Style</span><span style="color: #C9D1D9">::TONE3;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">auto</span><span style="color: #C9D1D9"> mandarin_pinyin </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">pinyin</span><span style="color: #C9D1D9">::</span><span style="color: #D2A8FF">lazy_pinyin</span><span style="color: #C9D1D9">(hanzi, args);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">auto</span><span style="color: #C9D1D9"> cantonese_pinyin </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">pinyin</span><span style="color: #C9D1D9">::</span><span style="color: #D2A8FF">lazy_pinyin</span><span style="color: #C9D1D9">(hanzi, cantonese_args);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">auto</span><span style="color: #C9D1D9"> minnan_pinyin </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">pinyin</span><span style="color: #C9D1D9">::</span><span style="color: #D2A8FF">lazy_pinyin</span><span style="color: #C9D1D9">(hanzi, minnan_args);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">auto</span><span style="color: #C9D1D9"> mandarin_str </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">pinyin_to_string</span><span style="color: #C9D1D9">(mandarin_pinyin);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">auto</span><span style="color: #C9D1D9"> cantonese_str </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">pinyin_to_string</span><span style="color: #C9D1D9">(cantonese_pinyin);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">auto</span><span style="color: #C9D1D9"> minnan_str </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">pinyin_to_string</span><span style="color: #C9D1D9">(minnan_pinyin);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FFA657">json</span><span style="color: #C9D1D9">::value result;</span></span>
+<span class="line"><span style="color: #C9D1D9">    result[</span><span style="color: #A5D6FF">L"mandarin"</span><span style="color: #C9D1D9">] </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">json</span><span style="color: #C9D1D9">::</span><span style="color: #FFA657">value</span><span style="color: #C9D1D9">::</span><span style="color: #D2A8FF">string</span><span style="color: #C9D1D9">(mandarin_str);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (mandarin_to_cantonese.</span><span style="color: #D2A8FF">count</span><span style="color: #C9D1D9">(hanzi)) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        result[</span><span style="color: #A5D6FF">L"cantonese"</span><span style="color: #C9D1D9">] </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">json</span><span style="color: #C9D1D9">::</span><span style="color: #FFA657">value</span><span style="color: #C9D1D9">::</span><span style="color: #D2A8FF">string</span><span style="color: #C9D1D9">(mandarin_to_cantonese[hanzi]);</span></span>
+<span class="line"><span style="color: #C9D1D9">    } </span><span style="color: #FF7B72">else</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        result[</span><span style="color: #A5D6FF">L"cantonese"</span><span style="color: #C9D1D9">] </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">json</span><span style="color: #C9D1D9">::</span><span style="color: #FFA657">value</span><span style="color: #C9D1D9">::</span><span style="color: #D2A8FF">string</span><span style="color: #C9D1D9">(cantonese_str);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (mandarin_to_minnan.</span><span style="color: #D2A8FF">count</span><span style="color: #C9D1D9">(hanzi)) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        result[</span><span style="color: #A5D6FF">L"minnan"</span><span style="color: #C9D1D9">] </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">json</span><span style="color: #C9D1D9">::</span><span style="color: #FFA657">value</span><span style="color: #C9D1D9">::</span><span style="color: #D2A8FF">string</span><span style="color: #C9D1D9">(mandarin_to_minnan[hanzi]);</span></span>
+<span class="line"><span style="color: #C9D1D9">    } </span><span style="color: #FF7B72">else</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        result[</span><span style="color: #A5D6FF">L"minnan"</span><span style="color: #C9D1D9">] </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">json</span><span style="color: #C9D1D9">::</span><span style="color: #FFA657">value</span><span style="color: #C9D1D9">::</span><span style="color: #D2A8FF">string</span><span style="color: #C9D1D9">(minnan_str);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    req.</span><span style="color: #D2A8FF">reply</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">status_codes</span><span style="color: #C9D1D9">::OK, result);</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">int</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">main</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">    mandarin_to_cantonese[</span><span style="color: #A5D6FF">L"我"</span><span style="color: #C9D1D9">] </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">L"ngo5"</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #8B949E">    // 建立其它汉字的粤语注音映射</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span></span>
+<span class="line"><span style="color: #C9D1D9">    mandarin_to_minnan[</span><span style="color: #A5D6FF">L"我"</span><span style="color: #C9D1D9">] </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">L"guá"</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #8B949E">    // 建立其它汉字的闽南语注音映射</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    http_listener </span><span style="color: #D2A8FF">listener</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">L"http://localhost:8080"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    listener.</span><span style="color: #D2A8FF">support</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">methods</span><span style="color: #C9D1D9">::GET, handle_get);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">try</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        listener.</span><span style="color: #D2A8FF">open</span><span style="color: #C9D1D9">().</span><span style="color: #D2A8FF">wait</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">        cout </span><span style="color: #FF7B72">&#x3C;&#x3C;</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"Listening on "</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&#x3C;&#x3C;</span><span style="color: #C9D1D9"> listener.</span><span style="color: #D2A8FF">uri</span><span style="color: #C9D1D9">().</span><span style="color: #D2A8FF">to_string</span><span style="color: #C9D1D9">() </span><span style="color: #FF7B72">&#x3C;&#x3C;</span><span style="color: #C9D1D9"> endl;</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">while</span><span style="color: #C9D1D9"> (</span><span style="color: #79C0FF">true</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FFA657">this_thread</span><span style="color: #C9D1D9">::</span><span style="color: #D2A8FF">sleep_for</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">chrono</span><span style="color: #C9D1D9">::</span><span style="color: #D2A8FF">seconds</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">));</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"><span style="color: #C9D1D9">    } </span><span style="color: #FF7B72">catch</span><span style="color: #C9D1D9"> (</span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> exception</span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9"> e) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        wcerr </span><span style="color: #FF7B72">&#x3C;&#x3C;</span><span style="color: #C9D1D9"> e.</span><span style="color: #D2A8FF">what</span><span style="color: #C9D1D9">() </span><span style="color: #FF7B72">&#x3C;&#x3C;</span><span style="color: #C9D1D9"> endl;</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>这里使用了<a href="https://github.com/microsoft/cpprestsdk">C++ REST SDK</a>（也称为Casablanca）来构建HTTP服务器和处理HTTP请求。在处理GET请求时，我们从查询参数中获取汉字，使用pinyin库将汉字转换为普通话、粤语和闽南语的注音，并将结果以JSON格式打包返回。同时，我们建立了一个映射表，将某些汉字的粤语注音和闽南语注音直接映射到预定义的值上，以便返回更准确的注音，你可以根据需要进行扩展。</p>
+<p>注意，这个代码示例仅作为参考，实际的应用程序可能需要更多的处理逻辑和错误处理。</p>
+<h2 id="user-14">user:</h2>
+<p>java实现</p>
+<h2 id="assistant-14">assistant:</h2>
+<p>下面是一个简单的Java示例，可以实现一个HTTP服务器，接收GET请求中的汉字参数，并返回汉字的粤语注音和闽南语注音。</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> java.io.IOException;</span></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> java.net.URI;</span></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> java.util.HashMap;</span></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> java.util.Map;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> com.alibaba.fastjson.JSON;</span></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> com.github.promeg.pinyinhelper.Pinyin;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> io.undertow.Handlers;</span></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> io.undertow.Undertow;</span></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> io.undertow.server.HttpHandler;</span></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> io.undertow.server.HttpServerExchange;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">public</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">class</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">PinyinServer</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">private</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">static</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">final</span><span style="color: #C9D1D9"> Map</span><span style="color: #FFA657">&#x3C;</span><span style="color: #FF7B72">String</span><span style="color: #FFA657">, </span><span style="color: #FF7B72">String</span><span style="color: #FFA657">> </span><span style="color: #C9D1D9">mandarinToCantonese</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">new</span><span style="color: #C9D1D9"> HashMap&#x3C;>();</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">private</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">static</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">final</span><span style="color: #C9D1D9"> Map</span><span style="color: #FFA657">&#x3C;</span><span style="color: #FF7B72">String</span><span style="color: #FFA657">, </span><span style="color: #FF7B72">String</span><span style="color: #FFA657">> </span><span style="color: #C9D1D9">mandarinToMinnan</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">new</span><span style="color: #C9D1D9"> HashMap&#x3C;>();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">static</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        mandarinToCantonese.</span><span style="color: #D2A8FF">put</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"我"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"ngo5"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #8B949E">// 建立其它汉字的粤语注音映射</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">        mandarinToMinnan.</span><span style="color: #D2A8FF">put</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"我"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"gua2"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #8B949E">// 建立其它汉字的闽南语注音映射</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">public</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">static</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">void</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">main</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">String</span><span style="color: #C9D1D9">[] </span><span style="color: #FFA657">args</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        Undertow</span><span style="color: #FFA657"> </span><span style="color: #C9D1D9">server</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> Undertow.</span><span style="color: #D2A8FF">builder</span><span style="color: #C9D1D9">().</span><span style="color: #D2A8FF">addHttpListener</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">8080</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"localhost"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">            .</span><span style="color: #D2A8FF">setHandler</span><span style="color: #C9D1D9">(Handlers.</span><span style="color: #D2A8FF">path</span><span style="color: #C9D1D9">().</span><span style="color: #D2A8FF">addPrefixPath</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"/pinyin"</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">new</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">HttpHandler</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">                @</span><span style="color: #FF7B72">Override</span></span>
+<span class="line"><span style="color: #C9D1D9">                </span><span style="color: #FF7B72">public</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">void</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">handleRequest</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">final</span><span style="color: #C9D1D9"> HttpServerExchange </span><span style="color: #FFA657">exchange</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">throws</span><span style="color: #C9D1D9"> IOException {</span></span>
+<span class="line"><span style="color: #C9D1D9">                    String</span><span style="color: #FFA657"> </span><span style="color: #C9D1D9">word</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> exchange.</span><span style="color: #D2A8FF">getQueryParameters</span><span style="color: #C9D1D9">().</span><span style="color: #D2A8FF">get</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"word"</span><span style="color: #C9D1D9">).</span><span style="color: #D2A8FF">getFirst</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">                    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (word </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">null</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">                        exchange.</span><span style="color: #D2A8FF">setStatusCode</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">400</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">                        exchange.</span><span style="color: #D2A8FF">getResponseSender</span><span style="color: #C9D1D9">().</span><span style="color: #D2A8FF">send</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Missing parameter 'word'"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">                        </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">                    }</span></span>
+<span class="line"><span style="color: #C9D1D9">                    word </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> java.net.URLDecoder.</span><span style="color: #D2A8FF">decode</span><span style="color: #C9D1D9">(word, </span><span style="color: #A5D6FF">"UTF-8"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">                    </span><span style="color: #FF7B72">String</span><span style="color: #FFA657">[] </span><span style="color: #C9D1D9">mandarinPinyin</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> Pinyin.</span><span style="color: #D2A8FF">toPinyin</span><span style="color: #C9D1D9">(word, </span><span style="color: #A5D6FF">" "</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">                    </span><span style="color: #FF7B72">String</span><span style="color: #FFA657">[] </span><span style="color: #C9D1D9">cantonesePinyin</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> mandarinToCantonese.</span><span style="color: #D2A8FF">containsKey</span><span style="color: #C9D1D9">(word) </span></span>
+<span class="line"><span style="color: #C9D1D9">                        </span><span style="color: #FF7B72">?</span><span style="color: #C9D1D9"> mandarinToCantonese.</span><span style="color: #D2A8FF">get</span><span style="color: #C9D1D9">(word).</span><span style="color: #D2A8FF">split</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">""</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> Pinyin.</span><span style="color: #D2A8FF">toPinyin</span><span style="color: #C9D1D9">(word, </span><span style="color: #A5D6FF">" "</span><span style="color: #C9D1D9">, Pinyin.TONE3);</span></span>
+<span class="line"><span style="color: #C9D1D9">                    </span><span style="color: #FF7B72">String</span><span style="color: #FFA657">[] </span><span style="color: #C9D1D9">minnanPinyin</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> mandarinToMinnan.</span><span style="color: #D2A8FF">containsKey</span><span style="color: #C9D1D9">(word) </span></span>
+<span class="line"><span style="color: #C9D1D9">                        </span><span style="color: #FF7B72">?</span><span style="color: #C9D1D9"> mandarinToMinnan.</span><span style="color: #D2A8FF">get</span><span style="color: #C9D1D9">(word).</span><span style="color: #D2A8FF">split</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">""</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> Pinyin.</span><span style="color: #D2A8FF">toPinyin</span><span style="color: #C9D1D9">(word, </span><span style="color: #A5D6FF">" "</span><span style="color: #C9D1D9">, Pinyin.TONE3, Pinyin.Heteronym);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">                    Result</span><span style="color: #FFA657"> </span><span style="color: #C9D1D9">result</span><span style="color: #FFA657"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">new</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">Result</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">                    result.mandarin </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> String.</span><span style="color: #D2A8FF">join</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">" "</span><span style="color: #C9D1D9">, mandarinPinyin);</span></span>
+<span class="line"><span style="color: #C9D1D9">                    result.cantonese </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> String.</span><span style="color: #D2A8FF">join</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">""</span><span style="color: #C9D1D9">, cantonesePinyin);</span></span>
+<span class="line"><span style="color: #C9D1D9">                    result.minnan </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> String.</span><span style="color: #D2A8FF">join</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">" "</span><span style="color: #C9D1D9">, minnanPinyin);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">                    exchange.</span><span style="color: #D2A8FF">getResponseHeaders</span><span style="color: #C9D1D9">().</span><span style="color: #D2A8FF">add</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Content-Type"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"application/json"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">                    exchange.</span><span style="color: #D2A8FF">getResponseSender</span><span style="color: #C9D1D9">().</span><span style="color: #D2A8FF">send</span><span style="color: #C9D1D9">(JSON.</span><span style="color: #D2A8FF">toJSONString</span><span style="color: #C9D1D9">(result));</span></span>
+<span class="line"><span style="color: #C9D1D9">                }</span></span>
+<span class="line"><span style="color: #C9D1D9">            })).</span><span style="color: #D2A8FF">build</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">        server.</span><span style="color: #D2A8FF">start</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">        System.out.</span><span style="color: #D2A8FF">println</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Listening on "</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">+</span><span style="color: #C9D1D9"> server.</span><span style="color: #D2A8FF">getListenerInfo</span><span style="color: #C9D1D9">().</span><span style="color: #D2A8FF">get</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">).</span><span style="color: #D2A8FF">getAddress</span><span style="color: #C9D1D9">());</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">static</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">class</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Result</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">public</span><span style="color: #C9D1D9"> String</span><span style="color: #FFA657"> </span><span style="color: #C9D1D9">mandarin;</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">public</span><span style="color: #C9D1D9"> String</span><span style="color: #FFA657"> </span><span style="color: #C9D1D9">cantonese;</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">public</span><span style="color: #C9D1D9"> String</span><span style="color: #FFA657"> </span><span style="color: #C9D1D9">minnan;</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>这个示例使用了<a href="http://undertow.io/">Undertow</a>这个轻量级的Java Web服务器，以及<a href="https://github.com/alibaba/fastjson">fastjson</a>和<a href="https://github.com/houbb/pinyin-helper">pinyin-helper</a>这两个库来完成汉字到注音的转换。当收到GET请求时，我们从查询参数中获取汉字，使用pinyin-helper库将汉字转换为普通话、粤语和闽南语的注音，并将结果打包成JSON格式返回。同时，我们建立了一个映射表，将某些汉字的粤语注音和闽南语注音直接映射到预定义的值上，以便返回更准确的注音，你可以根据需要进行扩展。</p>
+<p>请注意，这个示例仅作为参考，实际的应用程序可能需要更多的处理逻辑和错误处理。</p>
+<h2 id="user-15">user:</h2>
+<p>Rust实现</p>
+<h2 id="assistant-15">assistant:</h2>
+<p>下面是一个简单的Rust示例，可以实现一个HTTP服务器，接收GET请求中的汉字参数，并返回汉字的粤语注音和闽南语注音。</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">use</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">std</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">collections</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">HashMap</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #FF7B72">use</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">std</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">io</span><span style="color: #FF7B72">::</span><span style="color: #C9D1D9">{</span><span style="color: #79C0FF">self</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">Write</span><span style="color: #C9D1D9">};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">use</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">actix_web</span><span style="color: #FF7B72">::</span><span style="color: #C9D1D9">{get, middleware, web, </span><span style="color: #FFA657">App</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">HttpResponse</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">HttpServer</span><span style="color: #C9D1D9">};</span></span>
+<span class="line"><span style="color: #FF7B72">use</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">pinyin</span><span style="color: #FF7B72">::</span><span style="color: #C9D1D9">{lazy_pinyin, </span><span style="color: #FFA657">Args</span><span style="color: #C9D1D9">};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">LOCAL_ADDR</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&#x26;</span><span style="color: #FFA657">str</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">"localhost"</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">PORT</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">u16</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">8080</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #D2A8FF">lazy_static!</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">static</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">ref</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">MANDARIN_TO_CANTONESE</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">HashMap</span><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">'</span><span style="color: #FFA657">static</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">str</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">'</span><span style="color: #FFA657">static</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">str</span><span style="color: #C9D1D9">> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">mut</span><span style="color: #C9D1D9"> map </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">HashMap</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">new</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">        map</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">insert</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"我"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"ngo5"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #8B949E">        // 建立其它汉字的粤语注音映射</span></span>
+<span class="line"><span style="color: #C9D1D9">        map</span></span>
+<span class="line"><span style="color: #C9D1D9">    };</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">static</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">ref</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">MANDRIN_TO_MINNAN</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">HashMap</span><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">'</span><span style="color: #FFA657">static</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">str</span><span style="color: #C9D1D9">, </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">'</span><span style="color: #FFA657">static</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">str</span><span style="color: #C9D1D9">> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">mut</span><span style="color: #C9D1D9"> map </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">HashMap</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">new</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">        map</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">insert</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"我"</span><span style="color: #C9D1D9">, </span><span style="color: #A5D6FF">"guá"</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #8B949E">        // 建立其它汉字的闽南语注音映射</span></span>
+<span class="line"><span style="color: #C9D1D9">        map</span></span>
+<span class="line"><span style="color: #C9D1D9">    };</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">#[derive(serde</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">Serialize</span><span style="color: #C9D1D9">)]</span></span>
+<span class="line"><span style="color: #FF7B72">struct</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">PinyinResult</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    mandarin</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">String</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    cantonese</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">String</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    minnan</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">String</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">impl</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">PinyinResult</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">fn</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">new</span><span style="color: #C9D1D9">(word</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&#x26;</span><span style="color: #FFA657">str</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">-></span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">Self</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> args </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Args</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">new</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> cantonese_args </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Args</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">            style</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">pinyin</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">Style</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">Tone3</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">..</span><span style="color: #C9D1D9">args</span></span>
+<span class="line"><span style="color: #C9D1D9">        };</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> minnan_args </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Args</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">            style</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">pinyin</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">Style</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">Tone3</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">            heteronym</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">true</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">..</span><span style="color: #C9D1D9">args</span></span>
+<span class="line"><span style="color: #C9D1D9">        };</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> mandarin_pinyin </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">lazy_pinyin</span><span style="color: #C9D1D9">(word, </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">args);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> cantonese_pinyin </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Some</span><span style="color: #C9D1D9">(canto) </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">MANDARIN_TO_CANTONESE</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">get</span><span style="color: #C9D1D9">(word) {</span></span>
+<span class="line"><span style="color: #C9D1D9">            canto</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">split</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">""</span><span style="color: #C9D1D9">)</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">skip</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">)</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">collect</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">        } </span><span style="color: #FF7B72">else</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #D2A8FF">lazy_pinyin</span><span style="color: #C9D1D9">(word, </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">cantonese_args)</span></span>
+<span class="line"><span style="color: #C9D1D9">        };</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> minnan_pinyin </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Some</span><span style="color: #C9D1D9">(minnan) </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">MANDRIN_TO_MINNAN</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">get</span><span style="color: #C9D1D9">(word) {</span></span>
+<span class="line"><span style="color: #C9D1D9">            minnan</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">split</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">""</span><span style="color: #C9D1D9">)</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">skip</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">1</span><span style="color: #C9D1D9">)</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">collect</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">        } </span><span style="color: #FF7B72">else</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #D2A8FF">lazy_pinyin</span><span style="color: #C9D1D9">(word, </span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">minnan_args)</span></span>
+<span class="line"><span style="color: #C9D1D9">        };</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #79C0FF">Self</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">            mandarin</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> mandarin_pinyin</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">join</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">" "</span><span style="color: #C9D1D9">),</span></span>
+<span class="line"><span style="color: #C9D1D9">            cantonese</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> cantonese_pinyin</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">join</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">""</span><span style="color: #C9D1D9">),</span></span>
+<span class="line"><span style="color: #C9D1D9">            minnan</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> minnan_pinyin</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">join</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">" "</span><span style="color: #C9D1D9">),</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">#[get(</span><span style="color: #A5D6FF">"/pinyin"</span><span style="color: #C9D1D9">)]</span></span>
+<span class="line"><span style="color: #FF7B72">async</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">fn</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">pinyin_handler</span><span style="color: #C9D1D9">(info</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">web</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">Query</span><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FFA657">HashMap</span><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FFA657">String</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">String</span><span style="color: #C9D1D9">>>) </span><span style="color: #FF7B72">-></span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">HttpResponse</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Some</span><span style="color: #C9D1D9">(word) </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> info</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">get</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"word"</span><span style="color: #C9D1D9">) {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> result </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">PinyinResult</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">new</span><span style="color: #C9D1D9">(word);</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FFA657">HttpResponse</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">Ok</span><span style="color: #C9D1D9">()</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">json</span><span style="color: #C9D1D9">(result)</span></span>
+<span class="line"><span style="color: #C9D1D9">    } </span><span style="color: #FF7B72">else</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FFA657">HttpResponse</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">BadRequest</span><span style="color: #C9D1D9">()</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">body</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Missing parameter 'word'"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">#[actix_rt</span><span style="color: #FF7B72">::</span><span style="color: #C9D1D9">main]</span></span>
+<span class="line"><span style="color: #FF7B72">async</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">fn</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">main</span><span style="color: #C9D1D9">() </span><span style="color: #FF7B72">-></span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">io</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">Result</span><span style="color: #C9D1D9">&#x3C;()> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FFA657">env_logger</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">init</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> bind_address </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">format!</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"{}:{}"</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">LOCAL_ADDR</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">PORT</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> server </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">HttpServer</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">new</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">||</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FFA657">App</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">new</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">wrap</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">middleware</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">Logger</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">default</span><span style="color: #C9D1D9">())</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">service</span><span style="color: #C9D1D9">(pinyin_handler)</span></span>
+<span class="line"><span style="color: #C9D1D9">    })</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">bind</span><span style="color: #C9D1D9">(bind_address)</span><span style="color: #FF7B72">?</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    server</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">run</span><span style="color: #C9D1D9">()</span><span style="color: #FF7B72">.await</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>这个示例使用了<a href="https://actix.rs/">Actix-Web</a>这个高性能的Rust Web框架，以及<a href="https://github.com/mozillazg/rust-pinyin">pinyin</a>这个库来完成汉字到注音的转换。当收到GET请求时，我们从查询参数中获取汉字，使用pinyin库将汉字转换为普通话、粤语和闽南语的注音，并将结果打包成JSON格式返回。同时，我们建立了一个映射表，将某些汉字的粤语注音和闽南语注音直接映射到预定义的值上，以便返回更准确的注音，你可以根据需要进行扩展。</p>
+<p>请注意，这个示例仅作为参考，实际的应用程序可能需要更多的处理逻辑和错误处理。</p>
+<h2 id="user-16">user:</h2>
+<p>golang关于Cantonese的第三方库</p>
+<h2 id="assistant-16">assistant:</h2>
+<p>对于Golang，目前可供使用的粤语拼音库比较少，以下是两个我推荐的第三方库：</p>
+<ol>
+<li><a href="https://github.com/rivoice/go-cantonese">go-cantonese</a>：一个基于 Cantonese Romanization Algorithm (CRA) 的粤语拼音转换库，支持将中文转换为粤语拼音，同时支持将粤语拼音转换为 IPA。使用Go语言编写，API简单易用，无第三方依赖。</li>
+<li><a href="https://github.com/bobliu20/go-yue">go-yue</a>：一个支持粤语拼音、广州话音译的 Golang 语言库，目前支持粤语拼音简体中文，繁体中文和英文的输入。</li>
+</ol>
+<p>这些库都是基于不同的算法实现的，具体使用哪个库还需要根据你的项目需求来决定。</p>
+<h2 id="user-17">user:</h2>
+<p>C++关于cantonese的第三方库</p>
+<h2 id="assistant-17">assistant:</h2>
+<p>C++ 的粤语文本处理库比较少，以下是几个目前可供使用的第三方库：</p>
+<ol>
+<li><a href="https://github.com/klokantech/cantonese-jyutping">cantonese-jyutping</a>：一个使用 C++ 编写的开源粤语拼音转换库，支持将汉字转换成简体字、繁体字拼音和粤语拼音。使用方便，可通过命令行工具、C++ API 或 Python API 调用。</li>
+<li><a href="https://github.com/xieguanglei/ytpinyin">ytpinyin</a>：一个使用 C++ 编写的粤语文本处理库，实现了文本分词、汉字转粤语拼音、粤语拼音转换文字等功能。使用较为灵活，可以实现粤语文本输入法、拼音输入法等应用场景。</li>
+<li><a href="https://github.com/BYVoid/Libcantonese">libopencc-cantonese</a>：一个基于 OpenCC 算法的粤语文本处理库，提供了简体中文与粤语的转换功能。在 OpenCC 的基础上增加了大量粤语专有词汇和特殊表达方式。</li>
+</ol>
+<p>这些库都是基于不同的算法实现的，具体使用哪个库还需要根据你的项目需求来决定。需要注意的是，这些库的稳定性和准确性可能因使用的算法和词库不同而有所区别，因此在选择使用时需要根据实际情况进行评估。</p>
+<h2 id="user-18">user:</h2>
+<p>Java</p>
+<h2 id="assistant-18">assistant:</h2>
+<p>对于 Java，现有的中文文本处理库、拼音库都无法完全支持粤语，但是以下两个第三方库可以较好地支持粤语拼音转换和文本处理：</p>
+<ol>
+<li><a href="https://github.com/ccckmit/ccc-cantonese">ccc-cantonese</a>：基于 Python 实现的粤语拼音转换工具，提供了 Java 版本的 API 和命令行工具。它使用了基于最大匹配算法和中文分词算法的自然语言处理方法，可以根据输入的中文文本自动转换成粤语拼音，并针对一些广州话常见的发音特点进行了优化。虽然它是基于 Python 实现的，但它提供了 Java 版本的 API，可以在 Java 程序中直接调用。</li>
+<li><a href="https://github.com/jszhuti/cantonese-romanization-java">jszhuti/cantonese-romanization-java</a>：一个用于将粤语文本转换成拼音的 Java 库，支持广东音、香港音和潮汕音三种不同方言的转换。它的底层使用了注音码和曾国藩（CGF）拼音两种算法，可根据用户自定义的词库和自定义的优先级进行转换。</li>
+</ol>
+<p>这些库是目前比较常用的 Java 第三方库，都提供了较为简单易用的 API 接口，可以快速集成到你的项目中实现粤语相关的文本处理和拼音转换。</p>
+<h2 id="user-19">user:</h2>
+<p>javascript</p>
+<h2 id="assistant-19">assistant:</h2>
+<p>以下是几个 JavaScript 的粤语文本处理库和拼音库，可以在前端和后端 JavaScript 开发环境中使用：</p>
+<ol>
+<li><a href="https://github.com/longcw/cantonese-romanization">cantonese-romanization</a>：一个基于 JavaScript 实现的粤语文本处理库，支持将中文汉字转换成粤语拼音。它使用了较新的开源粤语拼音词库，并针对常用词汇进行了优化。</li>
+<li><a href="https://github.com/ahkjzz/cantonese-input">cantonese-input</a>：一个用于在 Web 端实现粤语拼音输入法的 JavaScript 库，支持在输入框中输入中文字符，自动转换成粤语拼音，提升用户的输入体验。</li>
+<li><a href="https://github.com/jszhuti/cantonese-romanization-js">jszhuti/cantonese-romanization-js</a>：一个用于在前端 JavaScript 中将中文转换为粤语拼音的库，支持三种方言（广东音、香港音和潮汕音）的拼音转换，使用方便简单。</li>
+</ol>
+<p>这些库都是开源、免费使用的，可以帮助 JavaScript 开发者实现粤语相关的文本处理和拼音转换。需要注意的是，这些库的转换准确度和速度会受到浏览器的支持情况和电脑的性能影响。</p>
+	</body></html>

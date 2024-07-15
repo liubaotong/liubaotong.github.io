@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+		<meta name="generator" content="Astro v2.2.1">
+		<title></title>
+	<link rel="stylesheet" href="/_astro/001.c8750cb8.css" /></head>
+	<body>
+		<h1 id="rust的tokyo如何使用">Rust的Tokyo如何使用</h1>
+<h2 id="user">user:</h2>
+<p>Rust的Tokyo如何使用</p>
+<h2 id="assistant">assistant:</h2>
+<p>要在Rust中使用Tokio，需要在项目的Cargo.toml文件中添加以下依赖项：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">[dependencies]</span></span>
+<span class="line"><span style="color: #c9d1d9">tokio = { version = "1", features = ["full"] }</span></span></code></pre>
+<p>然后在代码中引入Tokio的prelude模块：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">use</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">tokio</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">prelude</span><span style="color: #FF7B72">::*</span><span style="color: #C9D1D9">;</span></span></code></pre>
+<p>接下来，可以使用Tokio的异步I/O功能（例如TcpListener和TcpStream）来编写异步网络应用程序。以下是一个简单的示例，该示例使用Tokio创建一个TCP服务器来监听来自客户端的连接，并将客户端发送的文本消息回显回客户端：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">use</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">tokio</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">net</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">TcpListener</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #FF7B72">use</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">tokio</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">prelude</span><span style="color: #FF7B72">::*</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">#[tokio</span><span style="color: #FF7B72">::</span><span style="color: #C9D1D9">main]</span></span>
+<span class="line"><span style="color: #FF7B72">async</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">fn</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">main</span><span style="color: #C9D1D9">() </span><span style="color: #FF7B72">-></span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Result</span><span style="color: #C9D1D9">&#x3C;(), </span><span style="color: #FFA657">Box</span><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FF7B72">dyn</span><span style="color: #C9D1D9"> std</span><span style="color: #FF7B72">::</span><span style="color: #C9D1D9">error</span><span style="color: #FF7B72">::</span><span style="color: #FFA657">Error</span><span style="color: #C9D1D9">>> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> listener </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">TcpListener</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">bind</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"127.0.0.1:8080"</span><span style="color: #C9D1D9">)</span><span style="color: #FF7B72">.await?</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">loop</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> (</span><span style="color: #FF7B72">mut</span><span style="color: #C9D1D9"> socket, _) </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> listener</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">accept</span><span style="color: #C9D1D9">()</span><span style="color: #FF7B72">.await?</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FFA657">tokio</span><span style="color: #FF7B72">::</span><span style="color: #D2A8FF">spawn</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">async</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">move</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">mut</span><span style="color: #C9D1D9"> buf </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> [</span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">; </span><span style="color: #79C0FF">1024</span><span style="color: #C9D1D9">];</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #FF7B72">loop</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">                </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> n </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> socket</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">read</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">&#x26;mut</span><span style="color: #C9D1D9"> buf)</span><span style="color: #FF7B72">.await?</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">                </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> n </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">                    </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">Ok</span><span style="color: #C9D1D9">(());</span></span>
+<span class="line"><span style="color: #C9D1D9">                }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">                socket</span><span style="color: #FF7B72">.</span><span style="color: #D2A8FF">write_all</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">&#x26;</span><span style="color: #C9D1D9">buf[</span><span style="color: #FF7B72">..</span><span style="color: #C9D1D9">n])</span><span style="color: #FF7B72">.await?</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">            }</span></span>
+<span class="line"><span style="color: #C9D1D9">        });</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>在上面的示例中，使用tokio::main宏来方便地启动异步运行时，创建一个TcpListener并在循环中接受新连接。对于每个连接，启动一个新的Tokio任务，并使用异步读取和写入方法处理连接上的消息。</p>
+<h2 id="assistant-1">assistant:</h2>
+<p>Viper是Go语言的一个强大的配置管理库，可以用于读取、解析和设置配置文件。以下是使用Viper的简单步骤：</p>
+<ol>
+<li>安装Viper库</li>
+</ol>
+<p>使用以下命令安装Viper库：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">go get github.com/spf13/viper</span></span></code></pre>
+<ol start="2">
+<li>创建配置文件</li>
+</ol>
+<p>在项目中创建一个配置文件，例如 config.yaml，包含需要的配置参数，例如：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">app:</span></span>
+<span class="line"><span style="color: #c9d1d9">  name: MyApp</span></span>
+<span class="line"><span style="color: #c9d1d9">  version: 1.0.0</span></span>
+<span class="line"><span style="color: #c9d1d9">database:</span></span>
+<span class="line"><span style="color: #c9d1d9">  host: localhost</span></span>
+<span class="line"><span style="color: #c9d1d9">  port: 3306</span></span>
+<span class="line"><span style="color: #c9d1d9">  username: root</span></span>
+<span class="line"><span style="color: #c9d1d9">  password: password</span></span></code></pre>
+<ol start="3">
+<li>读取配置文件</li>
+</ol>
+<p>使用Viper库来读取配置文件，并解析其中的配置参数。以下是一个简单的示例：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">package</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">main</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> (</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">fmt</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #A5D6FF">"</span><span style="color: #FFA657">github.com/spf13/viper</span><span style="color: #A5D6FF">"</span></span>
+<span class="line"><span style="color: #C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">func</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">main</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 设置配置文件名和路径</span></span>
+<span class="line"><span style="color: #C9D1D9">    viper.</span><span style="color: #79C0FF">SetConfigName</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"config"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    viper.</span><span style="color: #79C0FF">AddConfigPath</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"."</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 设置配置文件类型</span></span>
+<span class="line"><span style="color: #C9D1D9">    viper.</span><span style="color: #79C0FF">SetConfigType</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"yaml"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 读取配置文件</span></span>
+<span class="line"><span style="color: #C9D1D9">    err </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> viper.</span><span style="color: #79C0FF">ReadInConfig</span><span style="color: #C9D1D9">()</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> err </span><span style="color: #FF7B72">!=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">nil</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        fmt.</span><span style="color: #79C0FF">Printf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Failed to read configuration file: </span><span style="color: #79C0FF">%v\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, err)</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">return</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 获取配置参数</span></span>
+<span class="line"><span style="color: #C9D1D9">    appName </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> viper.</span><span style="color: #79C0FF">GetString</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"app.name"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    appVersion </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> viper.</span><span style="color: #79C0FF">GetString</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"app.version"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    dbHost </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> viper.</span><span style="color: #79C0FF">GetString</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"database.host"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    dbPort </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> viper.</span><span style="color: #79C0FF">GetInt</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"database.port"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    dbUsername </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> viper.</span><span style="color: #79C0FF">GetString</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"database.username"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">    dbPassword </span><span style="color: #FF7B72">:=</span><span style="color: #C9D1D9"> viper.</span><span style="color: #79C0FF">GetString</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"database.password"</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    fmt.</span><span style="color: #79C0FF">Printf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"App Name: </span><span style="color: #79C0FF">%s\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, appName)</span></span>
+<span class="line"><span style="color: #C9D1D9">    fmt.</span><span style="color: #79C0FF">Printf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"App Version: </span><span style="color: #79C0FF">%s\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, appVersion)</span></span>
+<span class="line"><span style="color: #C9D1D9">    fmt.</span><span style="color: #79C0FF">Printf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Database Host: </span><span style="color: #79C0FF">%s\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, dbHost)</span></span>
+<span class="line"><span style="color: #C9D1D9">    fmt.</span><span style="color: #79C0FF">Printf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Database Port: </span><span style="color: #79C0FF">%d\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, dbPort)</span></span>
+<span class="line"><span style="color: #C9D1D9">    fmt.</span><span style="color: #79C0FF">Printf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Database Username: </span><span style="color: #79C0FF">%s\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, dbUsername)</span></span>
+<span class="line"><span style="color: #C9D1D9">    fmt.</span><span style="color: #79C0FF">Printf</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">"Database Password: </span><span style="color: #79C0FF">%s\n</span><span style="color: #A5D6FF">"</span><span style="color: #C9D1D9">, dbPassword)</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>在上面的示例中，首先使用Viper设置配置文件名、路径和类型。然后使用ReadInConfig()方法读取配置文件。最后使用GetString()、GetInt()等方法获取配置参数。</p>
+	</body></html>

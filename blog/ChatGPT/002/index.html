@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+		<meta name="generator" content="Astro v2.2.1">
+		<title></title>
+	<link rel="stylesheet" href="/_astro/001.c8750cb8.css" /></head>
+	<body>
+		<h1 id="astro框架的孤岛模式开发">astro框架的孤岛模式开发</h1>
+<h2 id="user">user:</h2>
+<p>孤岛模式</p>
+<h2 id="assistant">assistant:</h2>
+<p>孤岛模式（Island mode）是指应用程序中的一种独立运行模式，具有完全独立的运行环境和资源，可以防止应用程序因外部原因而崩溃或被攻击。在孤岛模式下，应用程序可以在一个虚拟机或容器中运行，与系统和其他应用程序完全隔离，不会受到其他应用程序的影响，也不会对其他应用程序产生影响。</p>
+<p>孤岛模式的好处在于，它可以提高应用程序的可靠性和安全性。例如，如果某个应用程序由于某种原因崩溃或受到攻击，它的影响将被限制在孤岛模式中，不会影响系统中的其他应用程序。另外，在孤岛模式下，运行环境和资源是完全隔离的，这可以有效地防止恶意应用程序访问和攻击其他应用程序和系统。</p>
+<p>对于Astro框架，孤岛模式可以使用Astro的容器技术来实现。在容器中运行应用程序，可以创建一个完全与系统和其他应用程序隔离的运行环境，实现孤岛模式。同时，Astro框架提供了灵活的管理和监控工具，可以轻松地对孤岛模式进行管理和维护。</p>
+<h2 id="user-1">user:</h2>
+<p>astro和vue3联合开发</p>
+<h2 id="assistant-1">assistant:</h2>
+<p>Astro和Vue3都是用于开发前端应用程序的工具，它们有一些共同的特点，例如面向组件的开发模式和响应式数据绑定等。同时，它们也有一些不同之处，例如Astro更专注于静态站点的生成和优化，而Vue3则更专注于构建交互式应用程序。</p>
+<p>如果您想将Astro和Vue3结合起来，可以采用以下步骤：</p>
+<ol>
+<li>
+<p>安装Vue3和Astro的应用程序生成器。</p>
+</li>
+<li>
+<p>在Astro生成的应用程序中，使用Vue3构建所需的组件和页面。</p>
+</li>
+<li>
+<p>在Vue3中，您可以通过调用Astro提供的API来访问Astro生成的静态文件、数据和资源。</p>
+</li>
+<li>
+<p>在Astro中，您可以使用Vue3提供的组件、指令和工具来增强应用程序的交互性和功能。</p>
+</li>
+</ol>
+<p>例如，在Astro中可以使用Vue3来渲染动态数据和构建交互式组件。同时，您还可以在Vue3中使用Astro提供的数据和资源来生成静态页面并进行优化。</p>
+<p>总的来说，结合Astro和Vue3可以为您带来更灵活、强大、高效的前端开发体验，并提高应用程序的可靠性和性能。</p>
+<h2 id="user-2">user:</h2>
+<p>Astro的内置函数和常量</p>
+<h2 id="assistant-2">assistant:</h2>
+<p>Astro 是一个静态站点生成器，它有一些内置函数和常量，用于方便您在模板中操作静态页面。以下是 Astro 内置的一些常用函数和常量：</p>
+<h2 id="astro-内置常量">Astro 内置常量</h2>
+<p>以下常量可用于 Astro 模板中:</p>
+<ul>
+<li><code>$filePath</code>：生成的文件在文件系统中的路径。</li>
+<li><code>$page</code>：包含有关当前页面的信息的对象。该对象包含以下属性：
+<ul>
+<li><code>$page.url</code>：当前页面的 URL。</li>
+<li><code>$page.filePath</code>：当前页面在文件系统中的路径。</li>
+</ul>
+</li>
+<li><code>$root()</code>：可以在模板中用于访问静态文件的根路径。</li>
+<li><code>$static()</code>：可以在模板中用于访问静态资源的根路径。</li>
+</ul>
+<h2 id="astro-内置函数">Astro 内置函数</h2>
+<p>以下是 Astro 提供的一些内置函数用于在 Astro 模板中操作静态页面：</p>
+<ul>
+<li><code>astroCollection(collection)</code>：将一个集合（数组或对象）转换为一个 <code>Astro.Collection</code> 以便在模板中使用。</li>
+<li><code>astroDate(inputDate)</code>：将一个日期字符串或时间戳转换为 Date 对象。</li>
+<li><code>astroPages(pages, filterCallback)</code>：过滤、排序和分页生成的所有页面。</li>
+<li><code>astroResolveUrl(url[, fromUrl])</code>：将相对路径转换为绝对路径。</li>
+<li><code>astroSitemap(pages, options)</code>：通过指定的选项为生成的所有页面创建一个站点地图。</li>
+<li><code>astroTag(name, attributes, ...children)</code>：用于在模板中创建 HTML 标签。</li>
+</ul>
+<p>这些内置函数可以帮助您在 Astro 模板中更方便地处理数据和生成静态页面。除了上述函数外，还有一些其他的 Astro API 和插件可供使用。您可以查看 Astro 的文档以了解更多详细信息。</p>
+<h2 id="user-3">user:</h2>
+<p>getContent</p>
+<h2 id="assistant-3">assistant:</h2>
+<p><code>getContent()</code>是Astro固有的方法之一，用于在Astro模板中获取markdown文件的内容。 <code>getContent()</code>需要传入一个文件路径和可选参数，可选参数用于指定解析markdown文件的格式，默认为Marked格式。以下是使用<code>getContent()</code>的示例：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #8B949E">&#x3C;!-- 引用 Markdown 文件 --></span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;</span><span style="color: #7EE787">astro-include</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">path</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"./example.md"</span><span style="color: #C9D1D9"> /></span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #8B949E">&#x3C;!-- 获取 Markdown 文件内容 --></span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">>Markdown 文件内容：&#x3C;/</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">&#x3C;!-- 解析内容并渲染到HTML中 --></span></span>
+<span class="line"><span style="color: #C9D1D9">    {%- if markdownContent %}</span></span>
+<span class="line"><span style="color: #C9D1D9">      {{- markdownContent }}</span></span>
+<span class="line"><span style="color: #C9D1D9">    {% else %}</span></span>
+<span class="line"><span style="color: #C9D1D9">      &#x3C;</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">>No content found!&#x3C;/</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">    {%- endif %}</span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;/</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #8B949E">&#x3C;!-- 使用可选参数指定解析格式 --></span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">>Rendered content:&#x3C;/</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">    &#x3C;</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">    {%- if renderedContent %}</span></span>
+<span class="line"><span style="color: #C9D1D9">      {{- renderedContent }}</span></span>
+<span class="line"><span style="color: #C9D1D9">    {% else %}</span></span>
+<span class="line"><span style="color: #C9D1D9">      &#x3C;</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">>No content found!&#x3C;/</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">    {%- endif %}</span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;/</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">markdownContent</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">getContent</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'./example.md'</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">markedRender</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">new</span><span style="color: #C9D1D9"> marked.</span><span style="color: #D2A8FF">Renderer</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">renderedContent</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">getContent</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'./example.md'</span><span style="color: #C9D1D9">, {</span></span>
+<span class="line"><span style="color: #C9D1D9">      renderer: markedRender,</span></span>
+<span class="line"><span style="color: #C9D1D9">      format: </span><span style="color: #A5D6FF">'Marked'</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">    });</span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;/</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span></code></pre>
+<p>在这个例子中，我们通过<code>&#x3C;astro-include></code>指令将<code>example.md</code>中的Markdown内容引入模板，并使用<code>getContent()</code>方法获取其内容。我们还使用可选参数指定使用Marked格式解析内容，并使用Marked渲染器将其转换为HTML。</p>
+<p>需要注意的是，<code>getContent()</code>方法现在已被废弃，我们建议使用<a href="https://astro.build/reference/api/content">$content API</a>来代替它。</p>
+<h2 id="user-4">user:</h2>
+<p>模板开发</p>
+<h2 id="assistant-4">assistant:</h2>
+<p>Astro 是一个静态站点生成器，它提供了一种简单的方式来创建快速、简单、高性能的静态网站。在 Astro 中，您可以使用类似于 HTML 的标记语言标记内容，使用 JavaScript 编写组件和模板代码。</p>
+<p>以下是编写 Astro 模板的一些实践技巧：</p>
+<h2 id="使用-astro-include-指令">使用 astro-include 指令</h2>
+<p><code>astro-include</code> 指令可以在模板中引入其他组件或模板文件，尤其这很有用，当您想将头部、底部、导航栏等元素在不同页面共用时。举个例子：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #8B949E">&#x3C;!-- head.astro --></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #7EE787">head</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;</span><span style="color: #7EE787">title</span><span style="color: #C9D1D9">>{%- if title %}{{- title }} - {% endif -%}My Awesome Site&#x3C;/</span><span style="color: #7EE787">title</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #8B949E">&#x3C;!-- 其他的 meta 标签和样式链接 --></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #7EE787">head</span><span style="color: #C9D1D9">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8B949E">&#x3C;!-- home.astro --></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;</span><span style="color: #7EE787">astro-include</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">src</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">'./components/head.astro'</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">title</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">'Home'</span><span style="color: #C9D1D9"> /></span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;</span><span style="color: #7EE787">body</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">&#x3C;!-- 此页面的内容 --></span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;/</span><span style="color: #7EE787">body</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8B949E">&#x3C;!-- about.astro --></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;</span><span style="color: #7EE787">astro-include</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">src</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">'./components/head.astro'</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">title</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">'About'</span><span style="color: #C9D1D9"> /></span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;</span><span style="color: #7EE787">body</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #8B949E">&#x3C;!-- 关于页面的内容 --></span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;/</span><span style="color: #7EE787">body</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span></code></pre>
+<p>在这个例子中，我们在两个页面（主页和关于页面）中共用了<code>head.astro</code>组件，仅仅改变了<code>&#x3C;title></code>元素的文本内容。这个特性可以让你在多个页面中复用代码，并减少了重复的代码，提高了代码的可维护性。</p>
+<h2 id="使用-astro-markdown-指令">使用 astro-markdown 指令</h2>
+<p><code>astro-markdown</code> 指令是 Astro 中处理 Markdown 文件的特殊指令。 它可以将 Markdown 文件转换为 HTML 并将其在渲染的内容中呈现。以下是一个简单的例子：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;</span><span style="color: #7EE787">astro-markdown</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">src</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"./my-file.md"</span><span style="color: #C9D1D9"> /></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span></code></pre>
+<p>在这个例子中，我们使用<code>astro-markdown</code>指令将<code>my-file.md</code>文件中的内容解析为 HTML 并将其呈现在页面中。这个指令可方便地将 Markdown 文件转换为 HTML，使您可以使用基于文本的内容手动创建网站。</p>
+<h2 id="使用-astro-built-in-函数和常量">使用 Astro-built-in 函数和常量</h2>
+<p>Astro 提供了一些内置函数和常量，可以在模板中方便地处理数据和生成静态页面。在 Astro 中，可以使用以下常量：</p>
+<ul>
+<li><code>$filePath</code>：生成的文件在文件系统中的路径。</li>
+<li><code>$page.url</code>：当前页面的 URL。</li>
+<li><code>$page.filePath</code>：当前页面在文件系统中的路径。</li>
+<li><code>$root()</code>：可用于在模板中访问静态文件的根路径。</li>
+<li><code>$static()</code>：可用于在模板中访问静态资源的根路径。</li>
+</ul>
+<p>您也可以使用一些内置函数来操作 Astro 模板和页面。以下是一些可用的 Astro 内置函数：</p>
+<ul>
+<li><code>astroCollection(collection)</code>：用于将一个集合（数组或对象）转换为<code>Astro.Collection</code>以便在模板中使用。</li>
+<li><code>astroDate(inputDate)</code>：用于将一个日期字符串或时间戳转换为<code>Date</code>对象。</li>
+<li><code>astroPages(pages, filterCallback)</code>：用于过滤、排序和分页生成的所有页面。</li>
+<li><code>astroResolveUrl(url[, fromUrl])</code>：用于将相对路径转换为绝对路径。</li>
+<li><code>astroSitemap(pages, options)</code>：用于为生成的所有页面创建一个站点地图。</li>
+<li><code>astroTag(name, attributes, ...children)</code>：用于在模板中创建 HTML 标签。</li>
+</ul>
+<p>这些内置函数正如之前所述，可以帮助您在 Astro 模板中更方便地处理数据和生成静态页面。</p>
+<h2 id="将写在脚本标签内的代码抽取出来">将写在脚本标签内的代码抽取出来</h2>
+<p>一个好的做法是把模板文件中的所有处理逻辑抽离到JavaScript脚本文件中，以便页面清晰易懂。例如：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">class</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"blog-posts"</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">    {%- for post in data.posts %}</span></span>
+<span class="line"><span style="color: #C9D1D9">      &#x3C;</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">class</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"post-item"</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">        &#x3C;</span><span style="color: #7EE787">h1</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">class</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"post-title"</span><span style="color: #C9D1D9">>{{- post.title }}&#x3C;/</span><span style="color: #7EE787">h1</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">        &#x3C;</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">class</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"post-date"</span><span style="color: #C9D1D9">>{{- formatPostDate(post.date) }}&#x3C;/</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">        &#x3C;</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">class</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"post-excerpt"</span><span style="color: #C9D1D9">>{{- post.excerpt }}&#x3C;/</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">      &#x3C;/</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">    {%- endfor %}</span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;/</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> { formatPostDate } </span><span style="color: #FF7B72">from</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">'./utils.js'</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">export</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">data</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">  posts: [</span></span>
+<span class="line"><span style="color: #C9D1D9">    {</span></span>
+<span class="line"><span style="color: #C9D1D9">      title: </span><span style="color: #A5D6FF">'My First Post'</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">      date: </span><span style="color: #A5D6FF">'2021-10-01'</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">      excerpt: </span><span style="color: #A5D6FF">'This is my first blog post.'</span></span>
+<span class="line"><span style="color: #C9D1D9">    },</span></span>
+<span class="line"><span style="color: #C9D1D9">    {</span></span>
+<span class="line"><span style="color: #C9D1D9">      title: </span><span style="color: #A5D6FF">'My Second Post'</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">      date: </span><span style="color: #A5D6FF">'2021-10-05'</span><span style="color: #C9D1D9">,</span></span>
+<span class="line"><span style="color: #C9D1D9">      excerpt: </span><span style="color: #A5D6FF">'This is my second blog post.'</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">  ]</span></span>
+<span class="line"><span style="color: #C9D1D9">};</span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9">></span></span></code></pre>
+<p>在这个例子中，我们使用<code>data</code>常量提供了用于显示在模板中的博客文章。我们还将<code>formatPostDate()</code>函数定义在了<code>utils.js</code>文件中，并在模板代码中使用它。将代码逻辑抽取到单独的 JavaScript 文件中，使得页面结构更加清晰和干净易懂。</p>
+<h2 id="总结">总结</h2>
+<p>Astro 是一款快速、简单和高性能的静态网站生成工具。它提供了一种简单的方式来创建静态站点，并提供了许多便利的功能和内置函数，可以在模板中很方便地处理数据和生成静态页面。最重要的是，在开发 Astro 模板时，我们要始终保持代码极简、易读、可维护，优先解决网站性能、可访问性和可用性等实际问题。</p>
+<h2 id="user-5">user:</h2>
+<p>获取动态数据</p>
+<h2 id="assistant-5">assistant:</h2>
+<p>在 Astro 中获取动态数据通常需要使用数据源。数据源是指从外部获取数据并将其插入 Astro 静态页面的一种方式。数据源可以来自各种来源，如 API、本地文件、数据库等。</p>
+<p>在 Astro 中获取动态数据，可以使用一些工具和库来实现。以下是一些可能有用的技术：</p>
+<h2 id="使用-sveltekit">使用 SvelteKit</h2>
+<p>SvelteKit 是一个基于 Svelte 的全栈框架，它允许您在服务端和客户端获取数据。 此外，SvelteKit 提供了一个 API 路由器，您可以使用它来获取数据库数据、请求外部 API 等。您还可以使用服务器端路由器函数来处理路由、鉴权和其他服务端处理逻辑。</p>
+<h2 id="使用-graphql">使用 GraphQL</h2>
+<p>GraphQL 是一种用于 API 开发的查询语言和运行时。但它也可以用在静态网站生成器中来提供数据源。 使用 GraphQL，您可以轻松地在 Astor 模板中获取数据，并精确获得您所需要的数据。</p>
+<h2 id="使用-astro-api">使用 Astro API</h2>
+<p>Astro 提供了一套API，您可以在Astro模板中使用这些API来访问数据源。其中包括 <code>$content</code> 和 <code>$page</code>。<code>$content</code>允许您使用内置优化来读取编辑器中的文本文件，同时作为本地文件系统中所有文件的代理，包括 Markdown、YAML、TOML 和默认字符串-labeled模板。而<code>$page</code>则允许您获取与当前页面相关的元数据和其内容。通过这些 API，您可以方便地在模板中获取动态数据。</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #8B949E">&#x3C;!-- 可以使用 $content API 获取content枚举器并访问文件 --></span></span>
+<span class="line"><span style="color: #C9D1D9">{#each $content("./articles/*.md") as article}</span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;</span><span style="color: #7EE787">article</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">    &#x3C;</span><span style="color: #7EE787">h1</span><span style="color: #C9D1D9">>{article.title}&#x3C;/</span><span style="color: #7EE787">h1</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">    &#x3C;</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">>{article.description}&#x3C;/</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">    &#x3C;</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">>{article.date}&#x3C;/</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">    &#x3C;</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">>{article.author}&#x3C;/</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;/</span><span style="color: #7EE787">article</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">{/each}</span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span></code></pre>
+<p>在这个例子中，我们使用 <code>$content</code> API 获取所有存放在<code>./articles</code>文件夹下的 Markdown 文件，然后使用枚举器来遍历此文件夹中所有文件，并获取它们的元数据和内容。</p>
+<h2 id="使用其他数据源">使用其他数据源</h2>
+<p>其他数据源可能包括使用外部 API、从数据库中读取数据等等。 在 Astro 中，您可以使用<code>fetch</code>或其他请求库来获取数据，然后使用模板语言来显示结果。</p>
+<p>例如，您可以使用 axios 库找到并读取 RSS Feed：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  {#await fetchData()}</span></span>
+<span class="line"><span style="color: #C9D1D9">    &#x3C;</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">>Loading data...&#x3C;/</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  {:then items}</span></span>
+<span class="line"><span style="color: #C9D1D9">    &#x3C;</span><span style="color: #7EE787">ul</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">    {#each items as item}</span></span>
+<span class="line"><span style="color: #C9D1D9">      &#x3C;</span><span style="color: #7EE787">li</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">        &#x3C;</span><span style="color: #7EE787">a</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">href</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">{item.link}</span><span style="color: #C9D1D9">>{item.title}&#x3C;/</span><span style="color: #7EE787">a</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">        &#x3C;</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">>{item.description}&#x3C;/</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">      &#x3C;/</span><span style="color: #7EE787">li</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">    {/each}</span></span>
+<span class="line"><span style="color: #C9D1D9">    &#x3C;/</span><span style="color: #7EE787">ul</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  {:catch error}</span></span>
+<span class="line"><span style="color: #C9D1D9">    &#x3C;</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">>{error.message}&#x3C;/</span><span style="color: #7EE787">p</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  {/await}</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> axios </span><span style="color: #FF7B72">from</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">'axios'</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">export</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">async</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">fetchData</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">response</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">await</span><span style="color: #C9D1D9"> axios.</span><span style="color: #D2A8FF">get</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'https://some-rss-feed'</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> response.data.items;</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;/</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span></code></pre>
+<p>在这个例子中，我们使用<code>fetchData()</code>函数来获取 RSS Feed 数据，并使用 <code>$await</code> 命令等待结果。 一旦数据被成功获取，我们将通过遍历所有输出项目来显示它。</p>
+<p>注意，进行 API 请求需要格外小心。由于 Astro 是在编译时期生成静态文件，因此必须谨慎地对待 API 请求，以确保不会产生无意义的响应错误。 在使用外部 API 时，最好总是使用缓存，以避免频繁的 API 请求限制。</p>
+<h2 id="user-6">user:</h2>
+<p>markdown</p>
+<h2 id="assistant-6">assistant:</h2>
+<p>Markdown 是一种轻量级的标记语言，广泛用于编写纯文本格式的文档。Astro 的模板语言中也内置了对 Markdown 的支持，您可以使用 Astro 模板语言在生成的网站中轻松地渲染 Markdown 内容。</p>
+<p>以下是在 Astro 中使用 Markdown 的一些最佳实践：</p>
+<h2 id="使用-astro-markdown-指令-1">使用 astro-markdown 指令</h2>
+<p>Astro 内置了一个 astro-markdown 指令，用于将 Markdown 文件中的内容解析为 HTML。</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #7EE787">astro-markdown</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9"># Hello, Astro!</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">This is a *Markdown* document.</span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #7EE787">astro-markdown</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span></code></pre>
+<p>在这个例子中，我们使用 astro-markdown 指令将 Markdown 文档作为 Astro 组件直接包含在 Astro 模板中。这将把 Markdown 内容解析为 HTML，然后将其渲染到静态页面中。</p>
+<h2 id="使用-markdown-文件作为内容源">使用 Markdown 文件作为内容源</h2>
+<p>一个更好的做法是将 Markdown 文件作为 Astro 组件的内容源。例如：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #7EE787">astro-markdown</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">src</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"./my-file.md"</span><span style="color: #C9D1D9"> /></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span></code></pre>
+<p>在这个例子中，我们使用 astro-markdown 指令来将<code>my-file.md</code>文件中的内容解析为 HTML，并将其作为 Astro 组件的内容源。使用 Markdown 文件作为内容源的好处是，可以将文本与模板分离，从而更好地组织文档。</p>
+<p>为了使系统支持 Astro Markdown 组件，需要在项目中添加 astro-markdown 包。可以通过在终端上使用以下命令来安装 astro-markdown：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #c9d1d9">npm install astro-markdown --save</span></span></code></pre>
+<h2 id="使用-astro-markdown-block">使用 Astro Markdown Block</h2>
+<p>Astro 还提供了一个名为 Astro Markdown Block 的特殊语法，它可以使您通过全局 Astro 配置选项来更好地配置每个 Markdown 文件。例如：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FFA198">markdown</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9"># Hello, Astro!</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">This is a *Markdown* document.</span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #FFA198">markdown</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span></code></pre>
+<p>在这个例子中，我们使用 Astro Markdown Block 将 Markdown 内容包含在<code>&#x3C;markdown></code>标记中。在 Astro 配置文件中，可以使用<code>astroConfig</code>选项来配置 Astro Markdown Block，并改变生成的 HTML 的外观和样式。</p>
+<p>Astro Markdown Block 还支持在 YAML 头中设置元数据，以控制导入 Markdown 文件时行为的方式。例如，您可以设置<code>title</code>元数据属性来改变生成的文档标题。</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FFA198">markdown</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">---</span></span>
+<span class="line"><span style="color: #C9D1D9">title: "Hello, Astro!"</span></span>
+<span class="line"><span style="color: #C9D1D9">---</span></span>
+<span class="line"><span style="color: #C9D1D9"># Hello, Astro!</span></span>
+<span class="line"><span style="color: #C9D1D9">This is a *Markdown* document.</span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #FFA198">markdown</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span></code></pre>
+<p>在这个例子中，我们在 YAML 头中设置了<code>title</code>属性，以便将其渲染成生成文档的标题。</p>
+<p>总的来说，Astro 提供了多种方法来呈现 Markdown 内容，简化了在文档中使用 Markdown 的过程，提高了您的工作效率。</p>
+<h2 id="user-7">user:</h2>
+<p>组件编写</p>
+<h2 id="assistant-7">assistant:</h2>
+<p>组件是 Astro 中的一个核心概念，它允许您将页面拆分成更小的可重复使用的部分，并将代码封装和复用。在 Astro 中编写组件非常简单，只需要遵循一些最佳实践。</p>
+<p>以下是在 Astro 中编写组件的一些最佳实践：</p>
+<h2 id="使用-astro-组件指令">使用 Astro 组件指令</h2>
+<p>Astro 提供了多种类型的组件，包括页面组件（page components）、layout 组件、元件组件（element components）等。对于每个组件类型，Astro 都提供了专用的组件指令，因此无需编写任何自定义代码就可以轻松创建组件。</p>
+<p>例如，要创建一个元件组件，请使用以下语法：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #8B949E">&#x3C;!-- 创建一个 'my-component' 元件组件 --></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #7EE787">astro-component</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">name</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"my-component"</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">>Hello, Astro!&#x3C;/</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #7EE787">astro-component</span><span style="color: #C9D1D9">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8B949E">&#x3C;!-- 在其他组件中使用 'my-component' 元件组件 --></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #7EE787">my-component</span><span style="color: #C9D1D9"> /></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span></code></pre>
+<p>在这个例子中，我们使用 Astro 组件指令创建了一个名为<code>my-component</code>的元件组件。然后，我们可以在其他 Astro 组件中使用该组件，方法是使用组件名称，并将其作为 HTML 标记使用。</p>
+<p>需要注意的是，在命名 Astro 组件时，请使用短横线（-）代替驼峰命名法，并使用全小写字母。例如，<code>my-component</code>比<code>MyComponent</code>更符合 Astro 组件名称的约定。</p>
+<h2 id="独立组件">独立组件</h2>
+<p>独立组件是 Astro 组件的一种特殊类型，它们是最小的可重复使用单元，并且在定义组件时不依赖于其他组件。使用独立组件可以大大增加组件的复用性，并且将 Astro 项目的维护成本降至最低。要创建一个独立组件，请使用以下语法：</p>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #8B949E">&#x3C;!-- 单独定义一个 'my-component' 独立组件 --></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #7EE787">astro-component</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">name</span><span style="color: #C9D1D9">=</span><span style="color: #A5D6FF">"my-component"</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;</span><span style="color: #7EE787">template</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">    &#x3C;</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">>Hello, Astro!&#x3C;/</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">  &#x3C;/</span><span style="color: #7EE787">template</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #7EE787">astro-component</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #8B949E">&#x3C;!-- 在使用组件时，直接引入 'my-component' 独立组件 --></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #7EE787">my-component</span><span style="color: #C9D1D9"> /></span></span></code></pre>
+<p>在这个例子中，我们使用<code>&#x3C;template></code>块来定义<code>my-component</code>的渲染结果。作为独立组件，该组件可以在单独的 Astro 组件、页面或任意 Astro 文档中使用。</p>
+<p>独立组件通常通过将相对于 Astro 项目根目录的<code>/components</code>文件夹中的唯一 Astro 组件作为单独的文件进行管理。</p>
+<h2 id="组件方式">组件方式</h2>
+<p>Astro 支持多种编写组件的方式。除了上述指令和组构造函数之外，还可以使用如下方式定义一个组件：</p>
+<h3 id="类定义组件">类定义组件</h3>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #FF7B72">class</span><span style="color: #C9D1D9"> </span><span style="color: #FFA657">MyComponent</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">extends</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">HTMLElement</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">constructor</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">super</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">this</span><span style="color: #C9D1D9">.innerHTML </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">`&#x3C;div>Hello, Astro!&#x3C;/div>`</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">  }</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"><span style="color: #C9D1D9">customElements.</span><span style="color: #D2A8FF">define</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'my-component'</span><span style="color: #C9D1D9">, MyComponent);</span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #7EE787">my-component</span><span style="color: #C9D1D9"> /></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span></code></pre>
+<p>在这个例子中，我们使用 ES6 类来定义 MyComponent 组件。类定义组件需要在 Astro 模板的代码块中定义，并遵循自定义元素规范。</p>
+<h3 id="函数定义组件">函数定义组件</h3>
+<pre is:raw="" class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9">></span></span>
+<span class="line"><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">MyComponent</span><span style="color: #C9D1D9">() {</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">`&#x3C;div>Hello, Astro!&#x3C;/div>`</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span>
+<span class="line"><span style="color: #C9D1D9">customElements.</span><span style="color: #D2A8FF">define</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">'my-component'</span><span style="color: #C9D1D9">, </span><span style="color: #D2A8FF">component</span><span style="color: #C9D1D9">(MyComponent));</span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #7EE787">script</span><span style="color: #C9D1D9">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;</span><span style="color: #7EE787">my-component</span><span style="color: #C9D1D9"> /></span></span>
+<span class="line"><span style="color: #C9D1D9">&#x3C;/</span><span style="color: #FFA198">astro</span><span style="color: #C9D1D9">></span></span></code></pre>
+<p>在这个例子中，我们使用函数返回 DOM 节点描述的方式来定义 MyComponent 组件，该方式类似于 React 中的函数式组件。要将函数组件转换为 Astro 组件，请使用组<code>component()</code>构造函数。</p>
+<p>无论您选择的是哪种方法来编写 Astro 组件，都应该遵循统一的编码标准，并确保您的组件代码具有良好的结构和可读性。</p>
+	</body></html>

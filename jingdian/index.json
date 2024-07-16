@@ -39,6 +39,10 @@
             ["紫微星垣论", "fengshui/xingyuanlun.txt"],
             ["太微赋", "fengshui/taiweifu.txt"],
             ["发微论", "fengshui/faweilun.txt"]
+        ],
+        "耶经": [
+            ["旧约", "old/index.json"],
+            ["新约", "new/index.json"]
         ]
     }
 }

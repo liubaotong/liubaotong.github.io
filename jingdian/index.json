@@ -5,7 +5,8 @@
             ["易传", "ru/yizhuan/index.json"],
             ["论语", "ru/lunyu.txt"],
             ["大学", "ru/daxue.txt"],
-            ["中庸", "ru/zhongyong.txt"]
+            ["中庸", "ru/zhongyong.txt"],
+            ["吕氏春秋", "ru/lvlan/index.json"]
         ],
         "道家": [
             ["道德经", "dao/daodejing.txt"],

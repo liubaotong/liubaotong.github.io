@@ -10,6 +10,7 @@
         ],
         "道家": [
             ["道德经", "dao/daodejing.txt"],
+            ["道德经（翻译）", "dao/daodejing-y.txt"],
             ["帛书道德经", "dao/boshu.txt"],
             ["阴符经", "dao/yinfujing.txt"],
             ["太公阴符", "dao/yinfujing-tg.txt"],

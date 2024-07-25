@@ -14,6 +14,7 @@
             ["帛书道德经", "dao/boshu.txt"],
             ["阴符经", "dao/yinfujing.txt"],
             ["太公阴符", "dao/yinfujing-tg.txt"],
+            ["太公阴符经", "dao/tgyf.txt"],
             ["淮南子", "dao/honglie/index.json"]
         ],
         "佛家": [

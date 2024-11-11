@@ -24,7 +24,7 @@
 
       h1 {
         color: #333;
-        margin-bottom: 20px;
+        margin: 10px;
         text-align: center;
         font-size: 24px;
       }
@@ -38,7 +38,7 @@
 
       .tool-section h3 {
         color: #666;
-        margin-bottom: 12px;
+        margin: 0 auto 12px;
         text-align: center;
         font-size: 18px;
       }
@@ -82,11 +82,17 @@
         font-family: monospace;
         text-align: left;
       }
+
+      @media (max-width: 600px) {
+        .container {
+            margin: 30px;
+        }
+    }
     </style>
   <link rel="modulepreload" href="/transformer/yew_project-5677d653af97d939.js" crossorigin=anonymous integrity="sha384-wMDDD1X0DrRHur78+t4GBr0rM8bJzqX0RaHVXlVmmMEWqpNjOUm9GRY6SYqW2MS6"><link rel="preload" href="/transformer/yew_project-5677d653af97d939_bg.wasm" crossorigin=anonymous integrity="sha384-/m2ssj1jUaJprwWJ72dtdEqxW7OhWec6G6vRDBAiDeN51JhqOMxkQNSzUJ5pwFba" as="fetch" type="application/wasm"></head>
   <body>
   
-<script type="module" nonce="5H7M/A8dq/kgsB7riqpT6g==">
+<script type="module" nonce="2UB6t2CiSe+GYz22GvKtmA==">
 import init, * as bindings from '/transformer/yew_project-5677d653af97d939.js';
 const wasm = await init('/transformer/yew_project-5677d653af97d939_bg.wasm');
 

@@ -6,6 +6,7 @@
             ["论语", "ru/lunyu.txt"],
             ["大学", "ru/daxue.txt"],
             ["中庸", "ru/zhongyong.txt"],
+            ["大同", "ru/datong.txt"],
             ["吕氏春秋", "ru/lvlan/index.json"]
         ],
         "道家": [
